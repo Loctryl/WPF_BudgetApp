@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <FontFamily x:Key="LatoRegular">pack://appliction:,,,/Resources/#Lato Regular</FontFamily>
+    <FontFamily x:Key="LatoBold">pack://appliction:,,,/Resources/#Lato Bold</FontFamily>
+    
+    <Style x:Key="baseStyle" TargetType="{x:Type Control}">
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+    </Style>
+    
+    <Style x:Key="baseTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+    </Style>
+    
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}" />
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}" />
+    <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource baseStyle}" />
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseStyle}" />
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource baseTextBlockStyle}" />
+    
+</ResourceDictionary>

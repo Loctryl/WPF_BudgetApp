@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Window border adjustment -->
+    <Style x:Key="window" TargetType="Window">
+        <Style.Triggers>
+            <Trigger Property="WindowState" Value="Maximized">
+                <Setter Property="BorderThickness" Value="7" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
