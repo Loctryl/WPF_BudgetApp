@@ -12,7 +12,10 @@ public class AccountService : ServiceBase<Account>, IAccountService
 	}
 	
 	protected override IQueryable<Account> CheckedListWithUser(string userId) 
-		=> _context.BankAccounts.Include(x => x.AppUser).AsQueryable().Where(s => s.AppUserId == userId);
+		=> _context.BankAccounts.Include(x => x.AppUser)
+			.Include(x => x.Transfers)
+			.Include(x => x.ProjectionTransfers)
+			.AsQueryable().Where(s => s.AppUserId == userId);
 	
 	public async Task<List<Account>> GetAllAccountAsync(string userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();

@@ -27,9 +27,13 @@ public partial class App : Application
 					options.UseSqlite("Data Source=BudgetApp.db"));
 
 				// services
+				services.AddTransient<IAccountService, AccountService>();
 				services.AddTransient<IAppUserService, AppUserService>();
+				services.AddTransient<IArchivedTransferService, ArchivedTransferService>();
+				services.AddTransient<ICategoryService, CategoryService>();
+				services.AddTransient<IDebtService, DebtService>();
+				services.AddTransient<IProjectionTransferService, ProjectionTransferService>();
 				services.AddTransient<ITransferService, TransferService>();
-				// add AccountService, CategoryService similarly
 
 				// ViewModels
 				services.AddSingleton<MainWindow>();

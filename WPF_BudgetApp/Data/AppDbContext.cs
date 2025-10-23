@@ -7,7 +7,6 @@ public class AppDbContext : DbContext
 {
 	public AppDbContext(DbContextOptions options) : base(options)
 	{
-		
 	}
 	
 	public DbSet<AppUser> AppUsers { get; set; }
@@ -20,14 +19,8 @@ public class AppDbContext : DbContext
 	
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
+		modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+		
 		base.OnModelCreating(modelBuilder);
-		
-		modelBuilder.Entity<AppUser>().HasIndex(u => u.SourceName).IsUnique();
-
-		modelBuilder.Entity<Transfer>().HasOne(e => e.Category).WithMany().OnDelete(DeleteBehavior.Restrict);
-		modelBuilder.Entity<Transfer>().HasOne(e => e.Account).WithMany().OnDelete(DeleteBehavior.Restrict);
-		
-		modelBuilder.Entity<Account>().HasOne(e => e.AppUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-		modelBuilder.Entity<Category>().HasOne(e => e.AppUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 	}
 }
