@@ -5,25 +5,23 @@ using WPF_BudgetApp.Services.Interfaces;
 
 namespace WPF_BudgetApp.Services;
 
-public class AppUserService : IAppUserService
+public class AppUserService : ServiceBase<AppUser>, IAppUserService
 {
-	private readonly AppDbContext _context;
-
-	public AppUserService(AppDbContext context)
+	public AppUserService(AppDbContext context) : base(context)
 	{
-		_context = context;
 	}
 	
-	public async Task<AppUser?> AuthenticateAppUserAsync(string username, string password)
+	protected override IQueryable<AppUser> CheckedListWithUser(string userId)
 	{
-		return await _context.AppUsers.FirstOrDefaultAsync(u => u.SourceName == username && u.Password == password);
+		throw new NotImplementedException();
 	}
 
-	public async Task<AppUser?> GetAppUserByIdAsync(int id)
-	{
-		return await _context.AppUsers.Include(u=>u.Accounts).FirstOrDefaultAsync(u => u.Id == id);
-	}
-
+	public async Task<AppUser?> AuthenticateAppUserAsync(string username, string password) 
+		=> await _context.AppUsers.FirstOrDefaultAsync(u => u.SourceName == username && u.Password == password);
+	
+	public async Task<AppUser?> GetAppUserByIdAsync(int id) 
+		=> await _context.AppUsers.Include(u=>u.Accounts).FirstOrDefaultAsync(u => u.Id == id);
+	
 	public async Task<AppUser> CreateAppUserAsync(AppUser user)
 	{
 		_context.AppUsers.Add(user);

@@ -1,0 +1,53 @@
+﻿using Microsoft.EntityFrameworkCore;
+using WPF_BudgetApp.Data;
+using WPF_BudgetApp.Data.Models;
+using WPF_BudgetApp.Services.Interfaces;
+
+namespace WPF_BudgetApp.Services;
+
+public class ProjectionTransferService : ServiceBase<ProjectionTransfer>, IProjectionTransferService
+{
+	public ProjectionTransferService(AppDbContext context) : base(context)
+	{
+	}
+
+	protected override IQueryable<ProjectionTransfer> CheckedListWithUser(string userId) 
+		=> _context.ProjectionTransfers.Include(x => x.Category)
+			.Include(x => x.Account)
+			.ThenInclude(x => x.AppUser)
+			.AsQueryable()
+			.Where(s => s.Account.AppUserId == userId);
+
+	public async Task<List<ProjectionTransfer>> GetAllProjectionTransferAsync(string userId) 
+		=> await CheckedListWithUser(userId).ToListAsync();
+	
+	public async Task<ProjectionTransfer?> GetProjectionTransferByIdAsync(string userId, uint projectionTransferId) 
+		=> await CheckedListWithUser(userId).FirstOrDefaultAsync(x => x.Id == projectionTransferId);
+
+	public async Task<List<ProjectionTransfer>> GetProjectionTransfersByAccountAsync(string userId, uint accountId) 
+		=> await CheckedListWithUser(userId).Where(x => x.AccountId == accountId).ToListAsync();
+	
+
+	public async Task<ProjectionTransfer> CreateProjectionTransferAsync(ProjectionTransfer transfer)
+	{
+		await _context.ProjectionTransfers.AddAsync(transfer);
+		await _context.SaveChangesAsync();
+		return transfer;
+	}
+
+	public Task<ProjectionTransfer?> UpdateProjectionTransferAsync(string userId, uint projectionTransferId)
+	{
+		throw new NotImplementedException();
+	}
+
+	public async Task<ProjectionTransfer?> DeleteProjectionTransferAsync(string userId, uint projectionTransferId)
+	{
+		var projectionTransfer = GetProjectionTransferByIdAsync(userId, projectionTransferId).Result;
+		if (projectionTransfer == null)
+			return null;
+		
+		_context.ProjectionTransfers.Remove(projectionTransfer);
+		await _context.SaveChangesAsync();
+		return projectionTransfer;
+	}
+}
