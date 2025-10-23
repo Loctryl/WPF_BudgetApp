@@ -5,10 +5,10 @@ namespace WPF_BudgetApp.Services.Interfaces;
 
 public interface ITransferService
 {
-	Task<List<Transfer>> GetAllTransfersAsync(string userId, TransferQueryObject query);
-	Task<Transfer?> GetTransferByIdAsync(string userId, uint transferId);
-	Task<List<Transfer>> GetTransfersByAccountAsync(string userId, uint accountId);
+	Task<List<Transfer>> GetAllTransfersAsync(uint userId, TransferQueryObject query);
+	Task<Transfer?> GetTransferByIdAsync(uint userId, uint transferId);
+	Task<List<Transfer>> GetTransfersByAccountAsync(uint userId, uint accountId);
 	Task<Transfer> CreateTransferAsync(Transfer transfer);
-	Task<Transfer?> UpdateTransferAsync(string userId, uint transferId);
-	Task<Transfer?> DeleteTransferAsync(string userId, uint transferId);
+	Task<Transfer?> UpdateTransferAsync(uint userId, uint transferId);
+	Task<Transfer?> DeleteTransferAsync(uint userId, uint transferId);
 }

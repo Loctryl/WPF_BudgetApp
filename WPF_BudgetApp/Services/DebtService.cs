@@ -11,13 +11,13 @@ public class DebtService : ServiceBase<Debt>, IDebtService
 	{
 	}
 
-	protected override IQueryable<Debt> CheckedListWithUser(string userId) 
-		=> _context.Debts.Include(x => x.AppUser).AsQueryable().Where(s => s.AppUserId == userId);
+	protected override IQueryable<Debt> CheckedListWithUser(uint userId) 
+		=> _context.Debts.Include(x => x.AppUser).Include(x => x.Category).AsQueryable().Where(s => s.AppUserId == userId);
 	
-	public async Task<List<Debt>> GetAllDebtAsync(string userId) 
+	public async Task<List<Debt>> GetAllDebtAsync(uint userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();
 
-	public async Task<Debt?> GetDebtByIdAsync(string userId, uint debtId) 
+	public async Task<Debt?> GetDebtByIdAsync(uint userId, uint debtId) 
 		=> await CheckedListWithUser(userId).FirstOrDefaultAsync(x => x.Id == debtId);
 
 	public async Task<Debt> CreateDebtAsync(Debt debt)
@@ -27,12 +27,12 @@ public class DebtService : ServiceBase<Debt>, IDebtService
 		return debt;
 	}
 
-	public Task<Debt?> UpdateDebtAsync(string userId, uint debtId)
+	public Task<Debt?> UpdateDebtAsync(uint userId, uint debtId)
 	{
 		throw new NotImplementedException();
 	}
 
-	public async Task<Debt?> DeleteDebtAsync(string userId, uint debtId)
+	public async Task<Debt?> DeleteDebtAsync(uint userId, uint debtId)
 	{
 		var debt = GetDebtByIdAsync(userId, debtId).Result;
 		if (debt == null)

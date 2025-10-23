@@ -11,20 +11,20 @@ public class ProjectionTransferService : ServiceBase<ProjectionTransfer>, IProje
 	{
 	}
 
-	protected override IQueryable<ProjectionTransfer> CheckedListWithUser(string userId) 
+	protected override IQueryable<ProjectionTransfer> CheckedListWithUser(uint userId) 
 		=> _context.ProjectionTransfers.Include(x => x.Category)
 			.Include(x => x.Account)
 			.ThenInclude(x => x.AppUser)
 			.AsQueryable()
 			.Where(s => s.Account.AppUserId == userId);
 
-	public async Task<List<ProjectionTransfer>> GetAllProjectionTransferAsync(string userId) 
+	public async Task<List<ProjectionTransfer>> GetAllProjectionTransferAsync(uint userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();
 	
-	public async Task<ProjectionTransfer?> GetProjectionTransferByIdAsync(string userId, uint projectionTransferId) 
+	public async Task<ProjectionTransfer?> GetProjectionTransferByIdAsync(uint userId, uint projectionTransferId) 
 		=> await CheckedListWithUser(userId).FirstOrDefaultAsync(x => x.Id == projectionTransferId);
 
-	public async Task<List<ProjectionTransfer>> GetProjectionTransfersByAccountAsync(string userId, uint accountId) 
+	public async Task<List<ProjectionTransfer>> GetProjectionTransfersByAccountAsync(uint userId, uint accountId) 
 		=> await CheckedListWithUser(userId).Where(x => x.AccountId == accountId).ToListAsync();
 	
 
@@ -35,12 +35,12 @@ public class ProjectionTransferService : ServiceBase<ProjectionTransfer>, IProje
 		return transfer;
 	}
 
-	public Task<ProjectionTransfer?> UpdateProjectionTransferAsync(string userId, uint projectionTransferId)
+	public Task<ProjectionTransfer?> UpdateProjectionTransferAsync(uint userId, uint projectionTransferId)
 	{
 		throw new NotImplementedException();
 	}
 
-	public async Task<ProjectionTransfer?> DeleteProjectionTransferAsync(string userId, uint projectionTransferId)
+	public async Task<ProjectionTransfer?> DeleteProjectionTransferAsync(uint userId, uint projectionTransferId)
 	{
 		var projectionTransfer = GetProjectionTransferByIdAsync(userId, projectionTransferId).Result;
 		if (projectionTransfer == null)

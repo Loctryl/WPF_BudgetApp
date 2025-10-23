@@ -9,7 +9,7 @@ public class Category : DBTable
 	public float GoalPerMonth { get; set; } = 0f;
 	public bool IsEarning { get; set; } = false;
 	
-	public string AppUserId { get; set; } = string.Empty;
+	public uint AppUserId { get; set; }
 	public AppUser? AppUser { get; set; }
 	
 	public List<Transfer> Transfers { get; set; } = new();

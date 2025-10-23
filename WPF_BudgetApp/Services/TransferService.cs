@@ -12,13 +12,13 @@ public class TransferService : ServiceBase<Transfer>, ITransferService
 	{
 	}
 
-	protected override IQueryable<Transfer> CheckedListWithUser(string userId)
+	protected override IQueryable<Transfer> CheckedListWithUser(uint userId)
 		=> _context.Transfers.Include(x => x.Category)
 			.Include(x => x.Account)
 			.ThenInclude(x => x.AppUser)
 			.AsQueryable().Where(s => s.Account.AppUserId == userId);
 	
-	public async Task<List<Transfer>> GetAllTransfersAsync(string userId, TransferQueryObject query)
+	public async Task<List<Transfer>> GetAllTransfersAsync(uint userId, TransferQueryObject query)
 	{
 		var queryable = CheckedListWithUser(userId);
 		
@@ -39,10 +39,10 @@ public class TransferService : ServiceBase<Transfer>, ITransferService
 		return await queryable.Skip(skipNumber).Take(query.PageSize).ToListAsync();
 	}
 
-	public async Task<Transfer?> GetTransferByIdAsync(string userId, uint transferId) 
+	public async Task<Transfer?> GetTransferByIdAsync(uint userId, uint transferId) 
 		=> await CheckedListWithUser(userId).FirstOrDefaultAsync(x => x.Id == transferId);
 	
-	public async Task<List<Transfer>> GetTransfersByAccountAsync(string userId, uint accountId)
+	public async Task<List<Transfer>> GetTransfersByAccountAsync(uint userId, uint accountId)
 		=> await CheckedListWithUser(userId).Where(x => x.AccountId == accountId).ToListAsync();
 
 	public async Task<Transfer> CreateTransferAsync(Transfer transfer)
@@ -52,12 +52,12 @@ public class TransferService : ServiceBase<Transfer>, ITransferService
 		return transfer;
 	}
 
-	public Task<Transfer?> UpdateTransferAsync(string userId, uint transferId)
+	public Task<Transfer?> UpdateTransferAsync(uint userId, uint transferId)
 	{
 		throw new NotImplementedException();
 	}
 
-	public async Task<Transfer?> DeleteTransferAsync(string userId, uint transferId)
+	public async Task<Transfer?> DeleteTransferAsync(uint userId, uint transferId)
 	{
 		var transfer = GetTransferByIdAsync(userId, transferId).Result;
 		if (transfer == null)

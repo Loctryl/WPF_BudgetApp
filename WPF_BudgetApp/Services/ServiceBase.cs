@@ -12,5 +12,5 @@ public abstract class ServiceBase<T>
 		_context = context;
 	}
 
-	protected abstract IQueryable<T> CheckedListWithUser(string userId);
+	protected abstract IQueryable<T> CheckedListWithUser(uint userId);
 }

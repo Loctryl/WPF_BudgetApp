@@ -11,13 +11,13 @@ public class ArchivedTransferService : ServiceBase<ArchivedTransfer>, IArchivedT
 	{
 	}
 	
-	protected override IQueryable<ArchivedTransfer> CheckedListWithUser(string userId)
+	protected override IQueryable<ArchivedTransfer> CheckedListWithUser(uint userId)
 		=> _context.ArchivedTransfers.AsQueryable().Where(s => s.UserId == userId);
 
-	public async Task<List<ArchivedTransfer>> GetAllArchivedTransfersAsync(string userId) 
+	public async Task<List<ArchivedTransfer>> GetAllArchivedTransfersAsync(uint userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();
 
-	public async Task<ArchivedTransfer?> GetArchivedTransferByIdAsync(string userId, uint archivedTransferId) 
+	public async Task<ArchivedTransfer?> GetArchivedTransferByIdAsync(uint userId, uint archivedTransferId) 
 		=> await CheckedListWithUser(userId).FirstOrDefaultAsync(x => x.Id == archivedTransferId);
 
 	public async Task<ArchivedTransfer> CreateArchivedTransferAsync(ArchivedTransfer transfer)

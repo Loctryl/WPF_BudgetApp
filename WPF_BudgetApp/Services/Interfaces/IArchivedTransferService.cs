@@ -4,7 +4,7 @@ namespace WPF_BudgetApp.Services.Interfaces;
 
 public interface IArchivedTransferService
 {
-	Task<List<ArchivedTransfer>> GetAllArchivedTransfersAsync(string userId);
-	Task<ArchivedTransfer?> GetArchivedTransferByIdAsync(string userId, uint archivedTransferId);
+	Task<List<ArchivedTransfer>> GetAllArchivedTransfersAsync(uint userId);
+	Task<ArchivedTransfer?> GetArchivedTransferByIdAsync(uint userId, uint archivedTransferId);
 	Task<ArchivedTransfer> CreateArchivedTransferAsync(ArchivedTransfer transfer);
 }

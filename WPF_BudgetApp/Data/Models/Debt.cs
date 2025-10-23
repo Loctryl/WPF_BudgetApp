@@ -6,9 +6,9 @@ public class Debt : DBTable
 	public float CurrentDebt { get; set; }
 	public float InterestRate { get; set; }
 	public DateTime LimitDate { get; set; }
-	public string AppUserId { get; set; } = string.Empty;
+	public uint AppUserId { get; set; }
 	public AppUser? AppUser { get; set; }
 	
-	public string CategoryId { get; set; } = string.Empty;
+	public uint CategoryId { get; set; }
 	public Category? Category { get; set; }
 }

@@ -6,6 +6,6 @@ public class ArchivedTransfer : DBTable
 	public string Category { get; set; } = string.Empty;
 	public DateTime OperationDate {get; set;}
 	public string Account {get; set;} = string.Empty;
-	public string UserId {get; set;} = string.Empty;
+	public uint UserId {get; set;}
 	public string UserName {get; set;} = string.Empty;
 }

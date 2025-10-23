@@ -5,7 +5,7 @@ namespace WPF_BudgetApp.Services.Interfaces;
 public interface IAppUserService
 {
 	Task<AppUser?> AuthenticateAppUserAsync(string username, string password);
-	Task<AppUser?> GetAppUserByIdAsync(int id);
+	Task<AppUser?> GetAppUserByIdAsync(uint id);
 	Task<AppUser> CreateAppUserAsync(AppUser user);
 	Task<AppUser> DeleteAppUserAsync(AppUser user);
 }
