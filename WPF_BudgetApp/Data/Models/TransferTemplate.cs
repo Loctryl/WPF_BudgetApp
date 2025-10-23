@@ -8,7 +8,7 @@ public class TransferTemplate : DBTable
 	public float Amount { get; set; }
 	public uint CategoryId { get; set; }
 	public Category? Category { get; set; }
-	public uint BankAccountId { get; set; }
-	public Account? BankAccount { get; set; }
+	public uint AccountId { get; set; }
+	public Account? Account { get; set; }
 	public DateTime OperationDate { get; set; }
 }

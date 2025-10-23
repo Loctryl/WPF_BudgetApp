@@ -12,5 +12,5 @@ public class Account : DBTable
 	public string AppUserId { get; set; } = string.Empty;
 	public AppUser? AppUser { get; set; }
 	
-	public List<Transfer> TransfersFrom { get; set; } = new();
+	public List<Transfer> Transfers { get; set; } = new();
 }

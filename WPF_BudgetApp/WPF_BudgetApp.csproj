@@ -17,10 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\" />
-    </ItemGroup>
-
-    <ItemGroup>
         <Resource Include="Resources\Lato-Bold.ttf" />
         <Resource Include="Resources\Lato-Regular.ttf" />
     </ItemGroup>

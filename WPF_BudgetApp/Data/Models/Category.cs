@@ -14,4 +14,6 @@ public class Category : DBTable
 	
 	public string AppUserId { get; set; } = string.Empty;
 	public AppUser? AppUser { get; set; }
+	
+	public List<Transfer> Transfers { get; set; } = new();
 }
