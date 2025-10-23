@@ -43,8 +43,8 @@ public partial class App : Application
 
 		await _host.StartAsync();
 
-		// show main window (DI resolve)
+		/*// show main window (DI resolve)
 		var main = _host.Services.GetRequiredService<MainWindow>();
-		main.Show();
+		main.Show();*/
 	}
 }
