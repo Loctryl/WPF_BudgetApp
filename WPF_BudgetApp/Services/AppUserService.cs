@@ -28,6 +28,8 @@ public class AppUserService : ServiceBase<AppUser>, IAppUserService
 		await _context.SaveChangesAsync();
 		return user;
 	}
+	
+	public async Task UpdateAppUserAsync() => await _context.SaveChangesAsync();
 
 	public async Task<AppUser> DeleteAppUserAsync(AppUser user)
 	{

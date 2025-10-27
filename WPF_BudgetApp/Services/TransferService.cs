@@ -52,10 +52,7 @@ public class TransferService : ServiceBase<Transfer>, ITransferService
 		return transfer;
 	}
 
-	public Task<Transfer?> UpdateTransferAsync(uint userId, uint transferId)
-	{
-		throw new NotImplementedException();
-	}
+	public async Task UpdateTransferAsync() => await _context.SaveChangesAsync();
 
 	public async Task<Transfer?> DeleteTransferAsync(uint userId, uint transferId)
 	{

@@ -9,6 +9,6 @@ public interface ITransferService
 	Task<Transfer?> GetTransferByIdAsync(uint userId, uint transferId);
 	Task<List<Transfer>> GetTransfersByAccountAsync(uint userId, uint accountId);
 	Task<Transfer> CreateTransferAsync(Transfer transfer);
-	Task<Transfer?> UpdateTransferAsync(uint userId, uint transferId);
+	Task UpdateTransferAsync();
 	Task<Transfer?> DeleteTransferAsync(uint userId, uint transferId);
 }

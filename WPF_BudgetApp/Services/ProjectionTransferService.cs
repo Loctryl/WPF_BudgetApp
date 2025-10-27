@@ -35,10 +35,7 @@ public class ProjectionTransferService : ServiceBase<ProjectionTransfer>, IProje
 		return transfer;
 	}
 
-	public Task<ProjectionTransfer?> UpdateProjectionTransferAsync(uint userId, uint projectionTransferId)
-	{
-		throw new NotImplementedException();
-	}
+	public async Task UpdateProjectionTransferAsync() => await _context.SaveChangesAsync();
 
 	public async Task<ProjectionTransfer?> DeleteProjectionTransferAsync(uint userId, uint projectionTransferId)
 	{

@@ -6,8 +6,8 @@ public interface IAccountService
 {
 	Task<List<Account>> GetAllAccountAsync(uint userId);
 	Task<Account?> GetAccountByIdAsync(uint userId, uint accountId);
-	Task<Account> CreateAccountAsync(Account bankAccount);
-	Task<Account?> UpdateAccountAsync(uint userId, uint accountId);
-	Task<Account?> UpdateCashAccountAsync(uint userId, uint accountId);
+	Task<Account> CreateAccountAsync(uint userId, Account account);
+	Task UpdateAccountAsync();
+	
 	Task<Account?> DeleteAccountAsync(uint userId, uint accountId);
 }

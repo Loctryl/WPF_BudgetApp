@@ -8,6 +8,6 @@ public interface IProjectionTransferService
 	Task<ProjectionTransfer?> GetProjectionTransferByIdAsync(uint userId, uint projectionTransferId);
 	Task<List<ProjectionTransfer>> GetProjectionTransfersByAccountAsync(uint userId, uint accountId);
 	Task<ProjectionTransfer> CreateProjectionTransferAsync(ProjectionTransfer transfer);
-	Task<ProjectionTransfer?> UpdateProjectionTransferAsync(uint userId, uint projectionTransferId);
+	Task UpdateProjectionTransferAsync();
 	Task<ProjectionTransfer?> DeleteProjectionTransferAsync(uint userId, uint projectionTransferId);
 }

@@ -27,10 +27,7 @@ public class DebtService : ServiceBase<Debt>, IDebtService
 		return debt;
 	}
 
-	public Task<Debt?> UpdateDebtAsync(uint userId, uint debtId)
-	{
-		throw new NotImplementedException();
-	}
+	public async Task UpdateDebtAsync() => await _context.SaveChangesAsync();
 
 	public async Task<Debt?> DeleteDebtAsync(uint userId, uint debtId)
 	{

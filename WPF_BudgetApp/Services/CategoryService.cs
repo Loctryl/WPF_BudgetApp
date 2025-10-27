@@ -30,10 +30,7 @@ public class CategoryService : ServiceBase<Category>, ICategoryService
 		return category;
 	}
 
-	public Task<Category?> UpdateCategoryAsync(uint userId, uint categoryId)
-	{
-		throw new NotImplementedException();
-	}
+	public async Task UpdateCategoryAsync() => await _context.SaveChangesAsync();
 
 	public async Task<Category?> DeleteCategoryAsync(uint userId, uint categoryId)
 	{

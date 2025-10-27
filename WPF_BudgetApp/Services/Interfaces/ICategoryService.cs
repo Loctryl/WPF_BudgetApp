@@ -8,6 +8,6 @@ public interface ICategoryService
 	Task<Category?> GetCategoryByIdAsync(uint userId, uint categoryId);
 	Task<Category?> GetCategoryByNameAsync(uint userId, string name);
 	Task<Category> CreateCategoryAsync(Category category);
-	Task<Category?> UpdateCategoryAsync(uint userId, uint categoryId);
+	Task UpdateCategoryAsync();
 	Task<Category?> DeleteCategoryAsync(uint userId, uint categoryId);
 }

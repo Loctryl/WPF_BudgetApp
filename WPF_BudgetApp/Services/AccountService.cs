@@ -12,7 +12,7 @@ public class AccountService : ServiceBase<Account>, IAccountService
 	}
 	
 	protected override IQueryable<Account> CheckedListWithUser(uint userId) 
-		=> _context.BankAccounts.Include(x => x.AppUser)
+		=> _context.Accounts.Include(x => x.AppUser)
 			.Include(x => x.Transfers)
 			.Include(x => x.ProjectionTransfers)
 			.AsQueryable().Where(s => s.AppUserId == userId);
@@ -23,30 +23,22 @@ public class AccountService : ServiceBase<Account>, IAccountService
 	public async Task<Account?> GetAccountByIdAsync(uint userId, uint accountId) 
 		=> await CheckedListWithUser(userId).FirstOrDefaultAsync(x => x.Id == accountId);
 
-	public async Task<Account> CreateAccountAsync(Account bankAccount)
+	public async Task<Account> CreateAccountAsync(uint userId, Account account)
 	{
-		await _context.BankAccounts.AddAsync(bankAccount);
+		account.AppUserId = userId;
+		await _context.Accounts.AddAsync(account);
 		await _context.SaveChangesAsync();
-		return bankAccount;
+		return account;
 	}
 
-	public Task<Account?> UpdateAccountAsync(uint userId, uint accountId)
-	{
-		throw new NotImplementedException();
-	}
-
-	public Task<Account?> UpdateCashAccountAsync(uint userId, uint accountId)
-	{
-		throw new NotImplementedException();
-	}
-
+	public async Task UpdateAccountAsync() => await _context.SaveChangesAsync();
 	public async Task<Account?> DeleteAccountAsync(uint userId, uint accountId)
 	{
 		var bankAccount = GetAccountByIdAsync(userId, accountId).Result;
 		if (bankAccount == null)
 			return null;
 		
-		_context.BankAccounts.Remove(bankAccount);
+		_context.Accounts.Remove(bankAccount);
 		await _context.SaveChangesAsync();
 		return bankAccount;
 	}
