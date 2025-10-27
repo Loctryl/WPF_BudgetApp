@@ -4,7 +4,7 @@ using PropertyChanged;
 namespace WPF_BudgetApp.ViewModel;
 
 [AddINotifyPropertyChangedInterface]
-public class BaseViewModel : INotifyPropertyChanged
+public abstract class BaseViewModel : INotifyPropertyChanged
 {
 	public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => {};
 }

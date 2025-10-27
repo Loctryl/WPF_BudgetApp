@@ -38,7 +38,9 @@ public partial class App : Application
 
 				// ViewModels
 				services.AddSingleton<MainWindow>();
+				services.AddTransient<MainViewModel>();
 				services.AddTransient<LoginViewModel>();
+				services.AddTransient<DashboardViewModel>();
 			})
 			.Build();
 

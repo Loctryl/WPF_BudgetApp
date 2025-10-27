@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using WPF_BudgetApp.Services;
 using WPF_BudgetApp.Services.Interfaces;
 using WPF_BudgetApp.ViewModel;
 
@@ -22,7 +21,7 @@ public partial class MainWindow : Window
 		AppUserService = appUserService;
 		AccountService = accountService;
 		
-		LoginViewModel vm = new LoginViewModel(AppUserService, AccountService);
+		MainViewModel vm = new MainViewModel(AccountService, AppUserService);
 		DataContext = vm;
 	}
 	

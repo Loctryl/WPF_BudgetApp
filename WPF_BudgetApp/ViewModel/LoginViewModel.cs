@@ -1,15 +1,12 @@
 ﻿using System.Windows.Input;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.Models;
-using WPF_BudgetApp.Services.Interfaces;
 
 namespace WPF_BudgetApp.ViewModel;
 
 public class LoginViewModel : BaseViewModel
 {
-	private readonly IAppUserService appUserService;
-	private readonly IAccountService accountService;
-	//private readonly INavigationService _navigationService;
+	private readonly MainViewModel mainVM;
 	public ICommand LoginCommand { get; }
 	public ICommand RegisterCommand { get; }
 	public string Username {get; set;}
@@ -17,13 +14,11 @@ public class LoginViewModel : BaseViewModel
 
 	private string errorMessage;
 
-	public LoginViewModel(IAppUserService appUserService, IAccountService accountService /*, INavigationService navigationService*/)
+	public LoginViewModel(MainViewModel mainVM)
 	{
-		this.appUserService = appUserService;
-		this.accountService = accountService;
-		//_navigationService = navigationService;
 		LoginCommand = new RelayCommand(async _ => await LoginAsync());
 		RegisterCommand = new RelayCommand(async _ => await RegisterAsync());
+		this.mainVM = mainVM;
 	}
 	
 	private async Task LoginAsync()
@@ -36,7 +31,7 @@ public class LoginViewModel : BaseViewModel
 			return;
 		}
 
-		var user = await appUserService.AuthenticateAppUserAsync(Username, Password);
+		var user = await mainVM.appUserService.AuthenticateAppUserAsync(Username, Password);
 
 		if (user is null)
 		{
@@ -44,8 +39,8 @@ public class LoginViewModel : BaseViewModel
 			return;
 		}
 
-		// Connexion réussie : navigation vers la vue principale
-		//_navigationService.NavigateTo<DashboardViewModel>();
+		// login successful
+		mainVM.SwitchToDashBoard();
 	}
 	
 	private async Task RegisterAsync()
@@ -66,13 +61,13 @@ public class LoginViewModel : BaseViewModel
 		account.SourceName = "Cash";
 		account.Symbol = "CASH";
 		
-		await appUserService.CreateAppUserAsync(appuser);
-		await accountService.CreateAccountAsync(appuser.Id, account);
+		await mainVM.appUserService.CreateAppUserAsync(appuser);
+		await mainVM.accountService.CreateAccountAsync(appuser.Id, account);
 		
 		appuser.Accounts.Add(account);
-		await appUserService.UpdateAppUserAsync();
+		await mainVM.appUserService.UpdateAppUserAsync();
 
-		// Connexion réussie : navigation vers la vue principale
-		//_navigationService.NavigateTo<DashboardViewModel>();
+		// register successful
+		mainVM.SwitchToDashBoard();
 	}
 }

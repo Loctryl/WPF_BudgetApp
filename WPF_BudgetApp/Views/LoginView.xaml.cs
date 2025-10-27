@@ -3,11 +3,11 @@ using System.Windows.Controls;
 
 namespace WPF_BudgetApp.Views;
 
-public partial class ConnectionInterface : UserControl
+public partial class LoginView : UserControl
 {
 	private bool IsUsernameValid;
 	private bool IsPasswordValid;
-	public ConnectionInterface()
+	public LoginView()
 	{
 		InitializeComponent();
 	}
