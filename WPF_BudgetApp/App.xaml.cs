@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using WPF_BudgetApp.Data;
 using WPF_BudgetApp.Services;
 using WPF_BudgetApp.Services.Interfaces;
+using WPF_BudgetApp.ViewModel;
 
 namespace WPF_BudgetApp;
 
@@ -37,14 +38,14 @@ public partial class App : Application
 
 				// ViewModels
 				services.AddSingleton<MainWindow>();
-				//services.AddTransient<MainViewModel>();
+				services.AddTransient<LoginViewModel>();
 			})
 			.Build();
 
 		await _host.StartAsync();
 
-		/*// show main window (DI resolve)
+		// show main window (DI resolve)
 		var main = _host.Services.GetRequiredService<MainWindow>();
-		main.Show();*/
+		main.Show();
 	}
 }

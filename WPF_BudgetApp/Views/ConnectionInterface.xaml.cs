@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WPF_BudgetApp.View.UserControls;
+namespace WPF_BudgetApp.Views;
 
 public partial class ConnectionInterface : UserControl
 {
@@ -34,16 +34,6 @@ public partial class ConnectionInterface : UserControl
 			RegisterGrid.Visibility = Visibility.Collapsed;
 			LoginGrid.Visibility = Visibility.Visible;
 		}
-	}
-
-	private void LogInButton_OnClick(object sender, RoutedEventArgs e)
-	{
-		
-	}
-
-	private void RegisterButton_OnClick(object sender, RoutedEventArgs e)
-	{
-		
 	}
 
 	private void TextBox_OnChange(object sender, RoutedEventArgs e)

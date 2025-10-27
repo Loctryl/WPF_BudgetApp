@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WPF_BudgetApp"
         xmlns:userControls="clr-namespace:WPF_BudgetApp.View.UserControls"
+        xmlns:views="clr-namespace:WPF_BudgetApp.Views"
         Height="720" Width="1080" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent"
         Style="{StaticResource window}">
-    
     
     <Border Background="#eff2f7" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
             
             <userControls:WindowBar x:Name="WindowBar" Grid.Row="0" />
-            <userControls:ConnectionInterface x:Name="ConnectionInterface" Grid.Row="1" VerticalAlignment="Center" Height="450"/>
+            <views:ConnectionInterface x:Name="ConnectionInterface" Grid.Row="1" VerticalAlignment="Center" Height="450"/>
             
         </Grid>
     </Border>

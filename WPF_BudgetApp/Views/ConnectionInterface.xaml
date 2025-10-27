@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="WPF_BudgetApp.View.UserControls.ConnectionInterface"
+﻿<UserControl x:Class="WPF_BudgetApp.Views.ConnectionInterface"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
+             xmlns:vm="clr-namespace:WPF_BudgetApp.ViewModel"
              d:DesignHeight="400" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,12 +22,12 @@
             </Grid.RowDefinitions>
             
             <Label Grid.Row="0" Style="{StaticResource labelTextBox}">Username</Label>
-            <TextBox Grid.Row="0" Name="logInUsername" Style="{StaticResource textBox}" TextChanged="TextBox_OnChange"/>
+            <TextBox Grid.Row="0" Text="{Binding Username}" Name="logInUsername" Style="{StaticResource textBox}" TextChanged="TextBox_OnChange"/>
             
             <Label Grid.Row="1" Style="{StaticResource labelTextBox}">Password</Label>
-            <PasswordBox Grid.Row="1" Name="logInPassword" Style="{StaticResource textBox}" PasswordChanged="PasswordBox_OnChange"/>
+            <PasswordBox Grid.Row="1" Password="{Binding Path=Password, Mode=OneWay}" Name="logInPassword" Style="{StaticResource textBox}" PasswordChanged="PasswordBox_OnChange"/>
             
-            <Button Grid.Row="2" Name="logInButton" Click="LogInButton_OnClick" Style="{StaticResource connectionButton}" IsEnabled="False">Log In</Button>
+            <Button Grid.Row="2" Name="logInButton" Command="{Binding LoginCommand}" Style="{StaticResource connectionButton}" IsEnabled="False">Log In</Button>
             <Button Grid.Row="3" Name="toRegisterButton" Click="SwitchButton_OnClick" Style="{StaticResource switchingButton}"><Underline>Register</Underline></Button>
         </Grid>
         
@@ -50,7 +51,7 @@
                     <TextBlock TextWrapping="Wrap">I understand that this software is homemade by someone who was learning a new technology stack.</TextBlock>
                 </CheckBox>
             </StackPanel>
-            <Button Grid.Row="3" Name="registerButton" Click="RegisterButton_OnClick" Style="{StaticResource connectionButton}" IsEnabled="False">Register</Button>
+            <Button Grid.Row="3" Name="registerButton" Command="{Binding RegisterCommand}" Style="{StaticResource connectionButton}" IsEnabled="False">Register</Button>
             <Button Grid.Row="4" Name="toLogInButton" Click="SwitchButton_OnClick" Style="{StaticResource switchingButton}"><Underline>Log In</Underline></Button>
         </Grid>
     </Grid>

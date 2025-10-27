@@ -1,5 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using WPF_BudgetApp.Services;
+using WPF_BudgetApp.Services.Interfaces;
+using WPF_BudgetApp.ViewModel;
 
 namespace WPF_BudgetApp;
 
@@ -9,10 +12,18 @@ namespace WPF_BudgetApp;
 public partial class MainWindow : Window
 {
 	private bool IsMaximized = false;
+	private IAppUserService AppUserService { get; }
+	private IAccountService AccountService { get; }
 	
-	public MainWindow()
+	public MainWindow(IAppUserService appUserService, IAccountService accountService)
 	{
 		InitializeComponent();
+		
+		AppUserService = appUserService;
+		AccountService = accountService;
+		
+		LoginViewModel vm = new LoginViewModel(AppUserService, AccountService);
+		DataContext = vm;
 	}
 	
 	private void Border_MouseDown(object sender, MouseButtonEventArgs e)

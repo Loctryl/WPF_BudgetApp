@@ -4,16 +4,22 @@ namespace WPF_BudgetApp.Commands;
 
 public class RelayCommand : ICommand
 {
-	public event EventHandler? CanExecuteChanged;
+	private readonly Action<object?> execute;
+	private readonly Func<object?, bool>? canExecute;
+
+	public RelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
+	{
+		this.execute = execute;
+		this.canExecute = canExecute;
+	}
+
+	public event EventHandler? CanExecuteChanged
+	{
+		add => CommandManager.RequerySuggested += value;
+		remove => CommandManager.RequerySuggested -= value;
+	}
 	
-	public bool CanExecute(object? parameter)
-	{
-		throw new NotImplementedException();
-	}
+	public bool CanExecute(object? parameter) => canExecute == null || canExecute(parameter);
 
-	public void Execute(object? parameter)
-	{
-		throw new NotImplementedException();
-	}
-
+	public void Execute(object? parameter) => execute(parameter);
 }
