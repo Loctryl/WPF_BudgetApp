@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using WPF_BudgetApp.ViewModel;
 
 namespace WPF_BudgetApp.Views;
 
@@ -45,6 +46,9 @@ public partial class LoginView : UserControl
 	
 	private void PasswordBox_OnChange(object sender, RoutedEventArgs e)
 	{
+		if (this.DataContext != null)
+		{ ((dynamic)this.DataContext).Password = ((PasswordBox)sender).Password; }
+		
 		var passwordBox = (PasswordBox)sender;
 		IsPasswordValid = passwordBox.Password != string.Empty;
 		CheckButtonAvailability(sender, e);

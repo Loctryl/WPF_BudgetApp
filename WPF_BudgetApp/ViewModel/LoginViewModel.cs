@@ -10,7 +10,7 @@ public class LoginViewModel : BaseViewModel
 	public ICommand LoginCommand { get; }
 	public ICommand RegisterCommand { get; }
 	public string Username {get; set;}
-	public string Password {get; set;}
+	public string Password { private get; set;}
 
 	private string errorMessage;
 
@@ -24,12 +24,6 @@ public class LoginViewModel : BaseViewModel
 	private async Task LoginAsync()
 	{
 		errorMessage = string.Empty;
-
-		if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
-		{
-			errorMessage = "Veuillez remplir tous les champs.";
-			return;
-		}
 
 		var user = await mainVM.appUserService.AuthenticateAppUserAsync(Username, Password);
 
@@ -46,12 +40,6 @@ public class LoginViewModel : BaseViewModel
 	private async Task RegisterAsync()
 	{
 		errorMessage = string.Empty;
-
-		if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
-		{
-			errorMessage = "Veuillez remplir tous les champs.";
-			return;
-		}
 
 		AppUser appuser = new AppUser();
 		appuser.SourceName = Username;
