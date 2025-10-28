@@ -19,12 +19,15 @@ public class AppUserService : ServiceBase<AppUser>, IAppUserService
 	public async Task<AppUser?> AuthenticateAppUserAsync(string username, string password) 
 		=> await _context.AppUsers.FirstOrDefaultAsync(u => u.SourceName == username && u.Password == password);
 	
+	public async Task<List<AppUser>> GetAllAppUserAsync() 
+		=> await _context.AppUsers.Include(u=>u.Accounts).ToListAsync();
+	
 	public async Task<AppUser?> GetAppUserByIdAsync(uint id) 
 		=> await _context.AppUsers.Include(u=>u.Accounts).FirstOrDefaultAsync(u => u.Id == id);
 	
 	public async Task<AppUser> CreateAppUserAsync(AppUser user)
 	{
-		_context.AppUsers.Add(user);
+		await _context.AppUsers.AddAsync(user);
 		await _context.SaveChangesAsync();
 		return user;
 	}

@@ -41,7 +41,7 @@
             </Grid.RowDefinitions>
             
             <Label Grid.Row="0" Style="{StaticResource labelTextBox}">Username</Label>
-            <TextBox Grid.Row="0" Name="registerUsername" Style="{StaticResource textBox}" TextChanged="TextBox_OnChange"/>
+            <TextBox Grid.Row="0" Text="{Binding Username}" Name="registerUsername" Style="{StaticResource textBox}" TextChanged="TextBox_OnChange"/>
             
             <Label Grid.Row="1" Style="{StaticResource labelTextBox}">Password</Label>
             <PasswordBox Grid.Row="1" Name="registerPassword" Style="{StaticResource textBox}" PasswordChanged="PasswordBox_OnChange"/>
