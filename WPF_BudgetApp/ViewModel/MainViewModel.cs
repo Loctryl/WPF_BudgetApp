@@ -17,11 +17,15 @@ public class MainViewModel : BaseViewModel
 		this.appUserService = appUserService;
 		
 		LoginVM = new LoginViewModel(this);
-		DashboardVM = new DashboardViewModel();
+		DashboardVM = new DashboardViewModel(this);
 		
-		CurrentVM = LoginVM;
+		CurrentVM = DashboardVM;
 	}
 
-	public void SwitchToDashBoard() => CurrentVM = DashboardVM;
+	public void SwitchToDashBoard()
+	{
+		CurrentVM = DashboardVM;
+		DashboardVM.RefreshData();
+	}
 	public void SwitchToLogin() => CurrentVM = LoginVM;
 }

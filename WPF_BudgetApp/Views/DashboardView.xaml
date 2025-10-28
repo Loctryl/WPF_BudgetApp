@@ -5,8 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WPF_BudgetApp.Views"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="500" d:DesignWidth="720">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         
+        <DataGrid Grid.Row="0"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Users}"
+        >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="User Id" />
+                <DataGridTextColumn Binding="{Binding SourceName}" Header="Username" />
+                <DataGridTextColumn Binding="{Binding Password}" Header="Password" />
+                <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" />
+                <DataGridTextColumn Binding="{Binding Accounts}" Header="Accounts" />
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        
+        <DataGrid Grid.Row="1"
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding Accounts}"
+        >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Account Id" />
+                <DataGridTextColumn Binding="{Binding SourceName}" Header="Account Name" />
+                <DataGridTextColumn Binding="{Binding Symbol}" Header="Symbol" />
+                <DataGridTextColumn Binding="{Binding Color}" Header="Color" />
+                <DataGridTextColumn Binding="{Binding Balance}" Header="Balance" />
+                <DataGridTextColumn Binding="{Binding AppUserId}" Header="UserId" />
+            </DataGrid.Columns>
+            
+        </DataGrid>
     </Grid>
 </UserControl>
