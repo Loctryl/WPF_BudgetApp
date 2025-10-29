@@ -4,41 +4,63 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WPF_BudgetApp.Views"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="720">
+             d:DesignHeight="900" d:DesignWidth="1600">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15*" />
+            <ColumnDefinition Width="85*"/>
+        </Grid.ColumnDefinitions>
         
-        <DataGrid Grid.Row="0"
-                  AutoGenerateColumns="False"
-                  ItemsSource="{Binding Users}"
-        >
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="User Id" />
-                <DataGridTextColumn Binding="{Binding SourceName}" Header="Username" />
-                <DataGridTextColumn Binding="{Binding Password}" Header="Password" />
-                <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" />
-                <DataGridTextColumn Binding="{Binding Accounts}" Header="Accounts" />
-            </DataGrid.Columns>
-            
-        </DataGrid>
+        <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="0 0 1 0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="70*" />
+                    <RowDefinition Height="10*" />
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0" VerticalAlignment="Center">
+                    <Button Style="{StaticResource iconsButtons}" Height="50" Width="50" Foreground="Aquamarine" >
+                        <iconPacks:PackIconMaterial Kind="Account" Width="50" Height="50" />
+                    </Button>
+                    <TextBlock Text="{Binding CurrentUser.SourceName}" Style="{StaticResource baseTextBlockStyle}" />
+                </StackPanel>
+                
+                <StackPanel x:Name="MenuPanel" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <RadioButton Style="{StaticResource radioButtons}" Content="Global Dashboard" FontSize="20" />
+                    <RadioButton Style="{StaticResource radioButtons}" Content="Cash" FontSize="20" />
+                </StackPanel> 
+                
+                <Border Grid.Row="2" BorderThickness="0 1 0 0" BorderBrush="Gray">
+                    <Button Style="{StaticResource iconsButtons}" Height="30" Width="30" Foreground="Red">
+                        <iconPacks:PackIconMaterial Kind="Logout" Width="30" Height="30" />
+                    </Button>
+                </Border>
+                
+            </Grid>
+        </Border>
         
-        <DataGrid Grid.Row="1"
-            AutoGenerateColumns="False"
-            ItemsSource="{Binding Accounts}"
-        >
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Account Id" />
-                <DataGridTextColumn Binding="{Binding SourceName}" Header="Account Name" />
-                <DataGridTextColumn Binding="{Binding Symbol}" Header="Symbol" />
-                <DataGridTextColumn Binding="{Binding Color}" Header="Color" />
-                <DataGridTextColumn Binding="{Binding Balance}" Header="Balance" />
-                <DataGridTextColumn Binding="{Binding AppUserId}" Header="UserId" />
-            </DataGrid.Columns>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60*" />
+                <RowDefinition Height="40*" />
+            </Grid.RowDefinitions>
             
-        </DataGrid>
+            <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Gray">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Border Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="Gray">
+                        
+                    </Border>
+                </Grid>
+            </Border>
+            
+        </Grid>
     </Grid>
 </UserControl>

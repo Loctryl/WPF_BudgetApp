@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WPF_BudgetApp.View.UserControls;
+namespace WPF_BudgetApp.Views;
 
 public partial class WindowBar : UserControl
 {

@@ -6,6 +6,8 @@ public class DashboardViewModel : BaseViewModel
 {
 	private readonly MainViewModel mainVM;
 	
+	public AppUser CurrentUser { get; set; }
+	
 	public List<AppUser> Users { get; set; } = new List<AppUser>();
 	public List<Account> Accounts { get; set; } = new List<Account>();
 
