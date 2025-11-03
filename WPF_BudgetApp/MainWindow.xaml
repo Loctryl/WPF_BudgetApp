@@ -15,6 +15,15 @@
         <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
             <views:DashboardView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:AccountViewModel}">
+            <views:AccountView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:DebtViewModel}">
+            <views:DebtView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ArchiveViewModel}">
+            <views:ArchiveView />
+        </DataTemplate>
     </Window.Resources>
     
     <Border Background="#eff2f7" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
@@ -26,8 +35,6 @@
             
             <views:WindowBar x:Name="WindowBar" Grid.Row="0" />
             <ContentControl Grid.Row="1" Content="{Binding CurrentVM}" />
-            <!-- <views:ConnectionInterface x:Name="ConnectionInterface" Grid.Row="1" VerticalAlignment="Center" Height="450"/> -->
-            
         </Grid>
     </Border>
 </Window>

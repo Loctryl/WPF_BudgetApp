@@ -33,7 +33,11 @@ public class LoginViewModel : BaseViewModel
 			return;
 		}
 
+		Username = String.Empty;
+		Password = String.Empty;
+		
 		// login successful
+		mainVM.SetCurrentUser(user);
 		mainVM.SwitchToDashBoard();
 	}
 	
@@ -49,13 +53,17 @@ public class LoginViewModel : BaseViewModel
 		account.SourceName = "Cash";
 		account.Symbol = "CASH";
 		
-		await mainVM.appUserService.CreateAppUserAsync(appuser);
+		var user = await mainVM.appUserService.CreateAppUserAsync(appuser);
 		await mainVM.accountService.CreateAccountAsync(appuser.Id, account);
 		
 		appuser.Accounts.Add(account);
 		await mainVM.appUserService.UpdateAppUserAsync();
+		
+		Username = String.Empty;
+		Password = String.Empty;
 
 		// register successful
+		mainVM.SetCurrentUser(user);
 		mainVM.SwitchToDashBoard();
 	}
 }

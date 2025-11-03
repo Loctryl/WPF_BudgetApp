@@ -1,11 +1,10 @@
-﻿<UserControl x:Class="WPF_BudgetApp.Views.DashboardView"
+﻿<UserControl x:Class="WPF_BudgetApp.Views.AccountView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WPF_BudgetApp.Views"
              xmlns:comps="clr-namespace:WPF_BudgetApp.Components"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="1600">
     <Grid>
@@ -30,7 +29,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <Border Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="Gray">
-                        <TextBlock Text="Dashboard" Style="{StaticResource baseTextBlockStyle}" FontSize="50"></TextBlock>
+                        <TextBlock Text="Account" Style="{StaticResource baseTextBlockStyle}" FontSize="50"></TextBlock>
                         
                     </Border>
                 </Grid>
