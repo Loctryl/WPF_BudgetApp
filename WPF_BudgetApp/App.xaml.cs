@@ -41,6 +41,9 @@ public partial class App : Application
 				services.AddTransient<MainViewModel>();
 				services.AddTransient<LoginViewModel>();
 				services.AddTransient<DashboardViewModel>();
+				services.AddTransient<AccountViewModel>();
+				services.AddTransient<DebtViewModel>();
+				services.AddTransient<ArchiveViewModel>();
 			})
 			.Build();
 
