@@ -30,11 +30,11 @@ public partial class App : Application
 				// services
 				services.AddTransient<IAccountService, AccountService>();
 				services.AddTransient<IAppUserService, AppUserService>();
-				services.AddTransient<IArchivedTransferService, ArchivedTransferService>();
 				services.AddTransient<ICategoryService, CategoryService>();
 				services.AddTransient<IDebtService, DebtService>();
-				services.AddTransient<IProjectionTransferService, ProjectionTransferService>();
 				services.AddTransient<ITransferService, TransferService>();
+				services.AddTransient<IProjectionTransferService, ProjectionTransferService>();
+				services.AddTransient<IArchivedTransferService, ArchivedTransferService>();
 
 				// ViewModels
 				services.AddSingleton<MainWindow>();

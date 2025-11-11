@@ -11,17 +11,17 @@ namespace WPF_BudgetApp;
 public partial class MainWindow : Window
 {
 	private bool IsMaximized = false;
-	private IAppUserService AppUserService { get; }
-	private IAccountService AccountService { get; }
-	
-	public MainWindow(IAppUserService appUserService, IAccountService accountService)
+	public MainWindow(IAccountService accountService, 
+	IAppUserService appUserService, 
+	ICategoryService categoryService, 
+	IDebtService debtService, 
+	ITransferService transferService,  
+	IProjectionTransferService projectionTransferService, 
+	IArchivedTransferService archiveService)
 	{
 		InitializeComponent();
 		
-		AppUserService = appUserService;
-		AccountService = accountService;
-		
-		MainViewModel vm = new MainViewModel(AccountService, AppUserService);
+		MainViewModel vm = new MainViewModel(accountService, appUserService,  categoryService, debtService, transferService, projectionTransferService, archiveService);
 		DataContext = vm;
 	}
 	
