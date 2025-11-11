@@ -41,7 +41,22 @@ public class MainViewModel : BaseViewModel
 		DebtVM = new DebtViewModel(this);
 		ArchiveVM = new ArchiveViewModel(this);
 		
-		Logout();
+		// temporary login
+		Task.Run(SkipLoginAsync);
+	}
+	
+	private async Task SkipLoginAsync()
+	{
+		AppUser user = await this.appUserService.AuthenticateAppUserAsync("Thibault", "Budget");
+		
+		if (user == null)
+		{
+			Logout();
+			return;
+		}
+		
+		SetCurrentUser(user);
+		SwitchToDashBoard();
 	}
 	
 	public void SetCurrentUser(AppUser user) => CurrentUser = user;

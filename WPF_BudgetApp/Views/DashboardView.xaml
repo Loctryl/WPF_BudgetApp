@@ -33,6 +33,33 @@
                         <TextBlock Text="Dashboard" Style="{StaticResource baseTextBlockStyle}" FontSize="50"></TextBlock>
                         
                     </Border>
+                    <StackPanel Grid.Column="1">
+                        <StackPanel Height="25">
+                            <Button Name="addCategoryButt" Command="{Binding AddCategoryCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
+                                <iconPacks:PackIconMaterial Kind="Plus" Width="15" Height="15" />
+                            </Button>
+                        </StackPanel>
+                    
+                        <DataGrid Grid.Column="1"  AutoGenerateColumns="False"
+                                  ItemsSource="{Binding Categories}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id}" Header="Category Id" />
+                                <DataGridTextColumn Binding="{Binding SourceName}" Header="Category Name" />
+                                <DataGridTextColumn Binding="{Binding Symbol}" Header="Symbol" />
+                                
+                                <DataGridTextColumn Binding="{Binding Color}" Header="Color">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Background" Value="{Binding Color}" />
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                
+                                <DataGridTextColumn Binding="{Binding CurrentMonthValue}" Header="Current Month" />
+                                <DataGridTextColumn Binding="{Binding LastMonthValue}" Header="Last Month" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
                 </Grid>
             </Border>
             

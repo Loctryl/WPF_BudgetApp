@@ -19,7 +19,7 @@
                 <Button Style="{StaticResource iconsButtons}" Height="50" Width="50" Foreground="Aquamarine" >
                     <iconPacks:PackIconMaterial Kind="Account" Width="50" Height="50" />
                 </Button>
-                <TextBlock Text="{Binding Name}" Style="{StaticResource baseTextBlockStyle}" />
+                <TextBlock Text="{Binding Name}" Style="{StaticResource baseTextBlockStyle}" HorizontalAlignment="Center" FontSize="25"/>
             </StackPanel>
                 
             <StackPanel x:Name="MenuPanel" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
