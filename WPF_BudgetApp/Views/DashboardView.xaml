@@ -34,29 +34,33 @@
                         
                     </Border>
                     <StackPanel Grid.Column="1">
-                        <StackPanel Height="25">
+                        <StackPanel Height="25" Orientation="Horizontal">
                             <Button Name="addCategoryButt" Command="{Binding AddCategoryCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
                                 <iconPacks:PackIconMaterial Kind="Plus" Width="15" Height="15" />
+                            </Button> 
+                            <Button Name="updateCategoryButt" Command="{Binding UpdateCategoryCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
+                                <iconPacks:PackIconMaterial Kind="ApplicationEdit" Width="15" Height="15" />
                             </Button>
                         </StackPanel>
                     
                         <DataGrid Grid.Column="1"  AutoGenerateColumns="False"
-                                  ItemsSource="{Binding Categories}">
+                                  ItemsSource="{Binding CategoriesDTOs}"
+                                  SelectedItem="{Binding SelectedCategory}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Id}" Header="Category Id" />
-                                <DataGridTextColumn Binding="{Binding SourceName}" Header="Category Name" />
-                                <DataGridTextColumn Binding="{Binding Symbol}" Header="Symbol" />
+                                <DataGridTextColumn Binding="{Binding CategoryId}" Header="Category Id" />
+                                <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category Name" />
+                                <DataGridTextColumn Binding="{Binding CategorySymbol}" Header="Symbol" />
                                 
-                                <DataGridTextColumn Binding="{Binding Color}" Header="Color">
+                                <DataGridTextColumn Binding="{Binding CategoryColor}" Header="Color">
                                     <DataGridTextColumn.CellStyle>
                                         <Style TargetType="DataGridCell">
-                                            <Setter Property="Background" Value="{Binding Color}" />
+                                            <Setter Property="Background" Value="{Binding CategoryColor}" />
                                         </Style>
                                     </DataGridTextColumn.CellStyle>
                                 </DataGridTextColumn>
                                 
-                                <DataGridTextColumn Binding="{Binding CurrentMonthValue}" Header="Current Month" />
-                                <DataGridTextColumn Binding="{Binding LastMonthValue}" Header="Last Month" />
+                                <DataGridTextColumn Binding="{Binding CategoryCurrentMonth}" Header="Current Month" />
+                                <DataGridTextColumn Binding="{Binding CategoryLastMonth}" Header="Last Month" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

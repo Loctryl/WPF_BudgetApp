@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using WPF_BudgetApp.Data.Models;
 
 namespace WPF_BudgetApp.Data;
@@ -20,8 +21,19 @@ public class AppDbContext : DbContext
 	
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-		
 		base.OnModelCreating(modelBuilder);
+		
+		modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+	}
+}
+
+public class DbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+{
+	public AppDbContext CreateDbContext(string[] args)
+	{
+		var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+		optionsBuilder.UseSqlite("DataSource=BudgetDataBase.db");
+
+		return new AppDbContext(optionsBuilder.Options);
 	}
 }

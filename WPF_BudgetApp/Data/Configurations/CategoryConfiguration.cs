@@ -19,17 +19,6 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 			.IsRequired()
 			.HasMaxLength(5);
 
-		builder.Property(a => a.CurrentMonthValue)
-			.HasColumnType("decimal(18,2)")
-			.IsRequired();
-
-		builder.Property(a => a.LastMonthValue)
-			.IsRequired()
-			.HasColumnType("decimal(18,2)");
-		
-		builder.Property(a => a.GoalPerMonth)
-			.HasColumnType("decimal(18,2)");
-
 		// Relations
 		builder.HasOne(a => a.AppUser)
 			.WithMany()

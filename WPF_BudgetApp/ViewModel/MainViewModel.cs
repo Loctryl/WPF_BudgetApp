@@ -46,15 +46,15 @@ public class MainViewModel : BaseViewModel
 		
 		// Debug
 		DebugVM = new DebugViewModel(this);
-		SwitchToDebug();
+		//SwitchToDebug();
 		
 		// temporary login
-		//Task.Run(SkipLoginAsync);
+		Task.Run(SkipLoginAsync);
 	}
 	
 	private async Task SkipLoginAsync()
 	{
-		AppUser user = await this.appUserService.AuthenticateAppUserAsync("Thibault", "Budget");
+		AppUser user = await this.appUserService.AuthenticateAppUserAsync("Loctryl", "1234");
 		
 		if (user == null)
 		{
@@ -76,8 +76,8 @@ public class MainViewModel : BaseViewModel
 
 	public void SwitchToDashBoard()
 	{
-		CurrentVM = DashboardVM;
 		DashboardVM.UpdateData();
+		CurrentVM = DashboardVM;
 	}
 
 	public void Logout()

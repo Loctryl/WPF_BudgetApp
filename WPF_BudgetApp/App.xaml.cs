@@ -25,7 +25,7 @@ public partial class App : Application
 			{
 				// DbContext - fichier local dans le dossier de l'app
 				services.AddDbContext<AppDbContext>(options =>
-					options.UseSqlite("DataSource=BudgetApp.db"));
+					options.UseSqlite("DataSource=BudgetDataBase.db"));
 
 				// services
 				services.AddTransient<IAccountService, AccountService>();
