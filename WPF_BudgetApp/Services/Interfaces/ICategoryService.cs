@@ -4,6 +4,8 @@ namespace WPF_BudgetApp.Services.Interfaces;
 
 public interface ICategoryService
 {
+	Task<List<Category>> DebugGetAllCategoryAsync();
+
 	Task<List<Category>> GetAllCategoryAsync(uint userId);
 	Task<Category?> GetCategoryByIdAsync(uint userId, uint categoryId);
 	Task<Category?> GetCategoryByNameAsync(uint userId, string name);

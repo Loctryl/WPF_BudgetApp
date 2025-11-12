@@ -14,6 +14,9 @@ public class ArchivedTransferService : ServiceBase<ArchivedTransfer>, IArchivedT
 	protected override IQueryable<ArchivedTransfer> CheckedListWithUser(uint userId)
 		=> _context.ArchivedTransfers.AsQueryable().Where(s => s.UserId == userId);
 
+	public Task<List<ArchivedTransfer>> DebugGetAllArchivedTransfersAsync()
+		=> _context.ArchivedTransfers.AsQueryable().ToListAsync();
+
 	public async Task<List<ArchivedTransfer>> GetAllArchivedTransfersAsync(uint userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();
 

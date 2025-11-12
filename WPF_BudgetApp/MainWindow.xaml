@@ -15,6 +15,9 @@
         <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
             <views:DashboardView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:DebugViewModel}">
+            <views:DatabaseView />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:AccountViewModel}">
             <views:AccountView />
         </DataTemplate>

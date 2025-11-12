@@ -10,6 +10,9 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         
         <DataGrid Grid.Row="0"
@@ -40,5 +43,52 @@
             </DataGrid.Columns>
             
         </DataGrid>
+        
+        <DataGrid Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Categories}"
+        >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Categories Id" />
+                <DataGridTextColumn Binding="{Binding SourceName}" Header="Categories Name" />
+                <DataGridTextColumn Binding="{Binding Symbol}" Header="Categories Symbol" />
+                <DataGridTextColumn Binding="{Binding Color}" Header="Categories Color" />
+                <DataGridTextColumn Binding="{Binding AppUserId}" Header="Categories UserId" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <DataGrid Grid.Row="3"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Debts}"
+        >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="User Id" />
+                <DataGridTextColumn Binding="{Binding SourceName}" Header="Username" />
+                <DataGridTextColumn Binding="{Binding InitialAmount}" Header="Initial Amount" />
+                <DataGridTextColumn Binding="{Binding CurrentDebt}" Header="Current Debt" />
+                <DataGridTextColumn Binding="{Binding InterestRate}" Header="Interest Rate" />
+                <DataGridTextColumn Binding="{Binding LimitDate}" Header="Limit Date" />
+                <DataGridTextColumn Binding="{Binding AppUserId}" Header="App User" />
+                <DataGridTextColumn Binding="{Binding CategoryId}" Header="Linked Category" />
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        
+        <DataGrid Grid.Row="4"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Transfers}"
+        >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="User Id" />
+                <DataGridTextColumn Binding="{Binding SourceName}" Header="Transfer Name" />
+                <DataGridTextColumn Binding="{Binding Amount}" Header="Amount" />
+                <DataGridTextColumn Binding="{Binding AccountId}" Header="Account" />
+                <DataGridTextColumn Binding="{Binding CategoryId}" Header="Category" />
+                <DataGridTextColumn Binding="{Binding OperationDate}" Header="Operation Date" />
+                <DataGridTextColumn Binding="{Binding DebitDate}" Header="Debit Date" />
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        
     </Grid>
 </UserControl>

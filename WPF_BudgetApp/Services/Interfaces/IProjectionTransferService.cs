@@ -4,6 +4,8 @@ namespace WPF_BudgetApp.Services.Interfaces;
 
 public interface IProjectionTransferService
 {
+	Task<List<ProjectionTransfer>> DebugGetAllProjectionTransfersAsync();
+
 	Task<List<ProjectionTransfer>> GetAllProjectionTransferAsync(uint userId);
 	Task<ProjectionTransfer?> GetProjectionTransferByIdAsync(uint userId, uint projectionTransferId);
 	Task<List<ProjectionTransfer>> GetProjectionTransfersByAccountAsync(uint userId, uint accountId);

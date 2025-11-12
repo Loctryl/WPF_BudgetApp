@@ -18,6 +18,13 @@ public class ProjectionTransferService : ServiceBase<ProjectionTransfer>, IProje
 			.AsQueryable()
 			.Where(s => s.Account.AppUserId == userId);
 
+	public Task<List<ProjectionTransfer>> DebugGetAllProjectionTransfersAsync()
+		=> _context.ProjectionTransfers.Include(x => x.Category)
+			.Include(x => x.Account)
+			.ThenInclude(x => x.AppUser)
+			.AsQueryable()
+			.ToListAsync();
+
 	public async Task<List<ProjectionTransfer>> GetAllProjectionTransferAsync(uint userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();
 	

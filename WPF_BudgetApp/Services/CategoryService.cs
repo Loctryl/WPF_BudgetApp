@@ -14,6 +14,9 @@ public class CategoryService : ServiceBase<Category>, ICategoryService
 	protected override IQueryable<Category> CheckedListWithUser(uint userId) 
 		=> _context.Categories.Include(x => x.AppUser).AsQueryable().Where(s => s.AppUserId == userId);
 
+	public Task<List<Category>> DebugGetAllCategoryAsync()
+		=> _context.Categories.Include(x => x.AppUser).AsQueryable().ToListAsync();
+
 	public async Task<List<Category>> GetAllCategoryAsync(uint userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();
 	

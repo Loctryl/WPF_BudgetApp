@@ -5,6 +5,8 @@ namespace WPF_BudgetApp.Services.Interfaces;
 
 public interface ITransferService
 {
+	Task<List<Transfer>> DebugGetAllTransferAsync();
+
 	Task<List<Transfer>> GetAllTransfersAsync(uint userId, TransferQueryObject query);
 	Task<Transfer?> GetTransferByIdAsync(uint userId, uint transferId);
 	Task<List<Transfer>> GetTransfersByAccountAsync(uint userId, uint accountId);

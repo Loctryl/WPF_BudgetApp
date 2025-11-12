@@ -20,6 +20,9 @@ public class MainViewModel : BaseViewModel
 	private AccountViewModel AccountVM { get; set; }
 	private DebtViewModel DebtVM { get; set; }
 	private ArchiveViewModel ArchiveVM { get; set; }
+	
+	//debug
+	private DebugViewModel DebugVM { get; set; }
 
 	public MainViewModel(
 	IAccountService accountService, IAppUserService appUserService, 
@@ -41,8 +44,12 @@ public class MainViewModel : BaseViewModel
 		DebtVM = new DebtViewModel(this);
 		ArchiveVM = new ArchiveViewModel(this);
 		
+		// Debug
+		DebugVM = new DebugViewModel(this);
+		SwitchToDebug();
+		
 		// temporary login
-		Task.Run(SkipLoginAsync);
+		//Task.Run(SkipLoginAsync);
 	}
 	
 	private async Task SkipLoginAsync()
@@ -60,6 +67,12 @@ public class MainViewModel : BaseViewModel
 	}
 	
 	public void SetCurrentUser(AppUser user) => CurrentUser = user;
+	
+	private void SwitchToDebug()
+	{
+		CurrentVM = DebugVM;
+		DebugVM.UpdateData();
+	}
 
 	public void SwitchToDashBoard()
 	{

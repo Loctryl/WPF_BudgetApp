@@ -17,7 +17,13 @@ public class TransferService : ServiceBase<Transfer>, ITransferService
 			.Include(x => x.Account)
 			.ThenInclude(x => x.AppUser)
 			.AsQueryable().Where(s => s.Account.AppUserId == userId);
-	
+
+	public Task<List<Transfer>> DebugGetAllTransferAsync()
+		=> _context.Transfers.Include(x => x.Category)
+			.Include(x => x.Account)
+			.ThenInclude(x => x.AppUser)
+			.AsQueryable().ToListAsync();
+
 	public async Task<List<Transfer>> GetAllTransfersAsync(uint userId, TransferQueryObject query)
 	{
 		var queryable = CheckedListWithUser(userId);

@@ -16,7 +16,14 @@ public class AccountService : ServiceBase<Account>, IAccountService
 			.Include(x => x.Transfers)
 			.Include(x => x.ProjectionTransfers)
 			.AsQueryable().Where(s => s.AppUserId == userId);
-	
+
+	//Debug Func
+	public Task<List<Account>> DebugGetAllAccountsAsync()
+		=> _context.Accounts.Include(x => x.AppUser)
+			.Include(x => x.Transfers)
+			.Include(x => x.ProjectionTransfers)
+			.AsQueryable().ToListAsync();
+
 	public async Task<List<Account>> GetAllAccountAsync(uint userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();
 
