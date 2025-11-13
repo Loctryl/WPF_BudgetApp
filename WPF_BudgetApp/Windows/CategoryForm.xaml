@@ -8,7 +8,7 @@
         Title="CategoryForm" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent"
         Style="{StaticResource window}">
-    <Border Background="#fff" MouseDown="Border_MouseDown">
+    <Border Background="#fff" BorderThickness="2" BorderBrush="Blue" MouseDown="Border_MouseDown">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="35*"/>

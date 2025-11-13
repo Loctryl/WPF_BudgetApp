@@ -8,4 +8,11 @@ public partial class DashboardView : UserControl
 	{
 		InitializeComponent();
 	}
+
+	private void CategoryGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		var grid = (DataGrid)sender;
+		updateCategoryButt.IsEnabled = grid.SelectedItems.Count == 1;
+		deleteCategoryButt.IsEnabled = grid.SelectedItems.Count == 1;
+	}
 }

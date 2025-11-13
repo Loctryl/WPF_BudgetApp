@@ -1,6 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using WPF_BudgetApp.Commands;
-using WPF_BudgetApp.Data.Models;
+using WPF_BudgetApp.Windows;
 
 namespace WPF_BudgetApp.ViewModel;
 
@@ -11,6 +12,8 @@ public abstract class BaseMenuViewModel : BaseViewModel
 	public ICommand LogoutCommand { get; }
 	
 	public string Name { get; set; } = string.Empty;
+	
+	private ConfirmWindow ConfirmWindow { get; set; }
 
 	protected BaseMenuViewModel(MainViewModel mainVM)
 	{
@@ -19,10 +22,7 @@ public abstract class BaseMenuViewModel : BaseViewModel
 		LogoutCommand = new RelayCommand(Logout);
 	}
 
-	public virtual void UpdateData()
-	{
-		Name = mainVM.CurrentUser.SourceName;
-	}
+	public virtual void UpdateData() => Name = mainVM.CurrentUser.SourceName;
 
 	private void RadioSwitch(object parameter)
 	{
@@ -45,8 +45,12 @@ public abstract class BaseMenuViewModel : BaseViewModel
 		}
 	}
 
-	private void Logout(object parameter)
+	private void Logout(object parameter) => mainVM.Logout();
+	
+	protected void ConfirmationWindowCall(EventHandler<bool> func)
 	{
-		mainVM.Logout();
+		ConfirmWindow = new ConfirmWindow();
+		ConfirmWindow.ConfirmEvent += func;
+		ConfirmWindow.Show();
 	}
 }

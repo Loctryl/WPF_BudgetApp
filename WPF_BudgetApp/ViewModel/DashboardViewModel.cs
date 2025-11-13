@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.DTOs;
@@ -11,6 +12,7 @@ public class DashboardViewModel : BaseMenuViewModel
 {
 	public ICommand AddCategoryCommand { get; } 
 	public ICommand UpdateCategoryCommand { get; } 
+	public ICommand DeleteCategoryCommand { get; } 
 	
 	private CategoryForm CategoryForm { get; set; }
 	public CategoryFormDTO CatFormDTO { get; } = new CategoryFormDTO();
@@ -18,12 +20,13 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	public List<Account> Accounts { get; set; } = new List<Account>();
 	public List<Category> Categories { get; set; } = new List<Category>();
-	public List<CategoryDisplayDTO> CategoriesDTOs { get; set; } = new List<CategoryDisplayDTO>();
+	public ObservableCollection<CategoryDisplayDTO> CategoriesDTOs { get; set; } = new ObservableCollection<CategoryDisplayDTO>();
 
 	public DashboardViewModel(MainViewModel mainVM) : base(mainVM)
 	{ 
-		AddCategoryCommand = new RelayCommand(_ => CategoryFormCall(false));
-		UpdateCategoryCommand = new RelayCommand(_ => CategoryFormCall(true));
+		AddCategoryCommand = new RelayCommand(_ => CategoryFormCall(false, ReceiveCategoryForm));
+		UpdateCategoryCommand = new RelayCommand(_ => CategoryFormCall(true, ReceiveCategoryForm));
+		DeleteCategoryCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteCategory));
 	}
 
 	public override void UpdateData()
@@ -52,7 +55,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		}
 	}
 
-	private void CategoryFormCall(bool isUpdate)
+	private void CategoryFormCall(bool isUpdate, EventHandler<bool> func)
 	{
 		if (isUpdate)
 		{
@@ -62,12 +65,14 @@ public class DashboardViewModel : BaseMenuViewModel
 		}
 		
 		CategoryForm = new CategoryForm(this, isUpdate);
-		CategoryForm.ConfirmEvent += ReceiveCategoryForm;
+		CategoryForm.ConfirmEvent += func;
 		CategoryForm.Show();
 	}
 
-	private void ReceiveCategoryForm(object? sender, EventArgs e)
+	private async void ReceiveCategoryForm(object? sender, bool isConfirmed)
 	{
+		if (!isConfirmed) return;
+		
 		Category cat = new Category();
 		if (CategoryForm.IsUpdate)
 		{
@@ -81,14 +86,23 @@ public class DashboardViewModel : BaseMenuViewModel
 		cat.Color = CatFormDTO.CategoryColor;
 		
 		if (CategoryForm.IsUpdate)
-			mainVM.categoryService.UpdateCategoryAsync();
+			await mainVM.categoryService.UpdateCategoryAsync();
 		else
 		{
 			cat.AppUserId = mainVM.CurrentUser.Id;
-			mainVM.categoryService.CreateCategoryAsync(cat);
+			await mainVM.categoryService.CreateCategoryAsync(cat);
 		}
 		
 		CategoryForm.ConfirmEvent -= ReceiveCategoryForm;
+		CategoryForm.Close();
+		CatFormDTO.Reset();
+		UpdateData();
+	}
+
+	private async void DeleteCategory(object? sender, bool isConfirmed)
+	{
+		if (!isConfirmed) return;
+		await mainVM.categoryService.DeleteCategoryAsync(mainVM.CurrentUser.Id, SelectedCategory.CategoryId);
 		UpdateData();
 	}
 }

@@ -38,14 +38,20 @@
                             <Button Name="addCategoryButt" Command="{Binding AddCategoryCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
                                 <iconPacks:PackIconMaterial Kind="Plus" Width="15" Height="15" />
                             </Button> 
-                            <Button Name="updateCategoryButt" Command="{Binding UpdateCategoryCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
+                            <Button Name="updateCategoryButt" Command="{Binding UpdateCategoryCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
                                 <iconPacks:PackIconMaterial Kind="ApplicationEdit" Width="15" Height="15" />
+                            </Button>
+                            <Button Name="deleteCategoryButt" Command="{Binding DeleteCategoryCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                                <iconPacks:PackIconMaterial Kind="TrashCan" Width="15" Height="15" />
                             </Button>
                         </StackPanel>
                     
-                        <DataGrid Grid.Column="1"  AutoGenerateColumns="False"
+                        <DataGrid Name="CategoryGrid" AutoGenerateColumns="False"
                                   ItemsSource="{Binding CategoriesDTOs}"
-                                  SelectedItem="{Binding SelectedCategory}">
+                                  SelectedItem="{Binding SelectedCategory}"
+                                  SelectionChanged="CategoryGrid_OnSelectionChanged"
+                                  SelectionMode="Single"
+                                  IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding CategoryId}" Header="Category Id" />
                                 <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category Name" />

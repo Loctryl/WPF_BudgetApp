@@ -1,22 +1,16 @@
 ﻿using System.Windows;
-using System.Windows.Input;
-using WPF_BudgetApp.ViewModel;
 
 namespace WPF_BudgetApp.Windows;
 
-public partial class CategoryForm : Window
+public partial class ConfirmWindow : Window
 {
 	public event EventHandler<bool>? ConfirmEvent;
-	public readonly bool IsUpdate;
 	
-	public CategoryForm(DashboardViewModel parentVM, bool isUpdate) : base()
+	public ConfirmWindow()
 	{
 		InitializeComponent();
 		Topmost = true;
 		Deactivated += Window_Deactivated;
-		
-		DataContext = parentVM.CatFormDTO;
-		IsUpdate = isUpdate;
 	}
 	
 	private void Window_Deactivated(object? sender, EventArgs e)
@@ -25,20 +19,14 @@ public partial class CategoryForm : Window
 		Focus();
 	}
 	
-	private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-	{
-		if(e.ChangedButton == MouseButton.Left)
-			DragMove();
-	}
-	
-	private void ConfirmButt_OnClick(object sender, RoutedEventArgs e)
+	protected void ConfirmButt_OnClick(object sender, RoutedEventArgs e)
 	{
 		ConfirmEvent?.Invoke(this, true);
 		UnsubscribeAllEvents();
 		Close();
 	}
 
-	private void CancelButt_OnClick(object sender, RoutedEventArgs e)
+	protected void CancelButt_OnClick(object sender, RoutedEventArgs e)
 	{
 		ConfirmEvent?.Invoke(this, false);
 		UnsubscribeAllEvents();
