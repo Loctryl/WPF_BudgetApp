@@ -41,6 +41,8 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	#endregion
 	
+	public string GlobalBalance { get; set; }
+	
 	public DashboardViewModel(MainViewModel mainVM) : base(mainVM)
 	{ 
 		AddCategoryCommand = new RelayCommand(_ => CategoryFormCall(false, ReceiveCategoryForm));
@@ -64,12 +66,22 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	private void UpdateAccounts()
 	{
+		GlobalBalance = string.Empty;
 		Accounts.Clear();
 		AccountsDTOs.Clear();
 		Accounts.AddRange(mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result);
+
+		float balance = 0;
 		
 		foreach (var acc in Accounts)
+		{
 			AccountsDTOs.Add(new AccountDisplayDTO(acc));
+			balance += acc.Balance;
+		}
+		if (balance >= 0)
+			GlobalBalance = "+";
+		
+		GlobalBalance += balance.ToString("c2");
 	}
 
 	private void UpdateCategories()
@@ -113,7 +125,11 @@ public class DashboardViewModel : BaseMenuViewModel
 
 	private async void ReceiveCategoryForm(object? sender, bool isConfirmed)
 	{
-		if (!isConfirmed) return;
+		if (!isConfirmed)
+		{
+			CatFormDTO.Reset();
+			return;
+		}
 		
 		Category cat = new Category();
 		if (CategoryForm.IsUpdate)
@@ -168,7 +184,11 @@ public class DashboardViewModel : BaseMenuViewModel
 
 	private async void ReceiveAccountForm(object? sender, bool isConfirmed)
 	{
-		if (!isConfirmed) return;
+		if (!isConfirmed)
+		{
+			AccFormDTO.Reset();
+			return;
+		}
 		
 		Account acc = new Account();
 		if (AccountForm.IsUpdate)
@@ -186,6 +206,7 @@ public class DashboardViewModel : BaseMenuViewModel
 			await mainVM.accountService.UpdateAccountAsync();
 		else
 		{
+			acc.Balance = AccFormDTO.AccountBalance;
 			acc.AppUserId = mainVM.CurrentUser.Id;
 			await mainVM.accountService.CreateAccountAsync(acc);
 		}

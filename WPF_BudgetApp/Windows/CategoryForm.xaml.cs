@@ -9,7 +9,7 @@ public partial class CategoryForm : Window
 	public event EventHandler<bool>? ConfirmEvent;
 	public readonly bool IsUpdate;
 	
-	public CategoryForm(DashboardViewModel parentVM, bool isUpdate) : base()
+	public CategoryForm(DashboardViewModel parentVM, bool isUpdate)
 	{
 		InitializeComponent();
 		Topmost = true;

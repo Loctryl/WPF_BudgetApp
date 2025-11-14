@@ -22,6 +22,13 @@
                 <RowDefinition Height="65*" />
             </Grid.RowDefinitions>
             
+            <Border Grid.Row="0">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Global Balance" Style="{StaticResource baseTextBlockStyle}" FontSize="30" />
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding GlobalBalance}" Style="{StaticResource baseTextBlockStyle}" FontSize="50" Foreground="Green"/>
+                </StackPanel>
+            </Border>
+            
             <Border Grid.Row="1" BorderThickness="0 1 0 1" BorderBrush="Gray">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -49,7 +56,6 @@
                                   SelectionMode="Single"
                                   IsReadOnly="True">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding AccountId}" Header="Account Id" />
                                 <DataGridTextColumn Binding="{Binding AccountName}" Header="Account Name" />
                                 <DataGridTextColumn Binding="{Binding AccountSymbol}" Header="Account Symbol" />
                                 
@@ -86,7 +92,6 @@
                                   SelectionMode="Single"
                                   IsReadOnly="True">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding CategoryId}" Header="Category Id" />
                                 <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category Name" />
                                 <DataGridTextColumn Binding="{Binding CategorySymbol}" Header="Symbol" />
                                 

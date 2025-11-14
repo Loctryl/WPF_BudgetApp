@@ -9,7 +9,7 @@ public partial class AccountForm : Window
 	public event EventHandler<bool>? ConfirmEvent;
 	public readonly bool IsUpdate;
 	
-	public AccountForm(DashboardViewModel parentVM, bool isUpdate) : base()
+	public AccountForm(DashboardViewModel parentVM, bool isUpdate)
 	{
 		InitializeComponent();
 		Topmost = true;
@@ -17,6 +17,7 @@ public partial class AccountForm : Window
 		
 		DataContext = parentVM.AccFormDTO;
 		IsUpdate = isUpdate;
+		balanceTB.Visibility = IsUpdate ? Visibility.Hidden : Visibility.Visible;
 	}
 	
 	private void Window_Deactivated(object? sender, EventArgs e)
