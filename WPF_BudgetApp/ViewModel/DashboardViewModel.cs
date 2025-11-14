@@ -14,30 +14,56 @@ public class DashboardViewModel : BaseMenuViewModel
 	public ICommand UpdateCategoryCommand { get; } 
 	public ICommand DeleteCategoryCommand { get; } 
 	
+	public ICommand AddAccountCommand { get; } 
+	public ICommand UpdateAccountCommand { get; } 
+	public ICommand DeleteAccountCommand { get; } 
+	
 	private CategoryForm CategoryForm { get; set; }
 	public CategoryFormDTO CatFormDTO { get; } = new CategoryFormDTO();
 	public CategoryDisplayDTO SelectedCategory { get; set; }
 	
+	private AccountForm AccountForm { get; set; }
+	public AccountFormDTO AccFormDTO { get; } = new AccountFormDTO();
+	public AccountDisplayDTO SelectedAccount { get; set; }
+	
 	public List<Account> Accounts { get; set; } = new List<Account>();
 	public List<Category> Categories { get; set; } = new List<Category>();
 	public ObservableCollection<CategoryDisplayDTO> CategoriesDTOs { get; set; } = new ObservableCollection<CategoryDisplayDTO>();
+	public ObservableCollection<AccountDisplayDTO> AccountsDTOs { get; set; } = new ObservableCollection<AccountDisplayDTO>();
 
 	public DashboardViewModel(MainViewModel mainVM) : base(mainVM)
 	{ 
 		AddCategoryCommand = new RelayCommand(_ => CategoryFormCall(false, ReceiveCategoryForm));
 		UpdateCategoryCommand = new RelayCommand(_ => CategoryFormCall(true, ReceiveCategoryForm));
 		DeleteCategoryCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteCategory));
+		
+		AddAccountCommand = new RelayCommand(_ => AccountFormCall(false, ReceiveAccountForm));
+		UpdateAccountCommand = new RelayCommand(_ => AccountFormCall(true, ReceiveAccountForm));
+		DeleteAccountCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteAccount));
 	}
 
 	public override void UpdateData()
 	{
 		base.UpdateData();
 		
+		UpdateAccounts();
+		UpdateCategories();
+	}
+	
+	private void UpdateAccounts()
+	{
 		Accounts.Clear();
+		AccountsDTOs.Clear();
+		Accounts.AddRange(mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result);
+		
+		foreach (var acc in Accounts)
+			AccountsDTOs.Add(new AccountDisplayDTO(acc));
+	}
+
+	private void UpdateCategories()
+	{
 		Categories.Clear();
 		CategoriesDTOs.Clear();
-		
-		Accounts.AddRange(mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result);
 		Categories.AddRange(mainVM.categoryService.GetAllCategoryAsync(mainVM.CurrentUser.Id).Result);
 		
 		foreach (var cat in Categories)
@@ -54,7 +80,9 @@ public class DashboardViewModel : BaseMenuViewModel
 			CategoriesDTOs.Add(disp);
 		}
 	}
-
+	
+	#region CategoryForm
+	
 	private void CategoryFormCall(bool isUpdate, EventHandler<bool> func)
 	{
 		if (isUpdate)
@@ -96,13 +124,70 @@ public class DashboardViewModel : BaseMenuViewModel
 		CategoryForm.ConfirmEvent -= ReceiveCategoryForm;
 		CategoryForm.Close();
 		CatFormDTO.Reset();
-		UpdateData();
+		UpdateCategories();
 	}
 
 	private async void DeleteCategory(object? sender, bool isConfirmed)
 	{
 		if (!isConfirmed) return;
 		await mainVM.categoryService.DeleteCategoryAsync(mainVM.CurrentUser.Id, SelectedCategory.CategoryId);
-		UpdateData();
+		UpdateCategories();
 	}
+	
+	#endregion
+	
+	#region AccountForm
+	
+	private void AccountFormCall(bool isUpdate, EventHandler<bool> func)
+	{
+		if (isUpdate)
+		{
+			AccFormDTO.AccountName = SelectedAccount.AccountName;
+			AccFormDTO.AccountSymbol = SelectedAccount.AccountSymbol;
+			AccFormDTO.AccountColor = SelectedAccount.AccountColor;
+		}
+		
+		AccountForm = new AccountForm(this, isUpdate);
+		AccountForm.ConfirmEvent += func;
+		AccountForm.Show();
+	}
+
+	private async void ReceiveAccountForm(object? sender, bool isConfirmed)
+	{
+		if (!isConfirmed) return;
+		
+		Account acc = new Account();
+		if (AccountForm.IsUpdate)
+		{
+			acc = Accounts.Where(a => a.Id == SelectedAccount.AccountId).FirstOrDefault();
+			if (acc == null)
+				return;
+		}
+		
+		acc.SourceName = AccFormDTO.AccountName;
+		acc.Symbol = AccFormDTO.AccountSymbol;
+		acc.Color = AccFormDTO.AccountColor;
+		
+		if (AccountForm.IsUpdate)
+			await mainVM.accountService.UpdateAccountAsync();
+		else
+		{
+			acc.AppUserId = mainVM.CurrentUser.Id;
+			await mainVM.accountService.CreateAccountAsync(acc);
+		}
+		
+		AccountForm.ConfirmEvent -= ReceiveAccountForm;
+		AccountForm.Close();
+		AccFormDTO.Reset();
+		UpdateAccounts();
+	}
+
+	private async void DeleteAccount(object? sender, bool isConfirmed)
+	{
+		if (!isConfirmed) return;
+		await mainVM.accountService.DeleteAccountAsync(mainVM.CurrentUser.Id, SelectedAccount.AccountId);
+		UpdateAccounts();
+	}
+	
+	#endregion
 }

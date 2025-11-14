@@ -18,21 +18,54 @@
         
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60*" />
-                <RowDefinition Height="40*" />
+                <RowDefinition Height="35*" />
+                <RowDefinition Height="65*" />
             </Grid.RowDefinitions>
             
-            <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Gray">
+            <Border Grid.Row="1" BorderThickness="0 1 0 1" BorderBrush="Gray">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     
-                    <Border Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="Gray">
-                        <TextBlock Text="Dashboard" Style="{StaticResource baseTextBlockStyle}" FontSize="50"></TextBlock>
-                        
-                    </Border>
+                    <StackPanel Grid.Column="0">
+                        <StackPanel Height="25" Orientation="Horizontal">
+                            <Button Name="addAccountButt" Command="{Binding AddAccountCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
+                                <iconPacks:PackIconMaterial Kind="Plus" Width="15" Height="15" />
+                            </Button> 
+                            <Button Name="updateAccountButt" Command="{Binding UpdateAccountCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                                <iconPacks:PackIconMaterial Kind="ApplicationEdit" Width="15" Height="15" />
+                            </Button>
+                            <Button Name="deleteAccountButt" Command="{Binding DeleteAccountCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                                <iconPacks:PackIconMaterial Kind="TrashCan" Width="15" Height="15" />
+                            </Button>
+                        </StackPanel>
+                    
+                        <DataGrid Name="AccountGrid" AutoGenerateColumns="False"
+                                  ItemsSource="{Binding AccountsDTOs}"
+                                  SelectedItem="{Binding SelectedAccount}"
+                                  SelectionChanged="AccountGrid_OnSelectionChanged"
+                                  SelectionMode="Single"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding AccountId}" Header="Account Id" />
+                                <DataGridTextColumn Binding="{Binding AccountName}" Header="Account Name" />
+                                <DataGridTextColumn Binding="{Binding AccountSymbol}" Header="Account Symbol" />
+                                
+                                <DataGridTextColumn Binding="{Binding AccountColor}" Header="Account Color">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Background" Value="{Binding AccountColor}" />
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                
+                                <DataGridTextColumn Binding="{Binding AccountBalance}" Header="Account Balance" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                    
                     <StackPanel Grid.Column="1">
                         <StackPanel Height="25" Orientation="Horizontal">
                             <Button Name="addCategoryButt" Command="{Binding AddCategoryCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">

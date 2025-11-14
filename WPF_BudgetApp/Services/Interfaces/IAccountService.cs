@@ -8,7 +8,7 @@ public interface IAccountService
 	
 	Task<List<Account>> GetAllAccountAsync(uint userId);
 	Task<Account?> GetAccountByIdAsync(uint userId, uint accountId);
-	Task<Account> CreateAccountAsync(uint userId, Account account);
+	Task<Account> CreateAccountAsync(Account account);
 	Task UpdateAccountAsync();
 	
 	Task<Account?> DeleteAccountAsync(uint userId, uint accountId);

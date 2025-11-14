@@ -30,9 +30,8 @@ public class AccountService : ServiceBase<Account>, IAccountService
 	public async Task<Account?> GetAccountByIdAsync(uint userId, uint accountId) 
 		=> await CheckedListWithUser(userId).FirstOrDefaultAsync(x => x.Id == accountId);
 
-	public async Task<Account> CreateAccountAsync(uint userId, Account account)
+	public async Task<Account> CreateAccountAsync(Account account)
 	{
-		account.AppUserId = userId;
 		await _context.Accounts.AddAsync(account);
 		await _context.SaveChangesAsync();
 		return account;

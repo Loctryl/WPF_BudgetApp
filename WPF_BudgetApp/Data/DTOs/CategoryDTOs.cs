@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using WPF_BudgetApp.Data.Models;
+﻿using WPF_BudgetApp.Data.Models;
 
 namespace WPF_BudgetApp.Data.DTOs;
 

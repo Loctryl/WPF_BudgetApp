@@ -54,7 +54,8 @@ public class LoginViewModel : BaseViewModel
 		account.Symbol = "CASH";
 		
 		var user = await mainVM.appUserService.CreateAppUserAsync(appuser);
-		await mainVM.accountService.CreateAccountAsync(appuser.Id, account);
+		account.AppUserId = appuser.Id;
+		await mainVM.accountService.CreateAccountAsync(account);
 		
 		appuser.Accounts.Add(account);
 		await mainVM.appUserService.UpdateAppUserAsync();
