@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.DTOs;
@@ -10,6 +9,8 @@ namespace WPF_BudgetApp.ViewModel;
 
 public class DashboardViewModel : BaseMenuViewModel
 {
+	#region Commands
+
 	public ICommand AddCategoryCommand { get; } 
 	public ICommand UpdateCategoryCommand { get; } 
 	public ICommand DeleteCategoryCommand { get; } 
@@ -18,19 +19,28 @@ public class DashboardViewModel : BaseMenuViewModel
 	public ICommand UpdateAccountCommand { get; } 
 	public ICommand DeleteAccountCommand { get; } 
 	
+	#endregion
+	
+	#region Category management
+	
 	private CategoryForm CategoryForm { get; set; }
 	public CategoryFormDTO CatFormDTO { get; } = new CategoryFormDTO();
 	public CategoryDisplayDTO SelectedCategory { get; set; }
+	public List<Category> Categories { get; set; } = new List<Category>();
+	public ObservableCollection<CategoryDisplayDTO> CategoriesDTOs { get; set; } = new ObservableCollection<CategoryDisplayDTO>();
+	
+	#endregion
+	
+	#region Account management
 	
 	private AccountForm AccountForm { get; set; }
 	public AccountFormDTO AccFormDTO { get; } = new AccountFormDTO();
 	public AccountDisplayDTO SelectedAccount { get; set; }
-	
 	public List<Account> Accounts { get; set; } = new List<Account>();
-	public List<Category> Categories { get; set; } = new List<Category>();
-	public ObservableCollection<CategoryDisplayDTO> CategoriesDTOs { get; set; } = new ObservableCollection<CategoryDisplayDTO>();
 	public ObservableCollection<AccountDisplayDTO> AccountsDTOs { get; set; } = new ObservableCollection<AccountDisplayDTO>();
-
+	
+	#endregion
+	
 	public DashboardViewModel(MainViewModel mainVM) : base(mainVM)
 	{ 
 		AddCategoryCommand = new RelayCommand(_ => CategoryFormCall(false, ReceiveCategoryForm));
@@ -41,7 +51,9 @@ public class DashboardViewModel : BaseMenuViewModel
 		UpdateAccountCommand = new RelayCommand(_ => AccountFormCall(true, ReceiveAccountForm));
 		DeleteAccountCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteAccount));
 	}
-
+	
+	#region Updating Data
+	
 	public override void UpdateData()
 	{
 		base.UpdateData();
@@ -80,6 +92,8 @@ public class DashboardViewModel : BaseMenuViewModel
 			CategoriesDTOs.Add(disp);
 		}
 	}
+	
+	#endregion
 	
 	#region CategoryForm
 	
