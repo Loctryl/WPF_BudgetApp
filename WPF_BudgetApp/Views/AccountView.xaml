@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WPF_BudgetApp.Views"
              xmlns:comps="clr-namespace:WPF_BudgetApp.Components"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="1600">
     <Grid>
@@ -17,8 +18,8 @@
         
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60*" />
-                <RowDefinition Height="40*" />
+                <RowDefinition Height="35*" />
+                <RowDefinition Height="65*" />
             </Grid.RowDefinitions>
             
             <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Gray">
@@ -34,6 +35,42 @@
                     </Border>
                 </Grid>
             </Border>
+            
+            <StackPanel Grid.Row="1">
+                <StackPanel Height="25" Orientation="Horizontal">
+                    <Button Name="addTransferButt" Command="{Binding AddTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
+                        <iconPacks:PackIconMaterial Kind="Plus" Width="15" Height="15" />
+                    </Button> 
+                    <Button Name="updateTransferButt" Command="{Binding UpdateTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                        <iconPacks:PackIconMaterial Kind="ApplicationEdit" Width="15" Height="15" />
+                    </Button>
+                    <Button Name="deleteTransferButt" Command="{Binding DeleteTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                        <iconPacks:PackIconMaterial Kind="TrashCan" Width="15" Height="15" />
+                    </Button>
+                </StackPanel>
+                    
+                <DataGrid Name="AccountGrid" AutoGenerateColumns="False"
+                          ItemsSource="{Binding TransfersDTOs}"
+                          SelectedItem="{Binding SelectedTransfer}"
+                          SelectionChanged="TransferGrid_OnSelectionChanged"
+                          SelectionMode="Single"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding TransferName}" Header="Account Name" />
+                                
+                        <DataGridTextColumn Binding="{Binding TransferCategoryName}" Header="Transfer Category">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="{Binding TransferCategoryColor}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                                
+                        <DataGridTextColumn Binding="{Binding TransferAmount}" Header="Transfer Amount" />
+                        <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
             
         </Grid>
     </Grid>

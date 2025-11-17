@@ -28,16 +28,14 @@ public class TransferService : ServiceBase<Transfer>, ITransferService
 	{
 		var queryable = CheckedListWithUser(userId);
 		
-		if(!string.IsNullOrWhiteSpace(query.Source))
-			queryable = queryable.Where(s => s.SourceName.Contains(query.Source));
-		
-		if(query.BankId != uint.MaxValue)
-			queryable = queryable.Where(s => s.AccountId == query.BankId);
+		if(!string.IsNullOrWhiteSpace(query.SourceName))
+			queryable = queryable.Where(s => s.SourceName.Contains(query.SourceName));
 		
 		if(query.CategoryId != uint.MaxValue)
 			queryable = queryable.Where(s => s.CategoryId == query.CategoryId);
 		
-		queryable = query.Reviewed ? queryable.Where(s => s.Reviewed) : queryable.Where(s => !s.Reviewed);
+		queryable = queryable.Where(s => s.Amount >=  query.MinAmount);
+		queryable = queryable.Where(s => s.Amount <=  query.MaxAmount);
 		
 		queryable = queryable.OrderByProperty(query.OrderBy);
 		
