@@ -11,7 +11,7 @@ public class AccountViewModel : BaseMenuViewModel
 {
 	public Account CurrentSelectedAccount { get; set; }
 	public List<Account> Accounts { get; set; } = new List<Account>();
-	public AccountDisplayDTO AccountsDTOs { get; set; }
+	public AccountDisplayDTO AccountsDTO { get; set; }
 	
 	#region Commands
 
@@ -32,6 +32,9 @@ public class AccountViewModel : BaseMenuViewModel
 	
 	#endregion
 	
+	public ObservableCollection<CategoryDisplayDTO> CategoriesDTOs { get; set; } = new ObservableCollection<CategoryDisplayDTO>();
+	
+	
 	public AccountViewModel(MainViewModel mainVM) : base(mainVM)
 	{
 		AddTransferCommand = new RelayCommand(_ => TransferFormCall(false, ReceiveTransferForm));
@@ -45,6 +48,18 @@ public class AccountViewModel : BaseMenuViewModel
 	{
 		base.UpdateData();
 		
+		UpdateAccounts();
+	}
+
+	private void UpdateAccounts()
+	{
+		Accounts.Clear();
+		Accounts.AddRange(mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result);
+	}
+
+	public void UpdateSelectedAccount()
+	{
+		AccountsDTO = new AccountDisplayDTO(CurrentSelectedAccount);
 		UpdateTransfers();
 	}
 	
@@ -52,10 +67,31 @@ public class AccountViewModel : BaseMenuViewModel
 	{
 		Transfers.Clear();
 		TransfersDTOs.Clear();
-		Transfers.AddRange(mainVM.transferService.GetAllTransfersAsync(mainVM.CurrentUser.Id, null).Result);
+		CategoriesDTOs.Clear();
 		
+		if(CurrentSelectedAccount == null) return;
+		
+		Transfers.AddRange(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result);
+
 		foreach (var transfer in Transfers)
+		{
 			TransfersDTOs.Add(new TransferDisplayDTO(transfer));
+
+			if (!(transfer.OperationDate.Month == DateTime.Now.Month || transfer.OperationDate.Month == DateTime.Now.Month-1)) return;
+
+			var cat = CategoriesDTOs.Where(c => c.CategoryId == transfer.CategoryId).FirstOrDefault();
+
+			if (cat == null)
+			{
+				cat = new CategoryDisplayDTO(transfer.Category);
+				CategoriesDTOs.Add(cat);
+			}
+			
+			if(transfer.OperationDate.Month == DateTime.Now.Month)
+				cat.CategoryCurrentMonth += transfer.Amount;
+			else
+				cat.CategoryLastMonth += transfer.Amount;
+		}
 	}
 	
 	#endregion

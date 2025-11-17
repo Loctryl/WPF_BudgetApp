@@ -30,8 +30,16 @@
                     </Grid.ColumnDefinitions>
                     
                     <Border Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="Gray">
-                        <TextBlock Text="Account" Style="{StaticResource baseTextBlockStyle}" FontSize="50"></TextBlock>
-                        
+                        <StackPanel>
+                            <TextBlock Text="Selected Account : " Style="{StaticResource baseTextBlockStyle}" FontSize="15" />
+                            <ComboBox Name="selectedAccountCB" 
+                                      ItemsSource="{Binding Accounts}" 
+                                      SelectedItem="{Binding CurrentSelectedAccount}"
+                                      DisplayMemberPath="SourceName"
+                                      SelectedValuePath="SourceName"
+                                      SelectionChanged="SelectedAccountCB_OnSelectionChanged">
+                            </ComboBox>
+                        </StackPanel>
                     </Border>
                 </Grid>
             </Border>
@@ -56,7 +64,7 @@
                           SelectionMode="Single"
                           IsReadOnly="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding TransferName}" Header="Account Name" />
+                        <DataGridTextColumn Binding="{Binding TransferName}" Header="Transfer Name" />
                                 
                         <DataGridTextColumn Binding="{Binding TransferCategoryName}" Header="Transfer Category">
                             <DataGridTextColumn.CellStyle>

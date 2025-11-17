@@ -47,7 +47,7 @@ public partial class LoginView : UserControl
 	private void PasswordBox_OnChange(object sender, RoutedEventArgs e)
 	{
 		if (this.DataContext != null)
-		{ ((dynamic)this.DataContext).Password = ((PasswordBox)sender).Password; }
+		{ ((LoginViewModel)this.DataContext).Password = ((PasswordBox)sender).Password; }
 		
 		var passwordBox = (PasswordBox)sender;
 		IsPasswordValid = passwordBox.Password != string.Empty;
