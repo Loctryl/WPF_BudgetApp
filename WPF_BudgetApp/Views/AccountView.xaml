@@ -30,19 +30,50 @@
                     </Grid.ColumnDefinitions>
                     
                     <Border Grid.Column="0" BorderThickness="0 0 1 0" BorderBrush="Gray">
-                        <StackPanel>
-                            <TextBlock Text="Selected Account : " Style="{StaticResource baseTextBlockStyle}" FontSize="15" />
-                            <ComboBox Name="selectedAccountCB" 
-                                      ItemsSource="{Binding Accounts}" 
-                                      SelectedItem="{Binding CurrentSelectedAccount}"
-                                      DisplayMemberPath="SourceName"
-                                      SelectedValuePath="SourceName"
-                                      SelectionChanged="SelectedAccountCB_OnSelectionChanged">
-                            </ComboBox>
-                        </StackPanel>
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="Selected Account : " Style="{StaticResource baseTextBlockStyle}" FontSize="15" />
+                                <ComboBox Name="selectedAccountCB" 
+                                          ItemsSource="{Binding Accounts}" 
+                                          SelectedItem="{Binding CurrentSelectedAccount}"
+                                          DisplayMemberPath="SourceName"
+                                          SelectedValuePath="SourceName"
+                                          SelectionChanged="SelectedAccountCB_OnSelectionChanged"
+                                          >
+                                </ComboBox>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="Account Balance" Style="{StaticResource baseTextBlockStyle}" FontSize="30" />
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedBalance}" Style="{StaticResource baseTextBlockStyle}" FontSize="50" Foreground="Green"/>
+                            </StackPanel>
+                        </Grid>
                     </Border>
+                    
+                    <DataGrid Grid.Row="0" Grid.Column="1" Name="CategoryGrid" AutoGenerateColumns="False"
+                                  ItemsSource="{Binding CategoriesDTOs}"
+                                  SelectionMode="Single"
+                                  IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category Name" />
+                            <DataGridTextColumn Binding="{Binding CategorySymbol}" Header="Symbol" />
+                                
+                            <DataGridTextColumn Binding="{Binding CategoryColor}" Header="Color">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="{Binding CategoryColor}" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                                
+                            <DataGridTextColumn Binding="{Binding CategoryCurrentMonth}" Header="Current Month" />
+                            <DataGridTextColumn Binding="{Binding CategoryLastMonth}" Header="Last Month" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </Border>
+            
+            
             
             <StackPanel Grid.Row="1">
                 <StackPanel Height="25" Orientation="Horizontal">

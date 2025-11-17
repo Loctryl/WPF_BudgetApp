@@ -10,6 +10,8 @@ namespace WPF_BudgetApp.ViewModel;
 public class AccountViewModel : BaseMenuViewModel
 {
 	public Account CurrentSelectedAccount { get; set; }
+	public string SelectedBalance { get; set; }
+
 	public List<Account> Accounts { get; set; } = new List<Account>();
 	public AccountDisplayDTO AccountsDTO { get; set; }
 	
@@ -60,6 +62,7 @@ public class AccountViewModel : BaseMenuViewModel
 	public void UpdateSelectedAccount()
 	{
 		AccountsDTO = new AccountDisplayDTO(CurrentSelectedAccount);
+		SelectedBalance = AccountsDTO.AccountBalance.ToString("c2");
 		UpdateTransfers();
 	}
 	

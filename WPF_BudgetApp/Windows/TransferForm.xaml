@@ -25,19 +25,24 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 
-                <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Account Name" />
-                <TextBox Grid.Row="0" Name="nameTB" Style="{StaticResource textBox}" Height="25" Text="{Binding AccountName}" />
+                <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Transfer Name" />
+                <TextBox Grid.Row="0" Name="nameTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferName}" />
                 
-                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Account Symbol" />
-                <TextBox Grid.Row="1" Name="symbolTB" Style="{StaticResource textBox}" Height="25" Text="{Binding AccountSymbol}" />
+                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Transfer Amount" />
+                <TextBox Grid.Row="1" Name="amountTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferAmount}" />
                 
-                <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Account Color" />
-                <TextBox Grid.Row="2" Name="colorTB" Style="{StaticResource textBox}" Height="25" Text="{Binding AccountColor}" />
+                <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Transfer Category" />
+                <ComboBox Grid.Row="2" Name="selectedAccountCB" 
+                          ItemsSource="{Binding Categories}" 
+                          SelectedItem="{Binding TransferCategory}"
+                          DisplayMemberPath="SourceName"
+                          SelectedValuePath="SourceName"
+                          Height="25"
+                >
+                </ComboBox>
                 
-                <Grid Grid.Row="3" Name="balanceTB">
-                    <Label Style="{StaticResource labelTextBox}" Content="Account Balance" />
-                    <TextBox Style="{StaticResource textBox}" Height="25" Text="{Binding AccountBalance}" />
-                </Grid>
+                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Transfer Amount" />
+                <TextBox Grid.Row="1" Name="symbolTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferAmount}" />
                 
                 <Grid Grid.Row="4" Height="40" MinWidth="220" HorizontalAlignment="Center">
                     <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />
