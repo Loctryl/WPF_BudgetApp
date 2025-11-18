@@ -6,8 +6,24 @@
              xmlns:local="clr-namespace:WPF_BudgetApp.Views"
              xmlns:comps="clr-namespace:WPF_BudgetApp.Components"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d"
+    
              d:DesignHeight="900" d:DesignWidth="1600">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="SortedCategorySource" Source="{Binding CategoriesDTOs}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="CategoryCurrentMonth" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        
+        <CollectionViewSource x:Key="SortedTransferSource" Source="{Binding TransfersDTOs}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="TransferDate" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*" />
@@ -51,7 +67,7 @@
                     </Border>
                     
                     <DataGrid Grid.Row="0" Grid.Column="1" Name="CategoryGrid" AutoGenerateColumns="False"
-                                  ItemsSource="{Binding CategoriesDTOs}"
+                                  ItemsSource="{Binding Source={StaticResource SortedCategorySource}}"
                                   SelectionMode="Single"
                                   IsReadOnly="True"
                                   >
@@ -67,7 +83,7 @@
                                 </DataGridTextColumn.CellStyle>
                             </DataGridTextColumn>
                                 
-                            <DataGridTextColumn Binding="{Binding CategoryCurrentMonth}" Header="Current Month" SortDirection="Descending" />
+                            <DataGridTextColumn Binding="{Binding CategoryCurrentMonth}" Header="Current Month" />
                             <DataGridTextColumn Binding="{Binding CategoryLastMonth}" Header="Last Month" />
                         </DataGrid.Columns>
                     </DataGrid>
@@ -90,7 +106,7 @@
                 </StackPanel>
                     
                 <DataGrid Name="AccountGrid" AutoGenerateColumns="False"
-                          ItemsSource="{Binding TransfersDTOs}"
+                          ItemsSource="{Binding Source={StaticResource SortedTransferSource}}"
                           SelectedItem="{Binding SelectedTransfer}"
                           SelectionChanged="TransferGrid_OnSelectionChanged"
                           SelectionMode="Single"
@@ -107,7 +123,7 @@
                         </DataGridTextColumn>
                                 
                         <DataGridTextColumn Binding="{Binding TransferAmount}" Header="Transfer Amount" />
-                        <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" SortDirection="Descending" />
+                        <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
