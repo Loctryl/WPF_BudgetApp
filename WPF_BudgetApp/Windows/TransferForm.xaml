@@ -42,7 +42,7 @@
                 </ComboBox>
                 
                 <Label Grid.Row="3" Style="{StaticResource labelTextBox}" Content="Transfer Date" />
-                <DatePicker Grid.Row="3" Name="dateTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferDate}" />
+                <DatePicker Grid.Row="3" Name="dateTB" Style="{StaticResource textBox}" Height="25" SelectedDate="{Binding TransferDate}" />
                 
                 <Grid Grid.Row="4" Height="40" MinWidth="220" HorizontalAlignment="Center">
                     <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />
