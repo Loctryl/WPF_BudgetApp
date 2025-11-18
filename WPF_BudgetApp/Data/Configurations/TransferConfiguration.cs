@@ -28,7 +28,7 @@ public class TransferConfiguration : IEntityTypeConfiguration<Transfer>
 
 		// Relations
 		builder.HasOne(a => a.Category)
-			.WithMany(u => u.Transfers)
+			.WithMany(c => c.Transfers)
 			.HasForeignKey(a => a.CategoryId)
 			.OnDelete(DeleteBehavior.Restrict);
 

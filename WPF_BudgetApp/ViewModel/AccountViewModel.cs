@@ -103,14 +103,19 @@ public class AccountViewModel : BaseMenuViewModel
 	
 	private void TransferFormCall(bool isUpdate, EventHandler<bool> func)
 	{
+		TransFormDTO.TransferDate = DateTime.Now;
+		TransFormDTO.TransferAccount = CurrentSelectedAccount.Id;
+		
 		if (isUpdate)
 		{
 			TransFormDTO.TransferName = SelectedTransfer.TransferName;
 			TransFormDTO.TransferAmount = SelectedTransfer.TransferAmount;
-			TransFormDTO.TransferCategory = SelectedTransfer.TransferCategory;
+			TransFormDTO.TransferCategory = mainVM.categoryService.GetCategoryByIdAsync(mainVM.CurrentUser.Id, SelectedTransfer.TransferCategory).Result;
 			TransFormDTO.TransferAccount = SelectedTransfer.TransferAccount;
 			TransFormDTO.TransferDate = SelectedTransfer.TransferDate;
 		}
+		
+		TransFormDTO.Categories = mainVM.categoryService.GetAllCategoryAsync(mainVM.CurrentUser.Id).Result;
 		
 		TransferForm = new TransferForm(this, isUpdate);
 		TransferForm.ConfirmEvent += func;
@@ -134,23 +139,38 @@ public class AccountViewModel : BaseMenuViewModel
 		}
 		
 		trans.SourceName = TransFormDTO.TransferName;
-		
+		trans.Amount = TransFormDTO.TransferAmount;
+		trans.CategoryId = TransFormDTO.TransferCategory.Id;
+		trans.AccountId = TransFormDTO.TransferAccount;
+		trans.OperationDate = TransFormDTO.TransferDate;
+
 		if (TransferForm.IsUpdate)
+		{
+			if (trans.Amount != SelectedTransfer.TransferAmount)
+			{
+				CurrentSelectedAccount.Balance -= SelectedTransfer.TransferAmount;
+				CurrentSelectedAccount.Balance += trans.Amount;
+			}
 			await mainVM.transferService.UpdateTransferAsync();
+		}
 		else
+		{
+			CurrentSelectedAccount.Balance += trans.Amount;
 			await mainVM.transferService.CreateTransferAsync(trans);
+		}
 		
 		TransferForm.ConfirmEvent -= ReceiveTransferForm;
 		TransferForm.Close();
 		TransFormDTO.Reset();
-		UpdateTransfers();
+		UpdateSelectedAccount();
 	}
 
 	private async void DeleteTransfer(object? sender, bool isConfirmed)
 	{
 		if (!isConfirmed) return;
+		CurrentSelectedAccount.Balance -= SelectedTransfer.TransferAmount;
 		await mainVM.transferService.DeleteTransferAsync(mainVM.CurrentUser.Id, SelectedTransfer.TransferId);
-		UpdateTransfers();
+		UpdateSelectedAccount();
 	}
 	
 	#endregion

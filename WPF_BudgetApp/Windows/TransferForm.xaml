@@ -32,7 +32,7 @@
                 <TextBox Grid.Row="1" Name="amountTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferAmount}" />
                 
                 <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Transfer Category" />
-                <ComboBox Grid.Row="2" Name="selectedAccountCB" 
+                <ComboBox Grid.Row="2" Name="categoryCB" 
                           ItemsSource="{Binding Categories}" 
                           SelectedItem="{Binding TransferCategory}"
                           DisplayMemberPath="SourceName"
@@ -41,8 +41,8 @@
                 >
                 </ComboBox>
                 
-                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Transfer Amount" />
-                <TextBox Grid.Row="1" Name="symbolTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferAmount}" />
+                <Label Grid.Row="3" Style="{StaticResource labelTextBox}" Content="Transfer Date" />
+                <DatePicker Grid.Row="3" Name="dateTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferDate}" />
                 
                 <Grid Grid.Row="4" Height="40" MinWidth="220" HorizontalAlignment="Center">
                     <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />

@@ -6,7 +6,7 @@ public class TransferFormDTO
 {
 	public string TransferName { get; set; }
 	public float TransferAmount { get; set; }
-	public uint TransferCategory { get; set; }
+	public Category TransferCategory { get; set; }
 	public uint TransferAccount { get; set; }
 	public DateTime TransferDate { get; set; }
 
@@ -14,10 +14,12 @@ public class TransferFormDTO
 	{
 		TransferName = string.Empty;
 		TransferAmount = 0f;
-		TransferCategory = 0;
+		TransferCategory = null;
 		TransferAccount = 0;
 		TransferDate = DateTime.Now;
 	}
+	
+	public List<Category> Categories { get; set; }
 }
 
 public class TransferDisplayDTO(Transfer transfer)

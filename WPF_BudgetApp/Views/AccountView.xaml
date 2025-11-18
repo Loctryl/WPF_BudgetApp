@@ -53,7 +53,8 @@
                     <DataGrid Grid.Row="0" Grid.Column="1" Name="CategoryGrid" AutoGenerateColumns="False"
                                   ItemsSource="{Binding CategoriesDTOs}"
                                   SelectionMode="Single"
-                                  IsReadOnly="True">
+                                  IsReadOnly="True"
+                                  >
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category Name" />
                             <DataGridTextColumn Binding="{Binding CategorySymbol}" Header="Symbol" />
@@ -66,7 +67,7 @@
                                 </DataGridTextColumn.CellStyle>
                             </DataGridTextColumn>
                                 
-                            <DataGridTextColumn Binding="{Binding CategoryCurrentMonth}" Header="Current Month" />
+                            <DataGridTextColumn Binding="{Binding CategoryCurrentMonth}" Header="Current Month" SortDirection="Descending" />
                             <DataGridTextColumn Binding="{Binding CategoryLastMonth}" Header="Last Month" />
                         </DataGrid.Columns>
                     </DataGrid>
@@ -106,7 +107,7 @@
                         </DataGridTextColumn>
                                 
                         <DataGridTextColumn Binding="{Binding TransferAmount}" Header="Transfer Amount" />
-                        <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" />
+                        <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" SortDirection="Descending" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
