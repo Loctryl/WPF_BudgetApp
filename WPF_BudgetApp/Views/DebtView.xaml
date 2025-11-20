@@ -5,8 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WPF_BudgetApp.Views"
              xmlns:comps="clr-namespace:WPF_BudgetApp.Components"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="1600">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="SortedDebtSource" Source="{Binding DebtsDTOs}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="TransferDate" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*" />
@@ -16,7 +26,42 @@
         <comps:Menu Grid.Column="0" />
         
         <Grid Grid.Column="1">
-            <TextBlock Text="Debts" Style="{StaticResource baseTextBlockStyle}" FontSize="50"></TextBlock>
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Debts" Style="{StaticResource baseTextBlockStyle}" FontSize="50" />
+                <StackPanel Height="25" Orientation="Horizontal">
+                    <Button Name="addDebtButt" Command="{Binding AddDebtCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
+                        <iconPacks:PackIconMaterial Kind="Plus" Width="15" Height="15" />
+                    </Button> 
+                    <Button Name="updateDebtButt" Command="{Binding UpdateDebtCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                        <iconPacks:PackIconMaterial Kind="ApplicationEdit" Width="15" Height="15" />
+                    </Button>
+                    <Button Name="deleteDebtButt" Command="{Binding DeleteDebtCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                        <iconPacks:PackIconMaterial Kind="TrashCan" Width="15" Height="15" />
+                    </Button>
+                </StackPanel>
+                        
+                <DataGrid Name="AccountGrid" AutoGenerateColumns="False"
+                              ItemsSource="{Binding Source={StaticResource SortedDebtSource}}"
+                              SelectedItem="{Binding SelectedDebt}"
+                              SelectionChanged="DebtGrid_OnSelectionChanged"
+                              SelectionMode="Single"
+                              IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding TransferName}" Header="Transfer Name" />
+                                    
+                        <DataGridTextColumn Binding="{Binding TransferCategoryName}" Header="Transfer Category">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="{Binding TransferCategoryColor}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                                    
+                        <DataGridTextColumn Binding="{Binding TransferAmount}" Header="Transfer Amount" />
+                        <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

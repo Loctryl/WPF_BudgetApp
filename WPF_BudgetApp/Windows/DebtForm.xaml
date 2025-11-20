@@ -1,0 +1,51 @@
+﻿<Window x:Class="WPF_BudgetApp.Windows.DebtForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:WPF_BudgetApp.Windows"
+        mc:Ignorable="d"
+        Title="DebtForm" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent"
+        Style="{StaticResource window}">
+    <Border Background="#fff" BorderThickness="2" BorderBrush="Blue" MouseDown="Border_MouseDown">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="35*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                
+                <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Debt Name" />
+                <TextBox Grid.Row="0" Name="nameTB" Style="{StaticResource textBox}" Height="25" Text="{Binding DebtName}" />
+                
+                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Initial Amount" />
+                <TextBox Grid.Row="1" Name="symbolTB" Style="{StaticResource textBox}" Height="25" Text="{Binding DebtInitialAmount}" />
+                
+                <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Current Debt" />
+                <TextBox Grid.Row="2" Style="{StaticResource textBox}" Height="25" Text="{Binding DebtCurrentAmount}" />
+                
+                <Label Grid.Row="3" Style="{StaticResource labelTextBox}" Content="Interest Rate" />
+                <TextBox Grid.Row="3" Style="{StaticResource textBox}" Height="25" Text="{Binding DebtInterestRate}" />
+                
+                <Label Grid.Row="4" Style="{StaticResource labelTextBox}" Content="Debt Limit Date" />
+                <DatePicker Grid.Row="4" Name="dateTB" Style="{StaticResource textBox}" Height="25" SelectedDate="{Binding DebtLimitDate}" />
+                
+                <Grid Grid.Row="5" Height="40" MinWidth="220" HorizontalAlignment="Center">
+                    <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />
+                    <Button Name="CancelButt" Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
