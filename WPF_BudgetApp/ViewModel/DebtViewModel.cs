@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Windows.Input;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.DTOs;
 using WPF_BudgetApp.Data.Models;
+using WPF_BudgetApp.Resources;
 using WPF_BudgetApp.Windows;
 
 namespace WPF_BudgetApp.ViewModel;
@@ -103,8 +105,20 @@ public class DebtViewModel : BaseMenuViewModel
 		}
 		else
 		{
-			//TODO: creating a category with the debt
+			Random rnd = new Random();
 			
+			Category category = new Category();
+			category.SourceName = debt.SourceName;
+			category.Symbol = "DEBT";
+			category.Color = Helpers.ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
+			category.CreationDate = DateTime.Now;
+			category.LastUpdateDate = DateTime.Now;
+			category.AppUserId = mainVM.CurrentUser.Id;
+		
+			await mainVM.categoryService.CreateCategoryAsync(category);
+			
+			debt.CategoryId = category.Id;
+			debt.AppUserId = mainVM.CurrentUser.Id;
 			await mainVM.debtService.CreateDebtAsync(debt);
 		}
 		

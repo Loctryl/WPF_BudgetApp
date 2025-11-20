@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.Models;
+using WPF_BudgetApp.Resources;
 
 namespace WPF_BudgetApp.ViewModel;
 
@@ -75,7 +76,7 @@ public class LoginViewModel : BaseViewModel
 		// register successful
 		mainVM.SetCurrentUser(user);
 
-		//await PopulateNewUser(user);
+		await PopulateNewUser(user);
 		
 		mainVM.SwitchToDashBoard();
 	}
@@ -115,7 +116,7 @@ public class LoginViewModel : BaseViewModel
 		Account account = new Account();
 		account.SourceName = sourceName;
 		account.Symbol = symbol;
-		account.Color = ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
+		account.Color = Helpers.ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
 		account.Balance = (decimal)(rnd.Next(200000)) / (decimal)100;
 		account.CreationDate = DateTime.Now;
 		account.LastUpdateDate = DateTime.Now;
@@ -131,7 +132,7 @@ public class LoginViewModel : BaseViewModel
 		Category category = new Category();
 		category.SourceName = sourceName;
 		category.Symbol = symbol;
-		category.Color = ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
+		category.Color = Helpers.ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
 		category.CreationDate = DateTime.Now;
 		category.LastUpdateDate = DateTime.Now;
 		category.AppUserId = userId;
@@ -167,13 +168,10 @@ public class LoginViewModel : BaseViewModel
 		Random rnd = new Random();
 		
 		var year = DateTime.Now.Year;
-		var month = rnd.Next(1, 12);
+		var month = rnd.Next(6, 12);
 		var noOfDaysInMonth = DateTime.DaysInMonth(year, month);
 		var day = rnd.Next(1, noOfDaysInMonth == 11 ? 21 : noOfDaysInMonth);
 
 		return new DateTime(year, month, day);
 	}
-
-	private static string ToHex(Color c)
-		=> $"#{c.R:X2}{c.G:X2}{c.B:X2}";
 }

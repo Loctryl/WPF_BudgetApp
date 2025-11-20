@@ -32,6 +32,9 @@ public class DebtDisplayDTO(Debt debt)
 	public decimal DebtInitialAmount { get; set; } = debt.InitialAmount;
 	public decimal DebtCurrentAmount { get; set; } = debt.CurrentDebt;
 	public decimal DebtInterestRate { get; set; } = debt.InterestRate;
+	public uint DebtCategory { get; set; } = debt.CategoryId;
+	public string DebtCategoryName { get; set; } = debt.Category.SourceName;
+	public string DebtCategoryColor { get; set; } = debt.Category.Color;
 	public DateTime DebtLimitDate { get; set; } = debt.LimitDate;
 	public DateTime CreationDate { get; set; } = debt.CreationDate;
 	public DateTime LastUpdateDate { get; set; } =  debt.LastUpdateDate;

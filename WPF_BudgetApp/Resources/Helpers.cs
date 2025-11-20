@@ -2,7 +2,7 @@
 
 namespace WPF_BudgetApp.Resources;
 
-public static class StringFiltering
+public static class Helpers
 {
 	public static IQueryable<T> OrderByProperty<T>(this IQueryable<T> queryable, string propertyName, bool isDescending = false)
 	{
@@ -39,4 +39,10 @@ public static class StringFiltering
 		
 		return queryable;
 	}*/
+	
+	public static string ToHex(System.Windows.Media.Color c)
+		=> $"#{c.R:X2}{c.G:X2}{c.B:X2}";
+	
+	public static string ToHex(System.Drawing.Color c)
+		=> $"#{c.R:X2}{c.G:X2}{c.B:X2}";
 }

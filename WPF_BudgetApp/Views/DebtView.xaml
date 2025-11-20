@@ -47,18 +47,22 @@
                               SelectionMode="Single"
                               IsReadOnly="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding TransferName}" Header="Transfer Name" />
+                        <DataGridTextColumn Binding="{Binding DebtName}" Header="Debt Name" />
                                     
-                        <DataGridTextColumn Binding="{Binding TransferCategoryName}" Header="Transfer Category">
+                        <DataGridTextColumn Binding="{Binding DebtCategoryName}" Header="Debt Category">
                             <DataGridTextColumn.CellStyle>
                                 <Style TargetType="DataGridCell">
-                                    <Setter Property="Background" Value="{Binding TransferCategoryColor}" />
+                                    <Setter Property="Background" Value="{Binding DebtCategoryColor}" />
                                 </Style>
                             </DataGridTextColumn.CellStyle>
                         </DataGridTextColumn>
                                     
-                        <DataGridTextColumn Binding="{Binding TransferAmount}" Header="Transfer Amount" />
-                        <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" />
+                        <DataGridTextColumn Binding="{Binding DebtInitialAmount}" Header="Debt Initial Amount" />
+                        <DataGridTextColumn Binding="{Binding DebtCurrentAmount}" Header="Debt Current Amount" />
+                        <DataGridTextColumn Binding="{Binding DebtInterestRate}" Header="Debt Interest Rate" />
+                        <DataGridTextColumn Binding="{Binding DebtLimitDate}" Header="Debt Limit Date" />
+                        <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                        <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
