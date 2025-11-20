@@ -91,43 +91,94 @@
             </Border>
             
             
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="90*" />
+                </Grid.ColumnDefinitions>
             
-            <StackPanel Grid.Row="1">
-                <StackPanel Height="25" Orientation="Horizontal">
-                    <Button Name="addTransferButt" Command="{Binding AddTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
-                        <iconPacks:PackIconMaterial Kind="Plus" Width="15" Height="15" />
-                    </Button> 
-                    <Button Name="updateTransferButt" Command="{Binding UpdateTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
-                        <iconPacks:PackIconMaterial Kind="ApplicationEdit" Width="15" Height="15" />
-                    </Button>
-                    <Button Name="deleteTransferButt" Command="{Binding DeleteTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
-                        <iconPacks:PackIconMaterial Kind="TrashCan" Width="15" Height="15" />
-                    </Button>
-                </StackPanel>
+                <StackPanel x:Name="TransferMonthPanel" Grid.Column="0" VerticalAlignment="Stretch">
+                    <RadioButton Style="{StaticResource transferRadioButtons}" FontSize="15" 
+                                 Name="ProjectionsButton"
+                                 Content="Projections"
+                                 Command="{Binding TransferMonthCommand}"
+                                 CommandParameter="1"
+                    />
+                    <RadioButton Style="{StaticResource transferRadioButtons}" FontSize="15" IsChecked="True"
+                                 Name="CurrentMonthButton"
+                                 Content="Current Month"
+                                 Command="{Binding TransferMonthCommand}"
+                                 CommandParameter="0" 
+                    />
+                    <RadioButton Style="{StaticResource transferRadioButtons}" FontSize="15" 
+                                 Name="LastMonthButton"
+                                 Content="Last Month"
+                                 Command="{Binding TransferMonthCommand}"
+                                 CommandParameter="-1" 
+                    />
+                    <RadioButton Style="{StaticResource transferRadioButtons}" FontSize="15" 
+                                 Name="twoMonthsButton"
+                                 Content="2 Months Ago"
+                                 Command="{Binding TransferMonthCommand}"
+                                 CommandParameter="-2" 
+                    />
+                    <RadioButton Style="{StaticResource transferRadioButtons}" FontSize="15" 
+                                 Name="threeMonthsButton"
+                                 Content="3 Months Ago"
+                                 Command="{Binding TransferMonthCommand}"
+                                 CommandParameter="-3" 
+                    />
+                    <RadioButton Style="{StaticResource transferRadioButtons}" FontSize="15" 
+                                 Name="fourMonthsButton"
+                                 Content="4 Months Ago"
+                                 Command="{Binding TransferMonthCommand}"
+                                 CommandParameter="-4" 
+                    />
+                    <RadioButton Style="{StaticResource transferRadioButtons}" FontSize="15" 
+                                 Name="fiveMonthsButton"
+                                 Content="5 Months Ago"
+                                 Command="{Binding TransferMonthCommand}"
+                                 CommandParameter="-5" 
+                    />
                     
-                <DataGrid Name="AccountGrid" AutoGenerateColumns="False"
-                          ItemsSource="{Binding Source={StaticResource SortedTransferSource}}"
-                          SelectedItem="{Binding SelectedTransfer}"
-                          SelectionChanged="TransferGrid_OnSelectionChanged"
-                          SelectionMode="Single"
-                          IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding TransferName}" Header="Transfer Name" />
-                                
-                        <DataGridTextColumn Binding="{Binding TransferCategoryName}" Header="Transfer Category">
-                            <DataGridTextColumn.CellStyle>
-                                <Style TargetType="DataGridCell">
-                                    <Setter Property="Background" Value="{Binding TransferCategoryColor}" />
-                                </Style>
-                            </DataGridTextColumn.CellStyle>
-                        </DataGridTextColumn>
-                                
-                        <DataGridTextColumn Binding="{Binding TransferAmount}" Header="Transfer Amount" />
-                        <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
+                </StackPanel> 
             
+                <StackPanel Grid.Column="1">
+                    <StackPanel Height="25" Orientation="Horizontal">
+                        <Button Name="addTransferButt" Command="{Binding AddTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5">
+                            <iconPacks:PackIconMaterial Kind="Plus" Width="15" Height="15" />
+                        </Button> 
+                        <Button Name="updateTransferButt" Command="{Binding UpdateTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                            <iconPacks:PackIconMaterial Kind="ApplicationEdit" Width="15" Height="15" />
+                        </Button>
+                        <Button Name="deleteTransferButt" Command="{Binding DeleteTransferCommand}" Style="{StaticResource iconsButtons}" HorizontalAlignment="Left" Margin="5" IsEnabled="False">
+                            <iconPacks:PackIconMaterial Kind="TrashCan" Width="15" Height="15" />
+                        </Button>
+                    </StackPanel>
+                        
+                    <DataGrid Name="AccountGrid" AutoGenerateColumns="False"
+                              ItemsSource="{Binding Source={StaticResource SortedTransferSource}}"
+                              SelectedItem="{Binding SelectedTransfer}"
+                              SelectionChanged="TransferGrid_OnSelectionChanged"
+                              SelectionMode="Single"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding TransferName}" Header="Transfer Name" />
+                                    
+                            <DataGridTextColumn Binding="{Binding TransferCategoryName}" Header="Transfer Category">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="{Binding TransferCategoryColor}" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                                    
+                            <DataGridTextColumn Binding="{Binding TransferAmount}" Header="Transfer Amount" />
+                            <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

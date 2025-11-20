@@ -11,6 +11,7 @@ public class AccountViewModel : BaseMenuViewModel
 {
 	public Account CurrentSelectedAccount { get; set; }
 	public string SelectedBalance { get; set; }
+	public int SelectedMonth { get; set; }
 
 	public List<Account> Accounts { get; set; } = new List<Account>();
 	public AccountDisplayDTO AccountsDTO { get; set; }
@@ -21,6 +22,7 @@ public class AccountViewModel : BaseMenuViewModel
 	public ICommand UpdateTransferCommand { get; } 
 	public ICommand DeleteTransferCommand { get; } 
 	
+	public ICommand TransferMonthCommand { get; }
 	
 	#endregion
 	
@@ -42,6 +44,15 @@ public class AccountViewModel : BaseMenuViewModel
 		AddTransferCommand = new RelayCommand(_ => TransferFormCall(false, ReceiveTransferForm));
 		UpdateTransferCommand = new RelayCommand(_ => TransferFormCall(true, ReceiveTransferForm));
 		DeleteTransferCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteTransfer));
+		
+		TransferMonthCommand = new RelayCommand(TransferMonthSwitch);
+		
+	}
+
+	private void TransferMonthSwitch(object parameter)
+	{
+		SelectedMonth = Convert.ToInt32(parameter);
+		UpdateTransfers();
 	}
 	
 	#region Updating Data
@@ -73,14 +84,18 @@ public class AccountViewModel : BaseMenuViewModel
 		CategoriesDTOs.Clear();
 		
 		if(CurrentSelectedAccount == null) return;
+
+		if (SelectedMonth == 1)
+			return;
 		
 		Transfers.AddRange(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result);
 
 		foreach (var transfer in Transfers)
 		{
-			TransfersDTOs.Add(new TransferDisplayDTO(transfer));
+			if(transfer.OperationDate.Month == DateTime.Now.Month + SelectedMonth)
+				TransfersDTOs.Add(new TransferDisplayDTO(transfer));
 
-			if (!(transfer.OperationDate.Month == DateTime.Now.Month || transfer.OperationDate.Month == DateTime.Now.Month-1)) return;
+			if (!(transfer.OperationDate.Month == DateTime.Now.Month || transfer.OperationDate.Month == DateTime.Now.Month-1)) continue;
 
 			var cat = CategoriesDTOs.Where(c => c.CategoryId == transfer.CategoryId).FirstOrDefault();
 

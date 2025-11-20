@@ -93,4 +93,31 @@
         </Style.Triggers>
     </Style>
     
+    <Style BasedOn="{StaticResource {x:Type ToggleButton}}" x:Key="transferRadioButtons" TargetType="RadioButton">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{TemplateBinding Background}" >
+                            <TextBlock Text="{TemplateBinding Content}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="Margin" Value="2"/>
+            
+        </Style.Setters>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="Aquamarine" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
 </ResourceDictionary>
