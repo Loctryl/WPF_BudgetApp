@@ -25,6 +25,8 @@
                 <DataGridTextColumn Binding="{Binding Password}" Header="Password" />
                 <DataGridTextColumn Binding="{Binding Comment}" Header="Comment" />
                 <DataGridTextColumn Binding="{Binding Accounts}" Header="Accounts" />
+                <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
             </DataGrid.Columns>
             
         </DataGrid>
@@ -40,6 +42,8 @@
                 <DataGridTextColumn Binding="{Binding Color}" Header="Color" />
                 <DataGridTextColumn Binding="{Binding Balance}" Header="Balance" />
                 <DataGridTextColumn Binding="{Binding AppUserId}" Header="UserId" />
+                <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
             </DataGrid.Columns>
             
         </DataGrid>
@@ -54,6 +58,8 @@
                 <DataGridTextColumn Binding="{Binding Symbol}" Header="Categories Symbol" />
                 <DataGridTextColumn Binding="{Binding Color}" Header="Categories Color" />
                 <DataGridTextColumn Binding="{Binding AppUserId}" Header="Categories UserId" />
+                <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
             </DataGrid.Columns>
         </DataGrid>
         
@@ -70,6 +76,8 @@
                 <DataGridTextColumn Binding="{Binding LimitDate}" Header="Limit Date" />
                 <DataGridTextColumn Binding="{Binding AppUserId}" Header="App User" />
                 <DataGridTextColumn Binding="{Binding CategoryId}" Header="Linked Category" />
+                <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
             </DataGrid.Columns>
             
         </DataGrid>
@@ -86,6 +94,8 @@
                 <DataGridTextColumn Binding="{Binding CategoryId}" Header="Category" />
                 <DataGridTextColumn Binding="{Binding OperationDate}" Header="Operation Date" />
                 <DataGridTextColumn Binding="{Binding DebitDate}" Header="Debit Date" />
+                <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
             </DataGrid.Columns>
             
         </DataGrid>

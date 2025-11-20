@@ -175,6 +175,8 @@
                                     
                             <DataGridTextColumn Binding="{Binding TransferAmount}" Header="Transfer Amount" />
                             <DataGridTextColumn Binding="{Binding TransferDate}" Header="Transfer Date" />
+                            <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                            <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

@@ -8,14 +8,18 @@ public class AccountFormDTO
 	public string AccountName { get; set; }
 	public string AccountSymbol { get; set; }
 	public Color AccountColor { get; set; }
-	public float AccountBalance { get; set; }
+	public decimal AccountBalance { get; set; }
+	public DateTime CreationDate { get; set; }
+	public DateTime LastUpdateDate { get; set; }
 
 	public void Reset()
 	{
 		AccountName = string.Empty;
 		AccountSymbol = string.Empty;
 		AccountColor = new Color();
-		AccountBalance = 0f;
+		AccountBalance = 0;
+		CreationDate = DateTime.Now;
+		LastUpdateDate = DateTime.Now;
 	}
 }
 
@@ -25,5 +29,7 @@ public class AccountDisplayDTO(Account account)
 	public string AccountName { get; set; } = account.SourceName;
 	public string AccountSymbol { get; set; } = account.Symbol;
 	public string AccountColor { get; set; } = account.Color;
-	public float AccountBalance { get; set; } = account.Balance;
+	public decimal AccountBalance { get; set; } = account.Balance;
+	public DateTime CreationDate { get; set; } = account.CreationDate;
+	public DateTime LastUpdateDate { get; set; } =  account.LastUpdateDate;
 }

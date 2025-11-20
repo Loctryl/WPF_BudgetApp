@@ -6,8 +6,22 @@
              xmlns:local="clr-namespace:WPF_BudgetApp.Views"
              xmlns:comps="clr-namespace:WPF_BudgetApp.Components"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="1600">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="SortedAccountSource" Source="{Binding AccountsDTOs}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="CreationDate" Direction="Ascending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        
+        <CollectionViewSource x:Key="SortedCategorySource" Source="{Binding CategoriesDTOs}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="CategoryName" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*" />
@@ -50,7 +64,7 @@
                         </StackPanel>
                     
                         <DataGrid Name="AccountGrid" AutoGenerateColumns="False"
-                                  ItemsSource="{Binding AccountsDTOs}"
+                                  ItemsSource="{Binding Source={StaticResource SortedAccountSource}}"
                                   SelectedItem="{Binding SelectedAccount}"
                                   SelectionChanged="AccountGrid_OnSelectionChanged"
                                   SelectionMode="Single"
@@ -68,6 +82,8 @@
                                 </DataGridTextColumn>
                                 
                                 <DataGridTextColumn Binding="{Binding AccountBalance}" Header="Account Balance" />
+                                <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                                <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -86,7 +102,7 @@
                         </StackPanel>
                     
                         <DataGrid Name="CategoryGrid" AutoGenerateColumns="False"
-                                  ItemsSource="{Binding CategoriesDTOs}"
+                                  ItemsSource="{Binding Source={StaticResource SortedCategorySource}}"
                                   SelectedItem="{Binding SelectedCategory}"
                                   SelectionChanged="CategoryGrid_OnSelectionChanged"
                                   SelectionMode="Single"
@@ -105,6 +121,8 @@
                                 
                                 <DataGridTextColumn Binding="{Binding CategoryCurrentMonth}" Header="Current Month" />
                                 <DataGridTextColumn Binding="{Binding CategoryLastMonth}" Header="Last Month" />
+                                <DataGridTextColumn Binding="{Binding CreationDate}" Header="Created On" />
+                                <DataGridTextColumn Binding="{Binding LastUpdateDate}" Header="Updated On" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

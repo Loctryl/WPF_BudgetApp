@@ -72,7 +72,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		AccountsDTOs.Clear();
 		Accounts.AddRange(mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result);
 
-		float balance = 0;
+		decimal balance = 0;
 		
 		foreach (var acc in Accounts)
 		{
@@ -112,11 +112,14 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	private void CategoryFormCall(bool isUpdate, EventHandler<bool> func)
 	{
+		CatFormDTO.Reset();
+		
 		if (isUpdate)
 		{
 			CatFormDTO.CategoryName = SelectedCategory.CategoryName;
 			CatFormDTO.CategorySymbol = SelectedCategory.CategorySymbol;
 			CatFormDTO.CategoryColor = (Color)ColorConverter.ConvertFromString(SelectedCategory.CategoryColor);
+			CatFormDTO.CreationDate = SelectedCategory.CreationDate;
 		}
 		
 		CategoryForm = new CategoryForm(this, isUpdate);
@@ -126,11 +129,7 @@ public class DashboardViewModel : BaseMenuViewModel
 
 	private async void ReceiveCategoryForm(object? sender, bool isConfirmed)
 	{
-		if (!isConfirmed)
-		{
-			CatFormDTO.Reset();
-			return;
-		}
+		if (!isConfirmed) return;
 		
 		Category cat = new Category();
 		if (CategoryForm.IsUpdate)
@@ -143,6 +142,8 @@ public class DashboardViewModel : BaseMenuViewModel
 		cat.SourceName = CatFormDTO.CategoryName;
 		cat.Symbol = CatFormDTO.CategorySymbol;
 		cat.Color = CatFormDTO.CategoryColor.ToString();
+		cat.CreationDate = CatFormDTO.CreationDate;
+		cat.LastUpdateDate = DateTime.Now;
 		
 		if (CategoryForm.IsUpdate)
 			await mainVM.categoryService.UpdateCategoryAsync();
@@ -152,9 +153,6 @@ public class DashboardViewModel : BaseMenuViewModel
 			await mainVM.categoryService.CreateCategoryAsync(cat);
 		}
 		
-		CategoryForm.ConfirmEvent -= ReceiveCategoryForm;
-		CategoryForm.Close();
-		CatFormDTO.Reset();
 		UpdateCategories();
 	}
 
@@ -171,11 +169,14 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	private void AccountFormCall(bool isUpdate, EventHandler<bool> func)
 	{
+		AccFormDTO.Reset();
+		
 		if (isUpdate)
 		{
 			AccFormDTO.AccountName = SelectedAccount.AccountName;
 			AccFormDTO.AccountSymbol = SelectedAccount.AccountSymbol;
 			AccFormDTO.AccountColor = (Color)ColorConverter.ConvertFromString(SelectedAccount.AccountColor);
+			AccFormDTO.CreationDate = SelectedAccount.CreationDate;
 		}
 		
 		AccountForm = new AccountForm(this, isUpdate);
@@ -185,11 +186,7 @@ public class DashboardViewModel : BaseMenuViewModel
 
 	private async void ReceiveAccountForm(object? sender, bool isConfirmed)
 	{
-		if (!isConfirmed)
-		{
-			AccFormDTO.Reset();
-			return;
-		}
+		if (!isConfirmed) return;
 		
 		Account acc = new Account();
 		if (AccountForm.IsUpdate)
@@ -202,6 +199,8 @@ public class DashboardViewModel : BaseMenuViewModel
 		acc.SourceName = AccFormDTO.AccountName;
 		acc.Symbol = AccFormDTO.AccountSymbol;
 		acc.Color = AccFormDTO.AccountColor.ToString();
+		acc.CreationDate = AccFormDTO.CreationDate;
+		acc.LastUpdateDate = DateTime.Now;
 		
 		if (AccountForm.IsUpdate)
 			await mainVM.accountService.UpdateAccountAsync();
@@ -212,9 +211,6 @@ public class DashboardViewModel : BaseMenuViewModel
 			await mainVM.accountService.CreateAccountAsync(acc);
 		}
 		
-		AccountForm.ConfirmEvent -= ReceiveAccountForm;
-		AccountForm.Close();
-		AccFormDTO.Reset();
 		UpdateAccounts();
 	}
 

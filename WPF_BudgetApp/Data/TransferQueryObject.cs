@@ -4,8 +4,8 @@ public class TransferQueryObject
 {
 	public string SourceName { get; set; } = string.Empty;
 	public uint CategoryId { get; set; }= uint.MaxValue;
-	public float MinAmount { get; set; } = float.MinValue;
-	public float MaxAmount { get; set; } = float.MaxValue;
+	public decimal MinAmount { get; set; } = decimal.MinValue;
+	public decimal MaxAmount { get; set; } = decimal.MaxValue;
 	
 	public string OrderBy { get; set; } = string.Empty;
 	
