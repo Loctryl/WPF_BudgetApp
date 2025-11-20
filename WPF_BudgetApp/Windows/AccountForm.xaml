@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:WPF_BudgetApp.Windows"
         mc:Ignorable="d"
         Title="AccountForm" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None"
@@ -32,7 +33,7 @@
                 <TextBox Grid.Row="1" Name="symbolTB" Style="{StaticResource textBox}" Height="25" Text="{Binding AccountSymbol}" />
                 
                 <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Account Color" />
-                <TextBox Grid.Row="2" Name="colorTB" Style="{StaticResource textBox}" Height="25" Text="{Binding AccountColor}" />
+                <xctk:ColorPicker Grid.Row="2" Name="colorTB" Style="{StaticResource textBox}" Height="25" SelectedColor="{Binding AccountColor}" />
                 
                 <Grid Grid.Row="3" Name="balanceTB">
                     <Label Style="{StaticResource labelTextBox}" Content="Account Balance" />

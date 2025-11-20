@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:WPF_BudgetApp.Windows"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="CategoryForm" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent"
@@ -31,7 +32,7 @@
                 <TextBox Grid.Row="1" Name="symbolTB" Style="{StaticResource textBox}" Height="25" Text="{Binding CategorySymbol}" />
                 
                 <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Category Color" />
-                <TextBox Grid.Row="2" Name="colorTB" Style="{StaticResource textBox}" Height="25" Text="{Binding CategoryColor}" />
+                <xctk:ColorPicker Grid.Row="2" Name="colorTB" Style="{StaticResource textBox}" Height="25" SelectedColor="{Binding CategoryColor}" />
                 
                 <Grid Grid.Row="3" Height="40" MinWidth="220" HorizontalAlignment="Center">
                     <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />

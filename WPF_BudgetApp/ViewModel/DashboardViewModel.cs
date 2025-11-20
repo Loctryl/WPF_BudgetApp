@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Media;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.DTOs;
 using WPF_BudgetApp.Data.Models;
@@ -115,7 +116,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		{
 			CatFormDTO.CategoryName = SelectedCategory.CategoryName;
 			CatFormDTO.CategorySymbol = SelectedCategory.CategorySymbol;
-			CatFormDTO.CategoryColor = SelectedCategory.CategoryColor;
+			CatFormDTO.CategoryColor = (Color)ColorConverter.ConvertFromString(SelectedCategory.CategoryColor);
 		}
 		
 		CategoryForm = new CategoryForm(this, isUpdate);
@@ -141,7 +142,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		
 		cat.SourceName = CatFormDTO.CategoryName;
 		cat.Symbol = CatFormDTO.CategorySymbol;
-		cat.Color = CatFormDTO.CategoryColor;
+		cat.Color = CatFormDTO.CategoryColor.ToString();
 		
 		if (CategoryForm.IsUpdate)
 			await mainVM.categoryService.UpdateCategoryAsync();
@@ -174,7 +175,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		{
 			AccFormDTO.AccountName = SelectedAccount.AccountName;
 			AccFormDTO.AccountSymbol = SelectedAccount.AccountSymbol;
-			AccFormDTO.AccountColor = SelectedAccount.AccountColor;
+			AccFormDTO.AccountColor = (Color)ColorConverter.ConvertFromString(SelectedAccount.AccountColor);
 		}
 		
 		AccountForm = new AccountForm(this, isUpdate);
@@ -200,7 +201,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		
 		acc.SourceName = AccFormDTO.AccountName;
 		acc.Symbol = AccFormDTO.AccountSymbol;
-		acc.Color = AccFormDTO.AccountColor;
+		acc.Color = AccFormDTO.AccountColor.ToString();
 		
 		if (AccountForm.IsUpdate)
 			await mainVM.accountService.UpdateAccountAsync();

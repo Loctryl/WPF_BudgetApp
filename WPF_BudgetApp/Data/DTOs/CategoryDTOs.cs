@@ -1,4 +1,5 @@
-﻿using WPF_BudgetApp.Data.Models;
+﻿using System.Windows.Media;
+using WPF_BudgetApp.Data.Models;
 
 namespace WPF_BudgetApp.Data.DTOs;
 
@@ -6,13 +7,13 @@ public class CategoryFormDTO
 {
 	public string CategoryName { get; set; }
 	public string CategorySymbol { get; set; }
-	public string CategoryColor { get; set; }
+	public Color CategoryColor { get; set; }
 
 	public void Reset()
 	{
 		CategoryName = string.Empty;
 		CategorySymbol = string.Empty;
-		CategoryColor = string.Empty;
+		CategoryColor = new Color();
 	}
 }
 
