@@ -42,8 +42,8 @@ public partial class MainWindow : Window
 		if (IsMaximized)
 		{
 			WindowState = WindowState.Normal;
-			Width = 1080;
-			Height = 720;
+			Width = 1600;
+			Height = 900;
 			IsMaximized = false;
 		} else
 		{

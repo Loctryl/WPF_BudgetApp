@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:WPF_BudgetApp"
         xmlns:views="clr-namespace:WPF_BudgetApp.Views"
         xmlns:viewModels="clr-namespace:WPF_BudgetApp.ViewModel"
-        Height="720" Width="1080" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Height="900" Width="1600" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent"
         Style="{StaticResource window}">
 
