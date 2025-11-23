@@ -3,6 +3,7 @@ using System.Windows.Input;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.DTOs;
 using WPF_BudgetApp.Data.Models;
+using WPF_BudgetApp.Resources;
 using WPF_BudgetApp.Windows;
 
 namespace WPF_BudgetApp.ViewModel;
@@ -118,14 +119,12 @@ public class AccountViewModel : BaseMenuViewModel
 	private void TransferFormCall(bool isUpdate, EventHandler<bool> func)
 	{
 		TransFormDTO.Reset();
-		TransFormDTO.TransferAccount = CurrentSelectedAccount.Id;
 		
 		if (isUpdate)
 		{
 			TransFormDTO.TransferName = SelectedTransfer.TransferName;
 			TransFormDTO.TransferAmount = SelectedTransfer.TransferAmount;
 			TransFormDTO.TransferCategory = mainVM.categoryService.GetCategoryByIdAsync(mainVM.CurrentUser.Id, SelectedTransfer.TransferCategory).Result;
-			TransFormDTO.TransferAccount = SelectedTransfer.TransferAccount;
 			TransFormDTO.TransferDate = SelectedTransfer.TransferDate;
 			TransFormDTO.CreationDate = SelectedTransfer.CreationDate;
 		}
@@ -141,7 +140,6 @@ public class AccountViewModel : BaseMenuViewModel
 	{
 		if (!isConfirmed) return;
 		
-		
 		Transfer trans = new Transfer();
 		if (TransferForm.IsUpdate)
 		{
@@ -150,13 +148,14 @@ public class AccountViewModel : BaseMenuViewModel
 				return;
 		}
 		
-		trans.SourceName = TransFormDTO.TransferName;
-		trans.Amount = TransFormDTO.TransferAmount;
-		trans.CategoryId = TransFormDTO.TransferCategory.Id;
-		trans.AccountId = TransFormDTO.TransferAccount;
-		trans.OperationDate = TransFormDTO.TransferDate;
-		trans.CreationDate = TransFormDTO.CreationDate;
-		trans.LastUpdateDate = DateTime.Now;
+		trans = Helpers.SetNewTransfer(
+			TransFormDTO.TransferName, 
+			TransFormDTO.TransferAmount, 
+			TransFormDTO.TransferCategory.Id, 
+			CurrentSelectedAccount.Id, 
+			TransFormDTO.TransferDate, 
+			TransFormDTO.CreationDate
+			);
 
 		if (TransferForm.IsUpdate)
 		{

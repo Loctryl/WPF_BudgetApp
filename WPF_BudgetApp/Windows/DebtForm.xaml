@@ -24,6 +24,7 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 
                 <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Debt Name" />
@@ -41,7 +42,17 @@
                 <Label Grid.Row="4" Style="{StaticResource labelTextBox}" Content="Debt Limit Date" />
                 <DatePicker Grid.Row="4" Name="dateTB" Style="{StaticResource textBox}" Height="25" SelectedDate="{Binding DebtLimitDate}" />
                 
-                <Grid Grid.Row="5" Height="40" MinWidth="220" HorizontalAlignment="Center">
+                <Label Grid.Row="5" Style="{StaticResource labelTextBox}" Content="Beneficiary Account" />
+                <ComboBox Grid.Row="5" Name="categoryCB" 
+                          ItemsSource="{Binding Accounts}" 
+                          SelectedItem="{Binding BeneficiaryAccount}"
+                          DisplayMemberPath="SourceName"
+                          SelectedValuePath="SourceName"
+                          Height="25"
+                >
+                </ComboBox>
+                
+                <Grid Grid.Row="6" Height="40" MinWidth="220" HorizontalAlignment="Center">
                     <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />
                     <Button Name="CancelButt" Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
                 </Grid>

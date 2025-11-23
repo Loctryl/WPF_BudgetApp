@@ -76,7 +76,7 @@ public class LoginViewModel : BaseViewModel
 		// register successful
 		mainVM.SetCurrentUser(user);
 
-		await PopulateNewUser(user);
+		//await PopulateNewUser(user);
 		
 		mainVM.SwitchToDashBoard();
 	}
@@ -102,7 +102,7 @@ public class LoginViewModel : BaseViewModel
 
 		for (int i = 0; i < 250; i++)
 		{
-			string str = RandomString(3);
+			string str = GetRandomString(3);
 			decimal amount = (decimal)(rnd.Next(20000)) / (decimal)100;
 			amount = rnd.Next(0,2) == 0 ? amount : -amount;
 			await CreateNewTransfer(str, amount, cats[rnd.Next(cats.Count)].Id, accs[rnd.Next(accs.Count)].Id, GetRandomDate());
@@ -154,7 +154,7 @@ public class LoginViewModel : BaseViewModel
 		await mainVM.transferService.CreateTransferAsync(transfer);
 	}
 	
-	private static string RandomString(int length)
+	private static string GetRandomString(int length)
 	{
 		Random rnd = new Random();
 		
@@ -173,5 +173,11 @@ public class LoginViewModel : BaseViewModel
 		var day = rnd.Next(1, noOfDaysInMonth == 11 ? 21 : noOfDaysInMonth);
 
 		return new DateTime(year, month, day);
+	}
+
+	private static string GetRandomColor()
+	{
+		Random rnd = new Random();
+		return Helpers.ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
 	}
 }

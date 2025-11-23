@@ -4,6 +4,7 @@ using System.Windows.Media;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.DTOs;
 using WPF_BudgetApp.Data.Models;
+using WPF_BudgetApp.Resources;
 using WPF_BudgetApp.Windows;
 
 namespace WPF_BudgetApp.ViewModel;
@@ -138,12 +139,13 @@ public class DashboardViewModel : BaseMenuViewModel
 			if (cat == null)
 				return;
 		}
-		
-		cat.SourceName = CatFormDTO.CategoryName;
-		cat.Symbol = CatFormDTO.CategorySymbol;
-		cat.Color = CatFormDTO.CategoryColor.ToString();
-		cat.CreationDate = CatFormDTO.CreationDate;
-		cat.LastUpdateDate = DateTime.Now;
+		cat = Helpers.SetNewCategory(
+			cat.AppUserId, 
+			CatFormDTO.CategoryName, 
+			CatFormDTO.CategorySymbol, 
+			CatFormDTO.CategoryColor.ToString(), 
+			CatFormDTO.CreationDate
+			);
 		
 		if (CategoryForm.IsUpdate)
 			await mainVM.categoryService.UpdateCategoryAsync();
@@ -196,11 +198,14 @@ public class DashboardViewModel : BaseMenuViewModel
 				return;
 		}
 		
-		acc.SourceName = AccFormDTO.AccountName;
-		acc.Symbol = AccFormDTO.AccountSymbol;
-		acc.Color = AccFormDTO.AccountColor.ToString();
-		acc.CreationDate = AccFormDTO.CreationDate;
-		acc.LastUpdateDate = DateTime.Now;
+		Helpers.SetNewAccount(
+			acc.AppUserId, 
+			AccFormDTO.AccountName, 
+			AccFormDTO.AccountSymbol, 
+			acc.Balance, 
+			AccFormDTO.AccountColor.ToString(), 
+			AccFormDTO.CreationDate
+			);
 		
 		if (AccountForm.IsUpdate)
 			await mainVM.accountService.UpdateAccountAsync();

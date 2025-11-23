@@ -12,6 +12,7 @@ public class DebtFormDTO
 	public DateTime DebtLimitDate { get; set; }
 	public DateTime CreationDate { get; set; }
 	public DateTime LastUpdateDate { get; set; }
+	public Account BeneficiaryAccount { get; set; }
 
 	public void Reset()
 	{
@@ -22,7 +23,11 @@ public class DebtFormDTO
 		DebtLimitDate = DateTime.Now;
 		CreationDate = DateTime.Now;
 		LastUpdateDate = DateTime.Now;
+		BeneficiaryAccount = null;
+		Accounts.Clear();
 	}
+	
+	public List<Account> Accounts { get; set; }
 }
 
 public class DebtDisplayDTO(Debt debt)

@@ -74,6 +74,8 @@ public class DebtViewModel : BaseMenuViewModel
 			DebtFormDTO.CreationDate = SelectedDebt.CreationDate;
 		}
 		
+		DebtFormDTO.Accounts = mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result;
+		
 		DebtForm = new DebtForm(this, isUpdate);
 		DebtForm.ConfirmEvent += func;
 		DebtForm.Show();
@@ -91,13 +93,14 @@ public class DebtViewModel : BaseMenuViewModel
 				return;
 		}
 		
-		debt.SourceName = DebtFormDTO.DebtName;
-		debt.InitialAmount = DebtFormDTO.DebtInitialAmount;
-		debt.CurrentDebt = DebtFormDTO.DebtCurrentAmount;
-		debt.InterestRate = DebtFormDTO.DebtInterestRate;
-		debt.LimitDate = DebtFormDTO.DebtLimitDate;
-		debt.CreationDate = DebtFormDTO.CreationDate;
-		debt.LastUpdateDate = DateTime.Now;
+		debt = Helpers.SetNewDebt(
+			DebtFormDTO.DebtName, 
+			DebtFormDTO.DebtInitialAmount, 
+			DebtFormDTO.DebtCurrentAmount, 
+			DebtFormDTO.DebtInterestRate, 
+			debt.CategoryId,
+			DebtFormDTO.DebtLimitDate, 
+			DebtFormDTO.CreationDate);
 
 		if (DebtForm.IsUpdate)
 		{
@@ -105,17 +108,11 @@ public class DebtViewModel : BaseMenuViewModel
 		}
 		else
 		{
-			Random rnd = new Random();
-			
-			Category category = new Category();
-			category.SourceName = debt.SourceName;
-			category.Symbol = "DEBT";
-			category.Color = Helpers.ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
-			category.CreationDate = DateTime.Now;
-			category.LastUpdateDate = DateTime.Now;
-			category.AppUserId = mainVM.CurrentUser.Id;
-		
+			Category category = Helpers.SetNewCategory(mainVM.CurrentUser.Id, debt.SourceName, "DEBT");
 			await mainVM.categoryService.CreateCategoryAsync(category);
+			
+			Transfer transfer = Helpers.SetNewTransfer(debt.SourceName+" Initial Transfer", debt.InitialAmount, category.Id, DebtFormDTO.BeneficiaryAccount.Id, DateTime.Now);
+			await mainVM.transferService.CreateTransferAsync(transfer);
 			
 			debt.CategoryId = category.Id;
 			debt.AppUserId = mainVM.CurrentUser.Id;

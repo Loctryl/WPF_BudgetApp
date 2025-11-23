@@ -49,7 +49,8 @@ public class MainViewModel : BaseViewModel
 		//SwitchToDebug();
 		
 		// temporary login
-		Task.Run(SkipLoginAsync);
+		//Task.Run(SkipLoginAsync);
+		Logout();
 	}
 	
 	private async Task SkipLoginAsync()

@@ -7,7 +7,6 @@ public class TransferFormDTO
 	public string TransferName { get; set; }
 	public decimal TransferAmount { get; set; }
 	public Category TransferCategory { get; set; }
-	public uint TransferAccount { get; set; }
 	public DateTime TransferDate { get; set; }
 	public DateTime CreationDate { get; set; }
 	public DateTime LastUpdateDate { get; set; }
@@ -17,10 +16,10 @@ public class TransferFormDTO
 		TransferName = string.Empty;
 		TransferAmount = 0;
 		TransferCategory = null;
-		TransferAccount = 0;
 		TransferDate = DateTime.Now;
 		CreationDate = DateTime.Now;
 		LastUpdateDate = DateTime.Now;
+		Categories.Clear();
 	}
 	
 	public List<Category> Categories { get; set; }
