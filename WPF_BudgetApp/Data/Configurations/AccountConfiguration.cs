@@ -19,28 +19,26 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 			.IsRequired()
 			.HasMaxLength(16);
 		
-		builder.Property(a => a.Symbol)
+		builder.Property(a => a.Color)
 			.IsRequired()
-			.HasMaxLength(5);
+			.HasMaxLength(9);
 
 		builder.Property(a => a.Balance)
 			.IsRequired()
 			.HasColumnType("decimal(18,2)");
+		
+		builder.Property(a => a.CreationDate)
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.LastUpdateDate)
+			.IsRequired()
+			.HasColumnType("datetime");
 
 		// Relations
 		builder.HasOne(a => a.AppUser)
-			.WithMany(u => u.Accounts)
+			.WithMany()
 			.HasForeignKey(a => a.AppUserId)
-			.OnDelete(DeleteBehavior.Cascade);
-		
-		builder.HasMany(a => a.Transfers)
-			.WithOne(t => t.Account)
-			.HasForeignKey(t => t.AccountId)
-			.OnDelete(DeleteBehavior.Restrict);
-		
-		builder.HasMany(a => a.ProjectionTransfers)
-			.WithOne(t => t.Account)
-			.HasForeignKey(t => t.AccountId)
 			.OnDelete(DeleteBehavior.Restrict);
 	}
 }

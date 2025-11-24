@@ -15,6 +15,10 @@ public class DebtConfiguration : IEntityTypeConfiguration<Debt>
 		builder.HasKey(a => a.Id);
 
 		// Properties
+		builder.Property(a => a.SourceName)
+			.IsRequired()
+			.HasMaxLength(16);
+		
 		builder.Property(a => a.InitialAmount)
 			.IsRequired()
 			.HasColumnType("decimal(18,2)");
@@ -26,13 +30,20 @@ public class DebtConfiguration : IEntityTypeConfiguration<Debt>
 		builder.Property(a => a.InterestRate)
 			.IsRequired()
 			.HasColumnType("decimal(18,2)");
+		
+		builder.Property(a => a.LimitDate)
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.CreationDate)
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.LastUpdateDate)
+			.IsRequired()
+			.HasColumnType("datetime");
 
 		// Relations
-		builder.HasOne(a => a.AppUser)
-			.WithMany()
-			.HasForeignKey(a => a.AppUserId)
-			.OnDelete(DeleteBehavior.Cascade);
-
 		builder.HasOne(a => a.Category)
 			.WithMany()
 			.HasForeignKey(a => a.CategoryId)

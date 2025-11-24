@@ -15,22 +15,29 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 		builder.HasKey(a => a.Id);
 
 		// Properties
-		builder.Property(a => a.Symbol)
+		builder.Property(a => a.SourceName)
 			.IsRequired()
-			.HasMaxLength(5);
+			.HasMaxLength(16);
+		
+		builder.Property(a => a.Color)
+			.IsRequired()
+			.HasMaxLength(9);
+		
+		builder.Property(a => a.CreationDate)
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.LastUpdateDate)
+			.IsRequired()
+			.HasColumnType("datetime");
 
 		// Relations
 		builder.HasOne(a => a.AppUser)
 			.WithMany()
 			.HasForeignKey(a => a.AppUserId)
-			.OnDelete(DeleteBehavior.Cascade);
-		
-		builder.HasMany(a => a.Transfers)
-			.WithOne(t => t.Category)
-			.HasForeignKey(t => t.CategoryId)
 			.OnDelete(DeleteBehavior.Restrict);
 		
-		builder.HasMany(a => a.ProjectionTransfers)
+		builder.HasMany(a => a.Transfers)
 			.WithOne(t => t.Category)
 			.HasForeignKey(t => t.CategoryId)
 			.OnDelete(DeleteBehavior.Restrict);

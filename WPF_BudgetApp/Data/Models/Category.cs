@@ -2,12 +2,8 @@
 
 public class Category : DBTable
 {
-	public string Symbol { get; set; } = string.Empty;
 	public string Color { get; set; } = string.Empty;
-	
 	public uint AppUserId { get; set; }
 	public AppUser? AppUser { get; set; }
-	
 	public List<Transfer> Transfers { get; set; } = new();
-	public List<ProjectionTransfer> ProjectionTransfers { get; set; } = new();
 }

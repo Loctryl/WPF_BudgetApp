@@ -24,7 +24,16 @@ public class TransferConfiguration : IEntityTypeConfiguration<Transfer>
 			.HasColumnType("decimal(18,2)");
 		
 		builder.Property(a => a.OperationDate)
-			.IsRequired();
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.CreationDate)
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.LastUpdateDate)
+			.IsRequired()
+			.HasColumnType("datetime");
 
 		// Relations
 		builder.HasOne(a => a.Category)
@@ -33,7 +42,7 @@ public class TransferConfiguration : IEntityTypeConfiguration<Transfer>
 			.OnDelete(DeleteBehavior.Restrict);
 
 		builder.HasOne(a => a.Account)
-			.WithMany(u => u.Transfers)
+			.WithMany()
 			.HasForeignKey(a => a.AccountId)
 			.OnDelete(DeleteBehavior.Restrict);
 	}

@@ -22,15 +22,31 @@ public class ProjectionTransferConfiguration : IEntityTypeConfiguration<Projecti
 		builder.Property(a => a.Amount)
 			.IsRequired()
 			.HasColumnType("decimal(18,2)");
+		
+		builder.Property(a => a.IsMonthly)
+			.IsRequired()
+			.HasColumnType("boolean");
+		
+		builder.Property(a => a.ScheduledDate)
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.CreationDate)
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.LastUpdateDate)
+			.IsRequired()
+			.HasColumnType("datetime");
 
 		// Relations
 		builder.HasOne(a => a.Category)
-			.WithMany(u => u.ProjectionTransfers)
+			.WithMany()
 			.HasForeignKey(a => a.CategoryId)
 			.OnDelete(DeleteBehavior.Restrict);
 
 		builder.HasOne(a => a.Account)
-			.WithMany(u => u.ProjectionTransfers)
+			.WithMany()
 			.HasForeignKey(a => a.AccountId)
 			.OnDelete(DeleteBehavior.Restrict);
 	}

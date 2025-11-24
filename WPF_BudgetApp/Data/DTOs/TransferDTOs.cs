@@ -33,7 +33,6 @@ public class TransferDisplayDTO(Transfer transfer)
 	public uint TransferCategory { get; set; } = transfer.CategoryId;
 	public string TransferCategoryName { get; set; } = transfer.Category.SourceName;
 	public string TransferCategoryColor { get; set; } = transfer.Category.Color;
-	public uint TransferAccount { get; set; } = transfer.AccountId;
 	public DateTime TransferDate { get; set; } = transfer.OperationDate;
 	public DateTime CreationDate { get; set; } = transfer.CreationDate;
 	public DateTime LastUpdateDate { get; set; } =  transfer.LastUpdateDate;

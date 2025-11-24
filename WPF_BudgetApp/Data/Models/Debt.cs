@@ -6,8 +6,6 @@ public class Debt : DBTable
 	public decimal CurrentDebt { get; set; }
 	public decimal InterestRate { get; set; }
 	public DateTime LimitDate { get; set; }
-	public uint AppUserId { get; set; }
-	public AppUser? AppUser { get; set; }
 	public uint CategoryId { get; set; }
 	public Category? Category { get; set; }
 }

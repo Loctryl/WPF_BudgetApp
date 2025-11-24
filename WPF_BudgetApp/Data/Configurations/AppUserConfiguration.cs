@@ -23,10 +23,22 @@ public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
 			.IsRequired()
 			.HasMaxLength(32);
 		
-		//Relations
-		builder.HasMany(a => a.Accounts)
-			.WithOne(t => t.AppUser)
-			.HasForeignKey(t => t.AppUserId)
-			.OnDelete(DeleteBehavior.Restrict);
+		builder.Property(a => a.PrimaryColor)
+			.IsRequired()
+			.HasMaxLength(9);
+		
+		builder.Property(a => a.SecondaryColor)
+			.HasMaxLength(9);
+		
+		builder.Property(a => a.TertiaryColor)
+			.HasMaxLength(9);
+		
+		builder.Property(a => a.CreationDate)
+			.IsRequired()
+			.HasColumnType("datetime");
+		
+		builder.Property(a => a.LastUpdateDate)
+			.IsRequired()
+			.HasColumnType("datetime");
 	}
 }
