@@ -48,13 +48,12 @@ public static class Helpers
 	public static string ToHex(System.Drawing.Color c)
 		=> $"#{c.R:X2}{c.G:X2}{c.B:X2}";
 	
-	public static Account SetNewAccount(uint userId, string sourceName, string symbol, decimal balance, string color = "", 
+	public static Account SetNewAccount(uint userId, string sourceName, decimal balance, string color = "", 
 	DateTime? creationDate = null, DateTime? lastUpdateDate = null)
 	{
 		Account account = new Account();
 		account.AppUserId = userId;
 		account.SourceName = sourceName;
-		account.Symbol = symbol;
 		account.Balance = balance;
 		account.Color = color != "" ? color : GetRandomColor();
 		account.CreationDate = creationDate ?? DateTime.Now;
@@ -63,13 +62,12 @@ public static class Helpers
 		return account;
 	}
 	
-	public static Category SetNewCategory(uint userId, string sourceName, string symbol, string color = "",
+	public static Category SetNewCategory(uint userId, string sourceName, string color = "",
 	DateTime? creationDate = null, DateTime? lastUpdateDate = null)
 	{
 		Category category = new Category();
 		category.AppUserId = userId;
 		category.SourceName = sourceName;
-		category.Symbol = symbol;
 		category.Color = color != "" ? color : GetRandomColor();
 		category.CreationDate = creationDate ?? DateTime.Now;
 		category.LastUpdateDate = lastUpdateDate ?? DateTime.Now;

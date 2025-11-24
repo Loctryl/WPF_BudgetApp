@@ -9,5 +9,5 @@ public interface IAppUserService
 	Task<AppUser?> GetAppUserByIdAsync(uint id);
 	Task<AppUser> CreateAppUserAsync(AppUser user);
 	Task UpdateAppUserAsync();
-	Task<AppUser> DeleteAppUserAsync(AppUser user);
+	Task DeleteAppUserAsync(uint userId);
 }

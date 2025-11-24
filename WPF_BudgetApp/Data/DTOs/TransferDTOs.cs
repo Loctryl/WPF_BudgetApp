@@ -21,8 +21,8 @@ public class TransferFormDTO
 		LastUpdateDate = DateTime.Now;
 		Categories.Clear();
 	}
-	
-	public List<Category> Categories { get; set; }
+
+	public List<Category> Categories { get; set; } = new List<Category>();
 }
 
 public class TransferDisplayDTO(Transfer transfer)

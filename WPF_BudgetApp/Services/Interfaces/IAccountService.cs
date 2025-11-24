@@ -10,6 +10,5 @@ public interface IAccountService
 	Task<Account?> GetAccountByIdAsync(uint userId, uint accountId);
 	Task<Account> CreateAccountAsync(Account account);
 	Task UpdateAccountAsync();
-	
-	Task<Account?> DeleteAccountAsync(uint userId, uint accountId);
+	Task DeleteAccountAsync(uint userId, uint accountId);
 }

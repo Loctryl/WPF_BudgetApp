@@ -12,10 +12,10 @@ public class DebtService : ServiceBase<Debt>, IDebtService
 	}
 
 	protected override IQueryable<Debt> CheckedListWithUser(uint userId) 
-		=> _context.Debts.Include(x => x.AppUser).Include(x => x.Category).AsQueryable().Where(s => s.AppUserId == userId);
+		=> _context.Debts.Include(x => x.Category).Where(s => s.CategoryId == userId);
 
 	public Task<List<Debt>> DebugGetAllDebtAsync()
-		=> _context.Debts.Include(x => x.AppUser).Include(x => x.Category).AsQueryable().ToListAsync();
+		=> _context.Debts.Include(x => x.Category).ToListAsync();
 
 	public async Task<List<Debt>> GetAllDebtAsync(uint userId) 
 		=> await CheckedListWithUser(userId).ToListAsync();

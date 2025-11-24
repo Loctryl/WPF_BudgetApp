@@ -73,8 +73,7 @@
                                   >
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category Name" />
-                            <DataGridTextColumn Binding="{Binding CategorySymbol}" Header="Symbol" />
-                                
+                            
                             <DataGridTextColumn Binding="{Binding CategoryColor}" Header="Color">
                                 <DataGridTextColumn.CellStyle>
                                     <Style TargetType="DataGridCell">

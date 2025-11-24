@@ -13,15 +13,11 @@ public class AccountService : ServiceBase<Account>, IAccountService
 	
 	protected override IQueryable<Account> CheckedListWithUser(uint userId) 
 		=> _context.Accounts.Include(x => x.AppUser)
-			.Include(x => x.Transfers)
-			.Include(x => x.ProjectionTransfers)
 			.AsQueryable().Where(s => s.AppUserId == userId);
 
 	//Debug Func
 	public Task<List<Account>> DebugGetAllAccountsAsync()
 		=> _context.Accounts.Include(x => x.AppUser)
-			.Include(x => x.Transfers)
-			.Include(x => x.ProjectionTransfers)
 			.AsQueryable().ToListAsync();
 
 	public async Task<List<Account>> GetAllAccountAsync(uint userId) 
@@ -38,14 +34,14 @@ public class AccountService : ServiceBase<Account>, IAccountService
 	}
 
 	public async Task UpdateAccountAsync() => await _context.SaveChangesAsync();
-	public async Task<Account?> DeleteAccountAsync(uint userId, uint accountId)
+	
+	public async Task DeleteAccountAsync(uint userId, uint accountId)
 	{
-		var bankAccount = GetAccountByIdAsync(userId, accountId).Result;
-		if (bankAccount == null)
-			return null;
+		var account = GetAccountByIdAsync(userId, accountId).Result;
+		if (account == null)
+			return;
 		
-		_context.Accounts.Remove(bankAccount);
+		_context.Accounts.Remove(account);
 		await _context.SaveChangesAsync();
-		return bankAccount;
 	}
 }

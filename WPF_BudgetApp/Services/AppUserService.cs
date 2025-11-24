@@ -16,14 +16,15 @@ public class AppUserService : ServiceBase<AppUser>, IAppUserService
 		throw new NotImplementedException();
 	}
 
+
 	public async Task<AppUser?> AuthenticateAppUserAsync(string username, string password) 
 		=> await _context.AppUsers.FirstOrDefaultAsync(u => u.SourceName == username && u.Password == password);
 
 	public async Task<List<AppUser>> DebugGetAllAppUsersAsync() 
-		=> await _context.AppUsers.Include(u=>u.Accounts).ToListAsync();
+		=> await _context.AppUsers.ToListAsync();
 	
 	public async Task<AppUser?> GetAppUserByIdAsync(uint id) 
-		=> await _context.AppUsers.Include(u=>u.Accounts).FirstOrDefaultAsync(u => u.Id == id);
+		=> await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == id);
 	
 	public async Task<AppUser> CreateAppUserAsync(AppUser user)
 	{
@@ -34,10 +35,13 @@ public class AppUserService : ServiceBase<AppUser>, IAppUserService
 	
 	public async Task UpdateAppUserAsync() => await _context.SaveChangesAsync();
 
-	public async Task<AppUser> DeleteAppUserAsync(AppUser user)
+	public async Task DeleteAppUserAsync(uint userId)
 	{
+		var user = GetAppUserByIdAsync(userId).Result;
+		if (user == null)
+			return;
+		
 		_context.AppUsers.Remove(user);
 		await _context.SaveChangesAsync();
-		return user;
 	}
 }

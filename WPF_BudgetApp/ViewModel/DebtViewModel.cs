@@ -112,10 +112,10 @@ public class DebtViewModel : BaseMenuViewModel
 			await mainVM.categoryService.CreateCategoryAsync(category);
 			
 			Transfer transfer = Helpers.SetNewTransfer(debt.SourceName+" Initial Transfer", debt.InitialAmount, category.Id, DebtFormDTO.BeneficiaryAccount.Id, DateTime.Now);
+			DebtFormDTO.BeneficiaryAccount.Balance += transfer.Amount;
 			await mainVM.transferService.CreateTransferAsync(transfer);
 			
 			debt.CategoryId = category.Id;
-			debt.AppUserId = mainVM.CurrentUser.Id;
 			await mainVM.debtService.CreateDebtAsync(debt);
 		}
 		

@@ -57,7 +57,6 @@ public class LoginViewModel : BaseViewModel
 		
 		Account account = new Account();
 		account.SourceName = "Cash";
-		account.Symbol = "CASH";
 		account.Color = "#ffffff";
 		account.CreationDate = DateTime.Now;
 		account.LastUpdateDate = DateTime.Now;
@@ -66,7 +65,6 @@ public class LoginViewModel : BaseViewModel
 		account.AppUserId = appuser.Id;
 		await mainVM.accountService.CreateAccountAsync(account);
 		
-		appuser.Accounts.Add(account);
 		appuser.LastUpdateDate = DateTime.Now;
 		await mainVM.appUserService.UpdateAppUserAsync();
 		
@@ -76,7 +74,7 @@ public class LoginViewModel : BaseViewModel
 		// register successful
 		mainVM.SetCurrentUser(user);
 
-		//await PopulateNewUser(user);
+		await PopulateNewUser(user);
 		
 		mainVM.SwitchToDashBoard();
 	}
@@ -115,7 +113,6 @@ public class LoginViewModel : BaseViewModel
 		
 		Account account = new Account();
 		account.SourceName = sourceName;
-		account.Symbol = symbol;
 		account.Color = Helpers.ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
 		account.Balance = (decimal)(rnd.Next(200000)) / (decimal)100;
 		account.CreationDate = DateTime.Now;
@@ -131,7 +128,6 @@ public class LoginViewModel : BaseViewModel
 		
 		Category category = new Category();
 		category.SourceName = sourceName;
-		category.Symbol = symbol;
 		category.Color = Helpers.ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
 		category.CreationDate = DateTime.Now;
 		category.LastUpdateDate = DateTime.Now;

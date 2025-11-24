@@ -26,6 +26,7 @@ public class DashboardViewModel : BaseMenuViewModel
 	#region Category management
 	
 	private CategoryForm CategoryForm { get; set; }
+	private DeleteCategoryForm DeleteCategoryForm { get; set; }
 	public CategoryFormDTO CatFormDTO { get; } = new CategoryFormDTO();
 	public CategoryDisplayDTO SelectedCategory { get; set; }
 	public List<Category> Categories { get; set; } = new List<Category>();
@@ -118,9 +119,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		if (isUpdate)
 		{
 			CatFormDTO.CategoryName = SelectedCategory.CategoryName;
-			CatFormDTO.CategorySymbol = SelectedCategory.CategorySymbol;
 			CatFormDTO.CategoryColor = (Color)ColorConverter.ConvertFromString(SelectedCategory.CategoryColor);
-			CatFormDTO.CreationDate = SelectedCategory.CreationDate;
 		}
 		
 		CategoryForm = new CategoryForm(this, isUpdate);
@@ -142,13 +141,14 @@ public class DashboardViewModel : BaseMenuViewModel
 		cat = Helpers.SetNewCategory(
 			cat.AppUserId, 
 			CatFormDTO.CategoryName, 
-			CatFormDTO.CategorySymbol, 
-			CatFormDTO.CategoryColor.ToString(), 
-			CatFormDTO.CreationDate
+			CatFormDTO.CategoryColor.ToString()
 			);
-		
+
 		if (CategoryForm.IsUpdate)
+		{
+			cat.CreationDate = SelectedCategory.CreationDate;	
 			await mainVM.categoryService.UpdateCategoryAsync();
+		}
 		else
 		{
 			cat.AppUserId = mainVM.CurrentUser.Id;
@@ -161,7 +161,7 @@ public class DashboardViewModel : BaseMenuViewModel
 	private async void DeleteCategory(object? sender, bool isConfirmed)
 	{
 		if (!isConfirmed) return;
-		await mainVM.categoryService.DeleteCategoryAsync(mainVM.CurrentUser.Id, SelectedCategory.CategoryId);
+		//await mainVM.categoryService.DeleteCategoryAsync(mainVM.CurrentUser.Id, SelectedCategory.CategoryId);
 		UpdateCategories();
 	}
 	
@@ -176,9 +176,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		if (isUpdate)
 		{
 			AccFormDTO.AccountName = SelectedAccount.AccountName;
-			AccFormDTO.AccountSymbol = SelectedAccount.AccountSymbol;
 			AccFormDTO.AccountColor = (Color)ColorConverter.ConvertFromString(SelectedAccount.AccountColor);
-			AccFormDTO.CreationDate = SelectedAccount.CreationDate;
 		}
 		
 		AccountForm = new AccountForm(this, isUpdate);
@@ -198,17 +196,18 @@ public class DashboardViewModel : BaseMenuViewModel
 				return;
 		}
 		
-		Helpers.SetNewAccount(
+		acc = Helpers.SetNewAccount(
 			acc.AppUserId, 
-			AccFormDTO.AccountName, 
-			AccFormDTO.AccountSymbol, 
+			AccFormDTO.AccountName,
 			acc.Balance, 
-			AccFormDTO.AccountColor.ToString(), 
-			AccFormDTO.CreationDate
+			AccFormDTO.AccountColor.ToString()
 			);
-		
+
 		if (AccountForm.IsUpdate)
+		{
+			acc.CreationDate = SelectedAccount.CreationDate;
 			await mainVM.accountService.UpdateAccountAsync();
+		}
 		else
 		{
 			acc.Balance = AccFormDTO.AccountBalance;

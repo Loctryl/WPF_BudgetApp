@@ -71,7 +71,6 @@
                                   IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding AccountName}" Header="Account Name" />
-                                <DataGridTextColumn Binding="{Binding AccountSymbol}" Header="Account Symbol" />
                                 
                                 <DataGridTextColumn Binding="{Binding AccountColor}" Header="Account Color">
                                     <DataGridTextColumn.CellStyle>
@@ -109,7 +108,6 @@
                                   IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding CategoryName}" Header="Category Name" />
-                                <DataGridTextColumn Binding="{Binding CategorySymbol}" Header="Symbol" />
                                 
                                 <DataGridTextColumn Binding="{Binding CategoryColor}" Header="Color">
                                     <DataGridTextColumn.CellStyle>

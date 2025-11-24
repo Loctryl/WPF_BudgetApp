@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Windows.Documents;
+using Microsoft.EntityFrameworkCore;
 using WPF_BudgetApp.Data;
 using WPF_BudgetApp.Data.Models;
 using WPF_BudgetApp.Services.Interfaces;
@@ -35,11 +36,16 @@ public class CategoryService : ServiceBase<Category>, ICategoryService
 
 	public async Task UpdateCategoryAsync() => await _context.SaveChangesAsync();
 
-	public async Task<Category?> DeleteCategoryAsync(uint userId, uint categoryId)
+	public async Task<Category?> DeleteCategoryAsync(uint userId, uint categoryId, uint replaceCategoryId)
 	{
 		var category = GetCategoryByIdAsync(userId, categoryId).Result;
-		if (category == null)
+		var replaceCategory = GetCategoryByIdAsync(userId, replaceCategoryId).Result;
+		if (category == null || replaceCategory == null)
 			return null;
+
+		List<Transfer> missingCat = _context.Transfers.AsQueryable().Where(x => x.CategoryId == category.Id).ToList();
+		foreach (var transfer in missingCat)
+			transfer.CategoryId = replaceCategory.Id;
 		
 		_context.Categories.Remove(category);
 		await _context.SaveChangesAsync();
