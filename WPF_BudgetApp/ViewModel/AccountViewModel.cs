@@ -137,6 +137,8 @@ public class AccountViewModel : BaseMenuViewModel
 				TransFormDTO.CategoriesOptions = mainVM.categoryService.GetAllCategoryAsync(mainVM.CurrentUser.Id).Result;
 				break;
 			case FormType.DELETE:
+				TransFormDTO.TransferId = SelectedTransfer.TransferId;
+				TransFormDTO.TransferAmount = SelectedTransfer.TransferAmount;
 				break;
 		}
 		

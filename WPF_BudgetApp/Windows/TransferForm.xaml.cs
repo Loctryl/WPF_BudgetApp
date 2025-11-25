@@ -28,11 +28,10 @@ public partial class TransferForm : Window
 				break;
 			case FormType.DELETE:
 				deleteFields.Visibility = Visibility.Visible;
+				ConfirmButt.IsEnabled = true;
 				break;
 		}
 	}
-	
-	
 	
 	private void AddEditConfirmAvailability(object sender, RoutedEventArgs e)
 	{

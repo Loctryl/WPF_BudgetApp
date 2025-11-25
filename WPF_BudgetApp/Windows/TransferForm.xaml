@@ -23,7 +23,7 @@
                     <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 
-                <Grid Grid.Row="0" Name="addEditFields" Visibility="Visible">
+                <Grid Grid.Row="0" Name="addEditFields" Visibility="Collapsed">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
