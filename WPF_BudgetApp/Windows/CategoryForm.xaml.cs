@@ -15,9 +15,10 @@ public partial class CategoryForm : Window
 	public CategoryForm(CategoryFormDTO dataContext, FormType formType)
 	{
 		InitializeComponent();
-		DataContext = dataContext;
 		Topmost = true;
 		Deactivated += Window_Deactivated;
+		
+		DataContext = dataContext;
 		FormType = formType;
 
 		switch (FormType)

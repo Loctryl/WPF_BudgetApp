@@ -4,8 +4,10 @@ namespace WPF_BudgetApp.Data.DTOs;
 
 public class TransferFormDTO
 {
+	public uint TransferId { get; set; }
 	public string TransferName { get; set; }
 	public decimal TransferAmount { get; set; }
+	public decimal FirstTransferAmount { get; set; }
 	public Category TransferCategory { get; set; }
 	public DateTime TransferDate { get; set; }
 	public DateTime CreationDate { get; set; }
@@ -15,14 +17,15 @@ public class TransferFormDTO
 	{
 		TransferName = string.Empty;
 		TransferAmount = 0;
+		FirstTransferAmount = 0;
 		TransferCategory = null;
 		TransferDate = DateTime.Now;
 		CreationDate = DateTime.Now;
 		LastUpdateDate = DateTime.Now;
-		Categories.Clear();
+		CategoriesOptions.Clear();
 	}
 
-	public List<Category> Categories { get; set; } = new List<Category>();
+	public List<Category> CategoriesOptions { get; set; } = new List<Category>();
 }
 
 public class TransferDisplayDTO(Transfer transfer)

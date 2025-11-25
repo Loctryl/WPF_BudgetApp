@@ -42,9 +42,9 @@ public class AccountViewModel : BaseMenuViewModel
 	
 	public AccountViewModel(MainViewModel mainVM) : base(mainVM)
 	{
-		AddTransferCommand = new RelayCommand(_ => TransferFormCall(false, ReceiveTransferForm));
-		UpdateTransferCommand = new RelayCommand(_ => TransferFormCall(true, ReceiveTransferForm));
-		DeleteTransferCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteTransfer));
+		AddTransferCommand = new RelayCommand(_ => TransferFormCall(FormType.ADD, ReceiveTransferForm));
+		UpdateTransferCommand = new RelayCommand(_ => TransferFormCall(FormType.EDIT, ReceiveTransferForm));
+		DeleteTransferCommand = new RelayCommand(_ => TransferFormCall(FormType.DELETE, ReceiveTransferForm));
 		
 		TransferMonthCommand = new RelayCommand(TransferMonthSwitch);
 	}
@@ -116,22 +116,31 @@ public class AccountViewModel : BaseMenuViewModel
 	
 	#region TransferForm
 	
-	private void TransferFormCall(bool isUpdate, EventHandler<bool> func)
+	private void TransferFormCall(FormType formType, EventHandler<bool> func)
 	{
 		TransFormDTO.Reset();
 		
-		if (isUpdate)
+		switch (formType)
 		{
-			TransFormDTO.TransferName = SelectedTransfer.TransferName;
-			TransFormDTO.TransferAmount = SelectedTransfer.TransferAmount;
-			TransFormDTO.TransferCategory = mainVM.categoryService.GetCategoryByIdAsync(mainVM.CurrentUser.Id, SelectedTransfer.TransferCategory).Result;
-			TransFormDTO.TransferDate = SelectedTransfer.TransferDate;
-			TransFormDTO.CreationDate = SelectedTransfer.CreationDate;
+			case FormType.ADD:
+				TransFormDTO.CategoriesOptions = mainVM.categoryService.GetAllCategoryAsync(mainVM.CurrentUser.Id).Result;
+				break;
+			case FormType.EDIT:
+				TransFormDTO.TransferId = SelectedTransfer.TransferId;
+				TransFormDTO.TransferName = SelectedTransfer.TransferName;
+				TransFormDTO.TransferAmount = SelectedTransfer.TransferAmount;
+				TransFormDTO.FirstTransferAmount = SelectedTransfer.TransferAmount;
+				TransFormDTO.TransferCategory = mainVM.categoryService.GetCategoryByIdAsync(mainVM.CurrentUser.Id, SelectedTransfer.TransferCategory).Result;
+				TransFormDTO.TransferDate = SelectedTransfer.TransferDate;
+				TransFormDTO.CreationDate = SelectedTransfer.CreationDate;
+				
+				TransFormDTO.CategoriesOptions = mainVM.categoryService.GetAllCategoryAsync(mainVM.CurrentUser.Id).Result;
+				break;
+			case FormType.DELETE:
+				break;
 		}
 		
-		TransFormDTO.Categories = mainVM.categoryService.GetAllCategoryAsync(mainVM.CurrentUser.Id).Result;
-		
-		TransferForm = new TransferForm(this, isUpdate);
+		TransferForm = new TransferForm(TransFormDTO, formType);
 		TransferForm.ConfirmEvent += func;
 		TransferForm.Show();
 	}
@@ -140,46 +149,53 @@ public class AccountViewModel : BaseMenuViewModel
 	{
 		if (!isConfirmed) return;
 		
-		Transfer trans = new Transfer();
-		if (TransferForm.IsUpdate)
+		switch (TransferForm.FormType)
 		{
-			trans = Transfers.Where(c => c.Id == SelectedTransfer.TransferId).FirstOrDefault();
-			if (trans == null)
-				return;
-		}
-		
-		trans = Helpers.SetNewTransfer(
-			TransFormDTO.TransferName, 
-			TransFormDTO.TransferAmount, 
-			TransFormDTO.TransferCategory.Id, 
-			CurrentSelectedAccount.Id, 
-			TransFormDTO.TransferDate, 
-			TransFormDTO.CreationDate
-			);
-
-		if (TransferForm.IsUpdate)
-		{
-			if (trans.Amount != SelectedTransfer.TransferAmount)
-			{
-				CurrentSelectedAccount.Balance -= SelectedTransfer.TransferAmount;
-				CurrentSelectedAccount.Balance += trans.Amount;
-			}
-			await mainVM.transferService.UpdateTransferAsync();
-		}
-		else
-		{
-			CurrentSelectedAccount.Balance += trans.Amount;
-			await mainVM.transferService.CreateTransferAsync(trans);
+			case FormType.ADD:
+				await AddTransfer();
+				break;
+			case FormType.EDIT:
+				await EditTransfer();
+				break;
+			case FormType.DELETE:
+				await DeleteTransfer();
+				break;
 		}
 		
 		UpdateSelectedAccount();
 	}
-
-	private async void DeleteTransfer(object? sender, bool isConfirmed)
+	
+	private async Task AddTransfer()
 	{
-		if (!isConfirmed) return;
-		CurrentSelectedAccount.Balance -= SelectedTransfer.TransferAmount;
-		await mainVM.transferService.DeleteTransferAsync(mainVM.CurrentUser.Id, SelectedTransfer.TransferId);
+		Transfer trans = Helpers.SetNewTransfer(
+			TransFormDTO.TransferName, 
+			TransFormDTO.TransferAmount,
+			TransFormDTO.TransferCategory.Id,
+			CurrentSelectedAccount.Id,
+			TransFormDTO.TransferDate
+		);
+		
+		CurrentSelectedAccount.Balance += trans.Amount;
+		await mainVM.transferService.CreateTransferAsync(trans);
+	}
+	
+	private async Task EditTransfer()
+	{
+		Transfer trans = Transfers.First(c => c.Id == TransFormDTO.TransferId);
+		trans.SourceName = TransFormDTO.TransferName;
+		trans.Amount = TransFormDTO.TransferAmount;
+		trans.CategoryId = TransFormDTO.TransferCategory.Id;
+		trans.OperationDate = TransFormDTO.TransferDate;
+		
+		CurrentSelectedAccount.Balance -= TransFormDTO.FirstTransferAmount;
+		CurrentSelectedAccount.Balance += trans.Amount;
+		await mainVM.categoryService.UpdateCategoryAsync();
+	}
+
+	private async Task DeleteTransfer()
+	{
+		CurrentSelectedAccount.Balance -= TransFormDTO.TransferAmount;
+		await mainVM.transferService.DeleteTransferAsync(mainVM.CurrentUser.Id, TransFormDTO.TransferId);
 		UpdateSelectedAccount();
 	}
 	

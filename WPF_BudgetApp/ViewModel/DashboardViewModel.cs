@@ -26,7 +26,6 @@ public class DashboardViewModel : BaseMenuViewModel
 	#region Category management
 	
 	private CategoryForm CategoryForm { get; set; }
-	private DeleteCategoryForm DeleteCategoryForm { get; set; }
 	public CategoryFormDTO CatFormDTO { get; } = new CategoryFormDTO();
 	public CategoryDisplayDTO SelectedCategory { get; set; }
 	public List<Category> Categories { get; set; } = new List<Category>();

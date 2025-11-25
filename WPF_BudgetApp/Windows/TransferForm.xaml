@@ -12,46 +12,69 @@
     <Border Background="#fff" BorderThickness="2" BorderBrush="Blue" MouseDown="Border_MouseDown">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*"/>
                 <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
             
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="70*"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 
-                <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Transfer Name" />
-                <TextBox Grid.Row="0" Name="nameTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferName}" />
+                <Grid Grid.Row="0" Name="addEditFields" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
                 
-                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Transfer Amount" />
-                <TextBox Grid.Row="1" Name="amountTB" Style="{StaticResource textBox}" Height="25" Text="{Binding TransferAmount}" />
+                    <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Transfer Name" />
+                    <TextBox Grid.Row="0" Name="transferNameTB" 
+                             Style="{StaticResource textBox}" 
+                             Height="25" 
+                             Text="{Binding TransferName}" 
+                             SelectionChanged="AddEditConfirmAvailability"
+                             />
+                    
+                    <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Transfer Amount" />
+                    <TextBox Grid.Row="1" Name="transferAmountTB" 
+                             Style="{StaticResource textBox}" 
+                             Height="25" 
+                             Text="{Binding TransferAmount}" 
+                             SelectionChanged="AddEditConfirmAvailability"
+                             />
+                    
+                    <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Transfer Category" />
+                    <ComboBox Grid.Row="2" Name="transferCategoryCB"
+                              ItemsSource="{Binding CategoriesOptions}" 
+                              SelectedItem="{Binding TransferCategory}"
+                              DisplayMemberPath="SourceName"
+                              SelectedValuePath="SourceName"
+                              Height="25"
+                              SelectionChanged="AddEditConfirmAvailability"
+                              />
+                    
+                    <Label Grid.Row="3" Style="{StaticResource labelTextBox}" Content="Transfer Date" />
+                    <DatePicker Grid.Row="3"
+                                Style="{StaticResource textBox}" 
+                                Height="25" 
+                                SelectedDate="{Binding TransferDate}"
+                                />
+                </Grid>
                 
-                <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Transfer Category" />
-                <ComboBox Grid.Row="2" Name="categoryCB" 
-                          ItemsSource="{Binding Categories}" 
-                          SelectedItem="{Binding TransferCategory}"
-                          DisplayMemberPath="SourceName"
-                          SelectedValuePath="SourceName"
-                          Height="25"
-                >
-                </ComboBox>
+                <StackPanel Grid.Row="0" Name="deleteFields" Visibility="Collapsed" VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource baseTextBlockStyle}" FontSize="30" TextWrapping="Wrap" TextAlignment="Center"
+                               Margin="0 0 0 20" Foreground="Red"
+                               Text="Deleting this transfer. &#10; Are you sure ?" 
+                    />
+                </StackPanel>
                 
-                <Label Grid.Row="3" Style="{StaticResource labelTextBox}" Content="Transfer Date" />
-                <DatePicker Grid.Row="3" Name="dateTB" 
-                            Style="{StaticResource textBox}" 
-                            Height="25" 
-                            SelectedDate="{Binding TransferDate}"
-                            />
-                
-                <Grid Grid.Row="4" Height="40" MinWidth="220" HorizontalAlignment="Center">
-                    <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />
-                    <Button Name="CancelButt" Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
+                <Grid Grid.Row="1" Height="40" MinWidth="220" HorizontalAlignment="Center">
+                    <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" IsEnabled="False" />
+                    <Button Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
         </Grid>

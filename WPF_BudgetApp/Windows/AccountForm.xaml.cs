@@ -14,9 +14,10 @@ public partial class AccountForm : Window
 	public AccountForm(AccountFormDTO dataContext, FormType formType)
 	{
 		InitializeComponent();
-		DataContext = dataContext;
 		Topmost = true;
 		Deactivated += Window_Deactivated;
+		
+		DataContext = dataContext;
 		FormType = formType;
 		
 		switch (FormType)

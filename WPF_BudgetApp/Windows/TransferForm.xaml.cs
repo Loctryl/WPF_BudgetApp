@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using WPF_BudgetApp.Data.DTOs;
+using WPF_BudgetApp.Resources;
 using WPF_BudgetApp.ViewModel;
 
 namespace WPF_BudgetApp.Windows;
@@ -7,17 +9,42 @@ namespace WPF_BudgetApp.Windows;
 public partial class TransferForm : Window
 {
 	public event EventHandler<bool>? ConfirmEvent;
-	public readonly bool IsUpdate;
+	public readonly FormType FormType;
 	
-	public TransferForm(AccountViewModel parentVM, bool isUpdate)
+	public TransferForm(TransferFormDTO dataContext, FormType formType)
 	{
 		InitializeComponent();
 		Topmost = true;
 		Deactivated += Window_Deactivated;
 		
-		DataContext = parentVM.TransFormDTO;
-		IsUpdate = isUpdate;
+		DataContext = dataContext;
+		FormType = formType;
+		
+		switch (FormType)
+		{
+			case FormType.ADD:
+			case FormType.EDIT:
+				addEditFields.Visibility = Visibility.Visible;
+				break;
+			case FormType.DELETE:
+				deleteFields.Visibility = Visibility.Visible;
+				break;
+		}
 	}
+	
+	
+	
+	private void AddEditConfirmAvailability(object sender, RoutedEventArgs e)
+	{
+		if (!string.IsNullOrEmpty(transferNameTB.Text) 
+		    && (transferAmountTB.Text != "0" && !string.IsNullOrEmpty(transferNameTB.Text)) 
+		    && transferCategoryCB.SelectedItem != null)
+		{
+			ConfirmButt.IsEnabled = true;
+		}
+	}
+	
+	#region Window Events
 	
 	private void Window_Deactivated(object? sender, EventArgs e)
 	{
@@ -52,4 +79,6 @@ public partial class TransferForm : Window
 			ConfirmEvent -= (d as EventHandler<bool>);
 		Deactivated -= Window_Deactivated;
 	}
+	
+	#endregion
 }
