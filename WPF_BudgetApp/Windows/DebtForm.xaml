@@ -9,52 +9,127 @@
         AllowsTransparency="True" Background="Transparent"
         Style="{StaticResource window}">
     <Border Background="#fff" BorderThickness="2" BorderBrush="Blue" MouseDown="Border_MouseDown">
-        <Grid>
+        <Grid Name="mainGrid">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*"/>
                 <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
             
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="70*"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 
-                <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Debt Name" />
-                <TextBox Grid.Row="0" Name="nameTB" Style="{StaticResource textBox}" Height="25" Text="{Binding DebtName}" />
+                <Grid Grid.Row="0" Name="addFields" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    
+                        <Label Grid.Column="0" Style="{StaticResource labelTextBox}" Content="Debt Name" />
+                        <TextBox Grid.Column="0" Name="addDebtName" 
+                                 Style="{StaticResource textBox}" 
+                                 Height="25" 
+                                 Text="{Binding DebtName}" 
+                                 SelectionChanged="AddConfirmAvailability"
+                                 />
+                        
+                        <Label Grid.Column="2" Style="{StaticResource labelTextBox}" Content="Initial Amount" />
+                        <TextBox Grid.Column="2" Name="addDebtInitAmount" 
+                                 Style="{StaticResource textBox}" 
+                                 Height="25" 
+                                 Text="{Binding DebtInitialAmount}"
+                                 SelectionChanged="AddConfirmAvailability"
+                             />
+                    </Grid>
+                    
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    
+                        <Label Grid.Column="0" Style="{StaticResource labelTextBox}" Content="Current Debt" />
+                        <TextBox Grid.Column="0" Name="addDebtCurrAmount" 
+                                 Style="{StaticResource textBox}" 
+                                 Height="25" 
+                                 Text="{Binding DebtCurrentAmount}"
+                                 SelectionChanged="AddConfirmAvailability"
+                                 />
+                        
+                        <Label Grid.Column="2" Style="{StaticResource labelTextBox}" Content="Debt Limit Date" />
+                        <DatePicker Grid.Column="2"
+                                    Style="{StaticResource textBox}" 
+                                    Height="25" 
+                                    SelectedDate="{Binding DebtLimitDate}" 
+                                    />
+                    
+                    </Grid>
+                    
+                    <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Beneficiary Account" />
+                    <ComboBox Grid.Row="2" Name="addDebtAccount" 
+                              ItemsSource="{Binding AccountsOptions}" 
+                              SelectedItem="{Binding BeneficiaryAccount}"
+                              DisplayMemberPath="SourceName"
+                              SelectedValuePath="SourceName"
+                              Height="25"
+                              SelectionChanged="AddConfirmAvailability"
+                              />
+                </Grid>
                 
-                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Initial Amount" />
-                <TextBox Grid.Row="1" Name="symbolTB" Style="{StaticResource textBox}" Height="25" Text="{Binding DebtInitialAmount}" />
+                <Grid Grid.Row="0" Name="editFields" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
                 
-                <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Current Debt" />
-                <TextBox Grid.Row="2" Style="{StaticResource textBox}" Height="25" Text="{Binding DebtCurrentAmount}" />
+                    <Label Grid.Column="0" Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Debt Name" />
+                    <TextBox Grid.Column="0" Grid.Row="0" Name="editDebtName" 
+                             Style="{StaticResource textBox}" 
+                             Height="25" 
+                             Text="{Binding DebtName}"
+                             SelectionChanged="EditConfirmAvailability"
+                             />
+                    
+                    <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Current Debt" />
+                    <TextBox Grid.Row="1" Name="editDebtCurrAmount" 
+                             Style="{StaticResource textBox}" 
+                             Height="25" 
+                             Text="{Binding DebtCurrentAmount}"
+                             SelectionChanged="EditConfirmAvailability"
+                             />
+                    
+                    <Label Grid.Row="2" Style="{StaticResource labelTextBox}" Content="Debt Limit Date" />
+                    <DatePicker Grid.Row="2" 
+                                Style="{StaticResource textBox}" 
+                                Height="25" 
+                                SelectedDate="{Binding DebtLimitDate}" 
+                                />
+                </Grid>
                 
-                <Label Grid.Row="3" Style="{StaticResource labelTextBox}" Content="Interest Rate" />
-                <TextBox Grid.Row="3" Style="{StaticResource textBox}" Height="25" Text="{Binding DebtInterestRate}" />
+                <StackPanel Grid.Row="0" Name="deleteFields" Visibility="Collapsed" VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource baseTextBlockStyle}" FontSize="30" TextWrapping="Wrap" TextAlignment="Center"
+                               Margin="0 0 0 20" Foreground="Red"
+                               Text="Deleting this debt. &#10; Are you sure ?" 
+                    />
+                </StackPanel>
                 
-                <Label Grid.Row="4" Style="{StaticResource labelTextBox}" Content="Debt Limit Date" />
-                <DatePicker Grid.Row="4" Name="dateTB" Style="{StaticResource textBox}" Height="25" SelectedDate="{Binding DebtLimitDate}" />
                 
-                <Label Grid.Row="5" Style="{StaticResource labelTextBox}" Content="Beneficiary Account" />
-                <ComboBox Grid.Row="5" Name="categoryCB" 
-                          ItemsSource="{Binding Accounts}" 
-                          SelectedItem="{Binding BeneficiaryAccount}"
-                          DisplayMemberPath="SourceName"
-                          SelectedValuePath="SourceName"
-                          Height="25"
-                >
-                </ComboBox>
-                
-                <Grid Grid.Row="6" Height="40" MinWidth="220" HorizontalAlignment="Center">
-                    <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />
-                    <Button Name="CancelButt" Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
+                <Grid Grid.Row="1" Height="40" MinWidth="220" HorizontalAlignment="Center">
+                    <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" IsEnabled="False" />
+                    <Button Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
         </Grid>

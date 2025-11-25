@@ -31,9 +31,9 @@ public class DebtViewModel : BaseMenuViewModel
 	
 	public DebtViewModel(MainViewModel mainVM) : base(mainVM)
 	{
-		AddDebtCommand = new RelayCommand(_ => DebtFormCall(false, ReceiveDebtForm));
-		UpdateDebtCommand = new RelayCommand(_ => DebtFormCall(true, ReceiveDebtForm));
-		DeleteDebtCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteDebt));
+		AddDebtCommand = new RelayCommand(_ => DebtFormCall(FormType.ADD, ReceiveDebtForm));
+		UpdateDebtCommand = new RelayCommand(_ => DebtFormCall(FormType.EDIT, ReceiveDebtForm));
+		DeleteDebtCommand = new RelayCommand(_ => DebtFormCall(FormType.DELETE, ReceiveDebtForm));
 	}
 	
 	#region Updating Data
@@ -60,23 +60,32 @@ public class DebtViewModel : BaseMenuViewModel
 	
 	#region TransferForm
 	
-	private void DebtFormCall(bool isUpdate, EventHandler<bool> func)
+	private void DebtFormCall(FormType formType, EventHandler<bool> func)
 	{
 		DebtFormDTO.Reset();
-		
-		if (isUpdate)
+
+		switch (formType)
 		{
-			DebtFormDTO.DebtName = SelectedDebt.DebtName;
-			DebtFormDTO.DebtInitialAmount = SelectedDebt.DebtInitialAmount;
-			DebtFormDTO.DebtCurrentAmount = SelectedDebt.DebtCurrentAmount;
-			DebtFormDTO.DebtInterestRate = SelectedDebt.DebtInterestRate;
-			DebtFormDTO.DebtLimitDate = SelectedDebt.DebtLimitDate;
-			DebtFormDTO.CreationDate = SelectedDebt.CreationDate;
+			case FormType.ADD:
+				DebtFormDTO.AccountsOptions = mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result;
+				break;
+			
+			case FormType.EDIT:
+				DebtFormDTO.DebtName = SelectedDebt.DebtName;
+				DebtFormDTO.DebtInitialAmount = SelectedDebt.DebtInitialAmount;
+				DebtFormDTO.DebtCurrentAmount = SelectedDebt.DebtCurrentAmount;
+				DebtFormDTO.DebtInterestRate = SelectedDebt.DebtInterestRate;
+				DebtFormDTO.DebtLimitDate = SelectedDebt.DebtLimitDate;
+				DebtFormDTO.CreationDate = SelectedDebt.CreationDate;
+				
+				DebtFormDTO.AccountsOptions = mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result;
+				break;
+			
+			case FormType.DELETE:
+				break;
 		}
 		
-		DebtFormDTO.Accounts = mainVM.accountService.GetAllAccountAsync(mainVM.CurrentUser.Id).Result;
-		
-		DebtForm = new DebtForm(this, isUpdate);
+		DebtForm = new DebtForm(DebtFormDTO, formType);
 		DebtForm.ConfirmEvent += func;
 		DebtForm.Show();
 	}
@@ -84,51 +93,58 @@ public class DebtViewModel : BaseMenuViewModel
 	private async void ReceiveDebtForm(object? sender, bool isConfirmed)
 	{
 		if (!isConfirmed) return;
-		
-		Debt debt = new Debt();
-		if (DebtForm.IsUpdate)
-		{
-			debt = Debts.Where(c => c.Id == SelectedDebt.DebtId).FirstOrDefault();
-			if (debt == null)
-				return;
-		}
-		
-		debt = Helpers.SetNewDebt(
-			DebtFormDTO.DebtName, 
-			DebtFormDTO.DebtInitialAmount, 
-			DebtFormDTO.DebtCurrentAmount, 
-			DebtFormDTO.DebtInterestRate, 
-			debt.CategoryId,
-			DebtFormDTO.DebtLimitDate, 
-			DebtFormDTO.CreationDate);
 
-		if (DebtForm.IsUpdate)
+		switch (DebtForm.FormType)
 		{
-			await mainVM.debtService.UpdateDebtAsync();
-		}
-		else
-		{
-			Category category = Helpers.SetNewCategory(mainVM.CurrentUser.Id, debt.SourceName, "DEBT");
-			await mainVM.categoryService.CreateCategoryAsync(category);
-			
-			Transfer transfer = Helpers.SetNewTransfer(debt.SourceName+" Initial Transfer", debt.InitialAmount, category.Id, DebtFormDTO.BeneficiaryAccount.Id, DateTime.Now);
-			DebtFormDTO.BeneficiaryAccount.Balance += transfer.Amount;
-			await mainVM.transferService.CreateTransferAsync(transfer);
-			
-			debt.CategoryId = category.Id;
-			await mainVM.debtService.CreateDebtAsync(debt);
+			case FormType.ADD:
+				await AddDebt();
+				break;
+			case FormType.EDIT:
+				await EditDebt();
+				break;
+			case FormType.DELETE:
+				await DeleteDebt();
+				break;
 		}
 		
-		DebtFormDTO.Reset();
 		UpdateDebts();
 	}
-
-	private async void DeleteDebt(object? sender, bool isConfirmed)
+	
+	private async Task AddDebt()
 	{
-		if (!isConfirmed) return;
-		await mainVM.debtService.DeleteDebtAsync(mainVM.CurrentUser.Id, SelectedDebt.DebtId);
-		UpdateDebts();
+		Debt debt = Helpers.SetNewDebt(
+			DebtFormDTO.DebtName, 
+			DebtFormDTO.DebtInitialAmount,
+			DebtFormDTO.DebtCurrentAmount,
+			DebtFormDTO.DebtInterestRate,
+			0,
+			DebtFormDTO.DebtLimitDate
+		);
+		Category category = Helpers.SetNewCategory(mainVM.CurrentUser.Id, debt.SourceName, Helpers.GetRandomColorInString());
+		await mainVM.categoryService.CreateCategoryAsync(category);
+		debt.CategoryId = category.Id;
+			
+		Transfer transfer = Helpers.SetNewTransfer(debt.SourceName+" Initial Transfer", debt.InitialAmount, category.Id, DebtFormDTO.BeneficiaryAccount.Id, DateTime.Now);
+		await mainVM.transferService.CreateTransferAsync(transfer);
+		DebtFormDTO.BeneficiaryAccount.Balance += transfer.Amount;
+			
+		await mainVM.debtService.CreateDebtAsync(debt);
 	}
+	
+	private async Task EditDebt()
+	{
+		Debt debt = Debts.First(c => c.Id == DebtFormDTO.DebtId);
+		debt.SourceName = DebtFormDTO.DebtName;
+		debt.CurrentDebt = DebtFormDTO.DebtCurrentAmount;
+		debt.InterestRate = DebtFormDTO.DebtInterestRate;
+		debt.LimitDate = DebtFormDTO.DebtLimitDate;
+		debt.LastUpdateDate = DateTime.Now;
+		
+		await mainVM.categoryService.UpdateCategoryAsync();
+	}
+
+	private async Task DeleteDebt()
+		=> await mainVM.debtService.DeleteDebtAsync(mainVM.CurrentUser.Id, DebtFormDTO.DebtId);
 	
 	#endregion
 }

@@ -111,7 +111,7 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	#region CategoryForm
 	
-	private void CategoryFormCall(FormType formType, EventHandler<bool> func)
+	private async void CategoryFormCall(FormType formType, EventHandler<bool> func)
 	{
 		CatFormDTO.Reset();
 
@@ -127,9 +127,15 @@ public class DashboardViewModel : BaseMenuViewModel
 				CatFormDTO.CreationDate = SelectedCategory.CreationDate;
 				break;
 			case FormType.DELETE:
+				if ((await mainVM.debtService.GetAllDebtAsync(mainVM.CurrentUser.Id)).Any(d => d.CategoryId == SelectedCategory.CategoryId))
+				{
+					//todo : Message box
+					return;
+				}
+				
 				CatFormDTO.CategoryId = SelectedCategory.CategoryId;
 				CatFormDTO.CategoriesOptions.AddRange(Categories);
-				CatFormDTO.CategoriesOptions.Remove(Categories.Where(c => c.Id == SelectedCategory.CategoryId).First());
+				CatFormDTO.CategoriesOptions.Remove(Categories.First(c => c.Id == SelectedCategory.CategoryId));
 				break;
 		}
 		
@@ -173,6 +179,8 @@ public class DashboardViewModel : BaseMenuViewModel
 		Category cat = Categories.First(c => c.Id == CatFormDTO.CategoryId);
 		cat.SourceName = CatFormDTO.CategoryName;
 		cat.Color = CatFormDTO.CategoryColor.ToString();
+		cat.LastUpdateDate = DateTime.Now;
+		
 		await mainVM.categoryService.UpdateCategoryAsync();
 	}
 
@@ -199,6 +207,7 @@ public class DashboardViewModel : BaseMenuViewModel
 				AccFormDTO.CreationDate = SelectedAccount.CreationDate;
 				break;
 			case FormType.DELETE:
+				AccFormDTO.AccountId = SelectedAccount.AccountId;
 				break;
 		}
 		
@@ -233,7 +242,7 @@ public class DashboardViewModel : BaseMenuViewModel
 			mainVM.CurrentUser.Id, 
 			AccFormDTO.AccountName, 
 			AccFormDTO.AccountBalance,
-			CatFormDTO.CategoryColor.ToString()
+			AccFormDTO.AccountColor.ToString()
 		);
 		await mainVM.accountService.CreateAccountAsync(acc);
 	}
@@ -243,6 +252,7 @@ public class DashboardViewModel : BaseMenuViewModel
 		Account acc = Accounts.First(c => c.Id == AccFormDTO.AccountId);
 		acc.SourceName = AccFormDTO.AccountName;
 		acc.Color = AccFormDTO.AccountColor.ToString();
+		acc.LastUpdateDate = DateTime.Now;
 		await mainVM.accountService.UpdateAccountAsync();
 	}
 

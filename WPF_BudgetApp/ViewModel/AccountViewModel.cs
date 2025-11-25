@@ -188,6 +188,7 @@ public class AccountViewModel : BaseMenuViewModel
 		trans.Amount = TransFormDTO.TransferAmount;
 		trans.CategoryId = TransFormDTO.TransferCategory.Id;
 		trans.OperationDate = TransFormDTO.TransferDate;
+		trans.LastUpdateDate = DateTime.Now;
 		
 		CurrentSelectedAccount.Balance -= TransFormDTO.FirstTransferAmount;
 		CurrentSelectedAccount.Balance += trans.Amount;
@@ -198,7 +199,6 @@ public class AccountViewModel : BaseMenuViewModel
 	{
 		CurrentSelectedAccount.Balance -= TransFormDTO.TransferAmount;
 		await mainVM.transferService.DeleteTransferAsync(mainVM.CurrentUser.Id, TransFormDTO.TransferId);
-		UpdateSelectedAccount();
 	}
 	
 	#endregion

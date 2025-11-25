@@ -35,6 +35,8 @@ public partial class AccountForm : Window
 		}
 	}
 	
+	#region Window Events
+	
 	private void Window_Deactivated(object? sender, EventArgs e)
 	{
 		Activate();
@@ -68,4 +70,6 @@ public partial class AccountForm : Window
 			ConfirmEvent -= (d as EventHandler<bool>);
 		Deactivated -= Window_Deactivated;
 	}
+	
+	#endregion
 }

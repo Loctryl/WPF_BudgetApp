@@ -35,12 +35,16 @@ public partial class TransferForm : Window
 	
 	private void AddEditConfirmAvailability(object sender, RoutedEventArgs e)
 	{
+		if(addEditFields.Visibility != Visibility.Visible) return;
+		
 		if (!string.IsNullOrEmpty(transferNameTB.Text) 
 		    && (transferAmountTB.Text != "0" && !string.IsNullOrEmpty(transferNameTB.Text)) 
 		    && transferCategoryCB.SelectedItem != null)
 		{
 			ConfirmButt.IsEnabled = true;
 		}
+		else
+			ConfirmButt.IsEnabled = false;
 	}
 	
 	#region Window Events

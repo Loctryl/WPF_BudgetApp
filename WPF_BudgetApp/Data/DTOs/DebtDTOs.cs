@@ -5,6 +5,7 @@ namespace WPF_BudgetApp.Data.DTOs;
 
 public class DebtFormDTO
 {
+	public uint DebtId { get; set; }
 	public string DebtName { get; set; }
 	public decimal DebtInitialAmount { get; set; }
 	public decimal DebtCurrentAmount { get; set; }
@@ -25,10 +26,10 @@ public class DebtFormDTO
 		LastUpdateDate = DateTime.Now;
 		BeneficiaryAccount = null;
 		
-		Accounts.Clear();
+		AccountsOptions.Clear();
 	}
 
-	public List<Account> Accounts { get; set; } = new List<Account>();
+	public List<Account> AccountsOptions { get; set; } = new List<Account>();
 }
 
 public class DebtDisplayDTO(Debt debt)
