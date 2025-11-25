@@ -19,20 +19,49 @@
             
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="70*"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 
-                <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Category Name" />
-                <TextBox Grid.Row="0" Name="nameTB" Style="{StaticResource textBox}" Height="25" Text="{Binding CategoryName}" />
+                <Grid Grid.Row="0" Name="addEditFields" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    
+                    <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Category Name" />
+                    <TextBox Grid.Row="0" Name="categoryNameTB" 
+                             Style="{StaticResource textBox}" 
+                             Height="25" 
+                             Text="{Binding CategoryName}" 
+                             SelectionChanged="AddEditConfirmAvailability" />
+                    
+                    <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Category Color" />
+                    <xctk:ColorPicker Grid.Row="1"
+                                      Style="{StaticResource textBox}" 
+                                      Height="25" ColorMode="ColorCanvas" 
+                                      SelectedColor="{Binding CategoryColor}"
+                                      SelectedColorChanged="AddEditConfirmAvailability"/>
+                </Grid>
                 
-                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Category Color" />
-                <xctk:ColorPicker Grid.Row="1" Name="colorTB" Style="{StaticResource textBox}" Height="25" ColorMode="ColorCanvas" SelectedColor="{Binding CategoryColor}" />
+                <Grid Grid.Row="0" Name="deleteFields" Visibility="Collapsed">
+                    <TextBlock Style="{StaticResource baseTextBlockStyle}" FontSize="12" TextWrapping="Wrap" Margin="0 20 0 0"
+                               Text="You need to choose another category for every transfer referencing the one you want to delete." />
+                    
+                    <Label Style="{StaticResource labelTextBox}" Content="Replacement Category" />
+                    <ComboBox Name="replaceCategoryCB" SelectionChanged="DeleteConfirmAvailability"
+                              ItemsSource="{Binding CategoriesOptions}" 
+                              SelectedItem="{Binding ReplaceCategory}"
+                              DisplayMemberPath="SourceName"
+                              SelectedValuePath="SourceName"
+                              Height="25"
+                    >
+                    </ComboBox>
+                </Grid>
                 
-                <Grid Grid.Row="2" Height="40" MinWidth="220" HorizontalAlignment="Center">
-                    <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />
-                    <Button Name="CancelButt" Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
+                <Grid Grid.Row="1" Height="40" MinWidth="220" HorizontalAlignment="Center">
+                    <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" IsEnabled="False" />
+                    <Button Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
         </Grid>

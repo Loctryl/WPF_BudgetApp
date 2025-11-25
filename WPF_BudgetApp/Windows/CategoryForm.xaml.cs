@@ -1,5 +1,8 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using WPF_BudgetApp.Data.DTOs;
+using WPF_BudgetApp.Resources;
 using WPF_BudgetApp.ViewModel;
 
 namespace WPF_BudgetApp.Windows;
@@ -7,17 +10,39 @@ namespace WPF_BudgetApp.Windows;
 public partial class CategoryForm : Window
 {
 	public event EventHandler<bool>? ConfirmEvent;
-	public readonly bool IsUpdate;
+	public readonly FormType FormType;
 	
-	public CategoryForm(DashboardViewModel parentVM, bool isUpdate)
+	public CategoryForm(CategoryFormDTO dataContext, FormType formType)
 	{
 		InitializeComponent();
+		DataContext = dataContext;
 		Topmost = true;
 		Deactivated += Window_Deactivated;
-		
-		DataContext = parentVM.CatFormDTO;
-		IsUpdate = isUpdate;
+		FormType = formType;
+
+		switch (FormType)
+		{
+			case FormType.ADD:
+			case FormType.EDIT:
+				addEditFields.Visibility = Visibility.Visible;
+				break;
+			case FormType.DELETE:
+				deleteFields.Visibility = Visibility.Visible;
+				break;
+		}
 	}
+
+	private void AddEditConfirmAvailability(object sender, RoutedEventArgs e)
+	{
+		ConfirmButt.IsEnabled = !string.IsNullOrEmpty(categoryNameTB.Text);
+	}
+
+	private void DeleteConfirmAvailability(object sender, RoutedEventArgs e)
+	{
+		ConfirmButt.IsEnabled = true;
+	}
+	
+	#region Window Events
 	
 	private void Window_Deactivated(object? sender, EventArgs e)
 	{
@@ -52,4 +77,5 @@ public partial class CategoryForm : Window
 			ConfirmEvent -= (d as EventHandler<bool>);
 		Deactivated -= Window_Deactivated;
 	}
+	#endregion
 }

@@ -48,9 +48,9 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	public DashboardViewModel(MainViewModel mainVM) : base(mainVM)
 	{ 
-		AddCategoryCommand = new RelayCommand(_ => CategoryFormCall(false, ReceiveCategoryForm));
-		UpdateCategoryCommand = new RelayCommand(_ => CategoryFormCall(true, ReceiveCategoryForm));
-		DeleteCategoryCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteCategory));
+		AddCategoryCommand = new RelayCommand(_ => CategoryFormCall(FormType.ADD, ReceiveCategoryForm));
+		UpdateCategoryCommand = new RelayCommand(_ => CategoryFormCall(FormType.EDIT, ReceiveCategoryForm));
+		DeleteCategoryCommand = new RelayCommand(_ => CategoryFormCall(FormType.DELETE, ReceiveCategoryForm));
 		
 		AddAccountCommand = new RelayCommand(_ => AccountFormCall(false, ReceiveAccountForm));
 		UpdateAccountCommand = new RelayCommand(_ => AccountFormCall(true, ReceiveAccountForm));
@@ -112,17 +112,29 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	#region CategoryForm
 	
-	private void CategoryFormCall(bool isUpdate, EventHandler<bool> func)
+	private void CategoryFormCall(FormType formType, EventHandler<bool> func)
 	{
 		CatFormDTO.Reset();
-		
-		if (isUpdate)
+
+		switch (formType)
 		{
-			CatFormDTO.CategoryName = SelectedCategory.CategoryName;
-			CatFormDTO.CategoryColor = (Color)ColorConverter.ConvertFromString(SelectedCategory.CategoryColor);
+			case FormType.ADD:
+				CatFormDTO.CategoryColor = Helpers.GetRandomColor();
+				break;
+			case FormType.EDIT:
+				CatFormDTO.CategoryId = SelectedCategory.CategoryId;
+				CatFormDTO.CategoryName = SelectedCategory.CategoryName;
+				CatFormDTO.CategoryColor = (Color)ColorConverter.ConvertFromString(SelectedCategory.CategoryColor);
+				CatFormDTO.CreationDate = SelectedCategory.CreationDate;
+				break;
+			case FormType.DELETE:
+				CatFormDTO.CategoryId = SelectedCategory.CategoryId;
+				CatFormDTO.CategoriesOptions.AddRange(Categories);
+				CatFormDTO.CategoriesOptions.Remove(Categories.Where(c => c.Id == SelectedCategory.CategoryId).First());
+				break;
 		}
 		
-		CategoryForm = new CategoryForm(this, isUpdate);
+		CategoryForm = new CategoryForm(CatFormDTO, formType);
 		CategoryForm.ConfirmEvent += func;
 		CategoryForm.Show();
 	}
@@ -131,39 +143,42 @@ public class DashboardViewModel : BaseMenuViewModel
 	{
 		if (!isConfirmed) return;
 		
-		Category cat = new Category();
-		if (CategoryForm.IsUpdate)
+		switch (CategoryForm.FormType)
 		{
-			cat = Categories.Where(c => c.Id == SelectedCategory.CategoryId).FirstOrDefault();
-			if (cat == null)
-				return;
-		}
-		cat = Helpers.SetNewCategory(
-			cat.AppUserId, 
-			CatFormDTO.CategoryName, 
-			CatFormDTO.CategoryColor.ToString()
-			);
-
-		if (CategoryForm.IsUpdate)
-		{
-			cat.CreationDate = SelectedCategory.CreationDate;	
-			await mainVM.categoryService.UpdateCategoryAsync();
-		}
-		else
-		{
-			cat.AppUserId = mainVM.CurrentUser.Id;
-			await mainVM.categoryService.CreateCategoryAsync(cat);
+			case FormType.ADD:
+				await AddCategory();
+				break;
+			case FormType.EDIT:
+				await EditCategory();
+				break;
+			case FormType.DELETE:
+				await DeleteCategory();
+				break;
 		}
 		
 		UpdateCategories();
 	}
 
-	private async void DeleteCategory(object? sender, bool isConfirmed)
+	private async Task AddCategory()
 	{
-		if (!isConfirmed) return;
-		//await mainVM.categoryService.DeleteCategoryAsync(mainVM.CurrentUser.Id, SelectedCategory.CategoryId);
-		UpdateCategories();
+		Category cat = Helpers.SetNewCategory(
+			mainVM.CurrentUser.Id, 
+			CatFormDTO.CategoryName, 
+			CatFormDTO.CategoryColor.ToString()
+		);
+		await mainVM.categoryService.CreateCategoryAsync(cat);
 	}
+	
+	private async Task EditCategory()
+	{
+		Category cat = Categories.First(c => c.Id == CatFormDTO.CategoryId);
+		cat.SourceName = CatFormDTO.CategoryName;
+		cat.Color = CatFormDTO.CategoryColor.ToString();
+		await mainVM.categoryService.UpdateCategoryAsync();
+	}
+
+	private async Task DeleteCategory() =>
+		await mainVM.categoryService.DeleteCategoryAsync(mainVM.CurrentUser.Id, CatFormDTO.CategoryId, CatFormDTO.ReplaceCategory.Id);
 	
 	#endregion
 	

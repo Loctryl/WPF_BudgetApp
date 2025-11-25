@@ -5,14 +5,23 @@ namespace WPF_BudgetApp.Data.DTOs;
 
 public class CategoryFormDTO
 {
+	public uint CategoryId { get; set; }
 	public string CategoryName { get; set; }
 	public Color CategoryColor { get; set; }
+	public DateTime CreationDate { get; set; }
+	public Category ReplaceCategory { get; set; }
 
 	public void Reset()
 	{
+		CategoryId = uint.MaxValue;
 		CategoryName = string.Empty;
 		CategoryColor = new Color();
+		CreationDate = DateTime.Now;
+		ReplaceCategory = null;
+		CategoriesOptions.Clear();
 	}
+
+	public List<Category> CategoriesOptions { get; set; } = new List<Category>();
 }
 
 public class CategoryDisplayDTO(Category category)

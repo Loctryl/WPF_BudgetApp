@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿
+using System.Windows.Media;
 using System.Linq.Expressions;
 using WPF_BudgetApp.Data.Models;
 
@@ -55,7 +56,7 @@ public static class Helpers
 		account.AppUserId = userId;
 		account.SourceName = sourceName;
 		account.Balance = balance;
-		account.Color = color != "" ? color : GetRandomColor();
+		account.Color = color != "" ? color : GetRandomColorInString();
 		account.CreationDate = creationDate ?? DateTime.Now;
 		account.LastUpdateDate = lastUpdateDate ?? DateTime.Now;
 		
@@ -68,7 +69,7 @@ public static class Helpers
 		Category category = new Category();
 		category.AppUserId = userId;
 		category.SourceName = sourceName;
-		category.Color = color != "" ? color : GetRandomColor();
+		category.Color = color != "" ? color : GetRandomColorInString();
 		category.CreationDate = creationDate ?? DateTime.Now;
 		category.LastUpdateDate = lastUpdateDate ?? DateTime.Now;
 
@@ -127,9 +128,15 @@ public static class Helpers
 		return new DateTime(y, m, d);
 	}
 
-	public static string GetRandomColor()
+	public static string GetRandomColorInString()
 	{
 		Random rnd = new Random();
-		return ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
+		return ToHex(Color.FromArgb(255,(byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
+	}
+	
+	public static Color GetRandomColor()
+	{
+		Random rnd = new Random();
+		return Color.FromArgb(255, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256));
 	}
 }
