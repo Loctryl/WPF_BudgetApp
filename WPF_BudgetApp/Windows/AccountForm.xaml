@@ -12,33 +12,59 @@
     <Border Background="#fff" BorderThickness="2" BorderBrush="Blue" MouseDown="Border_MouseDown">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*"/>
                 <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
             
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="70*"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 
-                <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Account Name" />
-                <TextBox Grid.Row="0" Name="nameTB" Style="{StaticResource textBox}" Height="25" Text="{Binding AccountName}" />
-                
-                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Account Color" />
-                <xctk:ColorPicker Grid.Row="1" Name="colorTB" Style="{StaticResource textBox}" Height="25" ColorMode="ColorCanvas" SelectedColor="{Binding AccountColor}" />
-                
-                <Grid Grid.Row="2" Name="balanceTB">
-                    <Label Style="{StaticResource labelTextBox}" Content="Account Balance" />
-                    <TextBox Style="{StaticResource textBox}" Height="25" Text="{Binding AccountBalance}" />
+                <Grid Grid.Row="0" Name="addEditFields" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    
+                    <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Account Name" />
+                    <TextBox Grid.Row="0" Name="accountNameTB" 
+                             Style="{StaticResource textBox}" 
+                             Height="25" 
+                             Text="{Binding AccountName}" 
+                             />
+                    
+                    <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Account Color" />
+                    <xctk:ColorPicker Grid.Row="1" 
+                                      Style="{StaticResource textBox}" 
+                                      Height="25" 
+                                      ColorMode="ColorCanvas" 
+                                      SelectedColor="{Binding AccountColor}"
+                                      />
+                    
+                    <Grid Grid.Row="2" Name="accountBalanceTB" Visibility="Collapsed">
+                        <Label Style="{StaticResource labelTextBox}" Content="Account Balance" />
+                        <TextBox Style="{StaticResource textBox}" Height="25" Text="{Binding AccountBalance}" />
+                    </Grid>
                 </Grid>
                 
-                <Grid Grid.Row="3" Height="40" MinWidth="220" HorizontalAlignment="Center">
+                <StackPanel Grid.Row="0" Name="deleteFields" Visibility="Collapsed" VerticalAlignment="Center">
+                    <TextBlock Style="{StaticResource baseTextBlockStyle}" FontSize="30" TextWrapping="Wrap" TextAlignment="Center"
+                               Margin="0 0 0 20" Foreground="Red"
+                               Text="Deleting this account. &#10; Are you sure ?" 
+                    />
+                    <TextBlock Style="{StaticResource baseTextBlockStyle}" FontSize="15" TextWrapping="Wrap" TextAlignment="Center"
+                               Margin="0 20 0 0"
+                               Text="Deleting your account will delete every transfers on this account." 
+                    />
+                </StackPanel>
+                
+                <Grid Grid.Row="1" Height="40" MinWidth="220" HorizontalAlignment="Center">
                     <Button Name="ConfirmButt" Style="{StaticResource windowFormsButton}" Click="ConfirmButt_OnClick" Content="Confirm" HorizontalAlignment="Left" />
-                    <Button Name="CancelButt" Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
+                    <Button Style="{StaticResource windowFormsButton}" Click="CancelButt_OnClick" Content="Cancel" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
         </Grid>

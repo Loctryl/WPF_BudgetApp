@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using WPF_BudgetApp.Data.DTOs;
+using WPF_BudgetApp.Resources;
 using WPF_BudgetApp.ViewModel;
 
 namespace WPF_BudgetApp.Windows;
@@ -7,17 +9,29 @@ namespace WPF_BudgetApp.Windows;
 public partial class AccountForm : Window
 {
 	public event EventHandler<bool>? ConfirmEvent;
-	public readonly bool IsUpdate;
+	public readonly FormType FormType;
 	
-	public AccountForm(DashboardViewModel parentVM, bool isUpdate)
+	public AccountForm(AccountFormDTO dataContext, FormType formType)
 	{
 		InitializeComponent();
+		DataContext = dataContext;
 		Topmost = true;
 		Deactivated += Window_Deactivated;
+		FormType = formType;
 		
-		DataContext = parentVM.AccFormDTO;
-		IsUpdate = isUpdate;
-		balanceTB.Visibility = IsUpdate ? Visibility.Hidden : Visibility.Visible;
+		switch (FormType)
+		{
+			case FormType.ADD:
+				addEditFields.Visibility = Visibility.Visible;
+				accountBalanceTB.Visibility = Visibility.Visible;
+				break;
+			case FormType.EDIT:
+				addEditFields.Visibility = Visibility.Visible;
+				break;
+			case FormType.DELETE:
+				deleteFields.Visibility = Visibility.Visible;
+				break;
+		}
 	}
 	
 	private void Window_Deactivated(object? sender, EventArgs e)

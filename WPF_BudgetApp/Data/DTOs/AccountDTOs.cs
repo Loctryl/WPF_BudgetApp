@@ -5,10 +5,12 @@ namespace WPF_BudgetApp.Data.DTOs;
 
 public class AccountFormDTO
 {
+	public uint AccountId { get; set; }
 	public string AccountName { get; set; }
 	public Color AccountColor { get; set; }
 	public decimal AccountBalance { get; set; }
-
+	public DateTime CreationDate { get; set; }
+	
 	public void Reset()
 	{
 		AccountName = string.Empty;

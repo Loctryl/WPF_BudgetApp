@@ -12,9 +12,9 @@
     <Border Background="#fff" BorderThickness="2" BorderBrush="Blue" MouseDown="Border_MouseDown">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*"/>
                 <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="35*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
             
             <Grid Grid.Column="1">
@@ -34,19 +34,22 @@
                              Style="{StaticResource textBox}" 
                              Height="25" 
                              Text="{Binding CategoryName}" 
-                             SelectionChanged="AddEditConfirmAvailability" />
+                             SelectionChanged="AddEditConfirmAvailability"
+                             />
                     
                     <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Category Color" />
                     <xctk:ColorPicker Grid.Row="1"
                                       Style="{StaticResource textBox}" 
                                       Height="25" ColorMode="ColorCanvas" 
                                       SelectedColor="{Binding CategoryColor}"
-                                      SelectedColorChanged="AddEditConfirmAvailability"/>
+                                      SelectedColorChanged="AddEditConfirmAvailability"
+                                      />
                 </Grid>
                 
                 <Grid Grid.Row="0" Name="deleteFields" Visibility="Collapsed">
                     <TextBlock Style="{StaticResource baseTextBlockStyle}" FontSize="12" TextWrapping="Wrap" Margin="0 20 0 0"
-                               Text="You need to choose another category for every transfer referencing the one you want to delete." />
+                               Text="You need to choose another category for every transfer referencing the one you want to delete." 
+                               />
                     
                     <Label Style="{StaticResource labelTextBox}" Content="Replacement Category" />
                     <ComboBox Name="replaceCategoryCB" SelectionChanged="DeleteConfirmAvailability"
@@ -55,7 +58,7 @@
                               DisplayMemberPath="SourceName"
                               SelectedValuePath="SourceName"
                               Height="25"
-                    >
+                              >
                     </ComboBox>
                 </Grid>
                 

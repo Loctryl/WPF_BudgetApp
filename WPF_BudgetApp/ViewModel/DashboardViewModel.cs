@@ -52,9 +52,9 @@ public class DashboardViewModel : BaseMenuViewModel
 		UpdateCategoryCommand = new RelayCommand(_ => CategoryFormCall(FormType.EDIT, ReceiveCategoryForm));
 		DeleteCategoryCommand = new RelayCommand(_ => CategoryFormCall(FormType.DELETE, ReceiveCategoryForm));
 		
-		AddAccountCommand = new RelayCommand(_ => AccountFormCall(false, ReceiveAccountForm));
-		UpdateAccountCommand = new RelayCommand(_ => AccountFormCall(true, ReceiveAccountForm));
-		DeleteAccountCommand = new RelayCommand(_ => ConfirmationWindowCall(DeleteAccount));
+		AddAccountCommand = new RelayCommand(_ => AccountFormCall(FormType.ADD, ReceiveAccountForm));
+		UpdateAccountCommand = new RelayCommand(_ => AccountFormCall(FormType.EDIT, ReceiveAccountForm));
+		DeleteAccountCommand = new RelayCommand(_ => AccountFormCall(FormType.DELETE, ReceiveAccountForm));
 	}
 	
 	#region Updating Data
@@ -184,17 +184,26 @@ public class DashboardViewModel : BaseMenuViewModel
 	
 	#region AccountForm
 	
-	private void AccountFormCall(bool isUpdate, EventHandler<bool> func)
+	private void AccountFormCall(FormType formType, EventHandler<bool> func)
 	{
 		AccFormDTO.Reset();
 		
-		if (isUpdate)
+		switch (formType)
 		{
-			AccFormDTO.AccountName = SelectedAccount.AccountName;
-			AccFormDTO.AccountColor = (Color)ColorConverter.ConvertFromString(SelectedAccount.AccountColor);
+			case FormType.ADD:
+				AccFormDTO.AccountColor = Helpers.GetRandomColor();
+				break;
+			case FormType.EDIT:
+				AccFormDTO.AccountId = SelectedAccount.AccountId;
+				AccFormDTO.AccountName = SelectedAccount.AccountName;
+				AccFormDTO.AccountColor = (Color)ColorConverter.ConvertFromString(SelectedAccount.AccountColor);
+				AccFormDTO.CreationDate = SelectedAccount.CreationDate;
+				break;
+			case FormType.DELETE:
+				break;
 		}
 		
-		AccountForm = new AccountForm(this, isUpdate);
+		AccountForm = new AccountForm(AccFormDTO, formType);
 		AccountForm.ConfirmEvent += func;
 		AccountForm.Show();
 	}
@@ -203,42 +212,43 @@ public class DashboardViewModel : BaseMenuViewModel
 	{
 		if (!isConfirmed) return;
 		
-		Account acc = new Account();
-		if (AccountForm.IsUpdate)
+		switch (AccountForm.FormType)
 		{
-			acc = Accounts.Where(a => a.Id == SelectedAccount.AccountId).FirstOrDefault();
-			if (acc == null)
-				return;
-		}
-		
-		acc = Helpers.SetNewAccount(
-			acc.AppUserId, 
-			AccFormDTO.AccountName,
-			acc.Balance, 
-			AccFormDTO.AccountColor.ToString()
-			);
-
-		if (AccountForm.IsUpdate)
-		{
-			acc.CreationDate = SelectedAccount.CreationDate;
-			await mainVM.accountService.UpdateAccountAsync();
-		}
-		else
-		{
-			acc.Balance = AccFormDTO.AccountBalance;
-			acc.AppUserId = mainVM.CurrentUser.Id;
-			await mainVM.accountService.CreateAccountAsync(acc);
+			case FormType.ADD:
+				await AddAccount();
+				break;
+			case FormType.EDIT:
+				await EditAccount();
+				break;
+			case FormType.DELETE:
+				await DeleteAccount();
+				break;
 		}
 		
 		UpdateAccounts();
 	}
 
-	private async void DeleteAccount(object? sender, bool isConfirmed)
+	private async Task AddAccount()
 	{
-		if (!isConfirmed) return;
-		await mainVM.accountService.DeleteAccountAsync(mainVM.CurrentUser.Id, SelectedAccount.AccountId);
-		UpdateAccounts();
+		Account acc = Helpers.SetNewAccount(
+			mainVM.CurrentUser.Id, 
+			AccFormDTO.AccountName, 
+			AccFormDTO.AccountBalance,
+			CatFormDTO.CategoryColor.ToString()
+		);
+		await mainVM.accountService.CreateAccountAsync(acc);
 	}
+
+	private async Task EditAccount()
+	{
+		Account acc = Accounts.First(c => c.Id == AccFormDTO.AccountId);
+		acc.SourceName = AccFormDTO.AccountName;
+		acc.Color = AccFormDTO.AccountColor.ToString();
+		await mainVM.accountService.UpdateAccountAsync();
+	}
+
+	private async Task DeleteAccount() 
+		=> await mainVM.accountService.DeleteAccountAsync(mainVM.CurrentUser.Id, AccFormDTO.AccountId);
 	
 	#endregion
 }
