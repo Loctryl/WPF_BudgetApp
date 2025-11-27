@@ -121,7 +121,7 @@ public class DebtViewModel : BaseMenuViewModel
 			DebtFormDTO.DebtLimitDate
 		);
 		Category category = Helpers.SetNewCategory(mainVM.CurrentUser.Id, debt.SourceName, Helpers.GetRandomColorInString());
-		await mainVM.categoryService.CreateCategoryAsync(category);
+		category = await mainVM.categoryService.CreateCategoryAsync(category);
 		debt.CategoryId = category.Id;
 			
 		Transfer transfer = Helpers.SetNewTransfer(debt.SourceName+" Initial Transfer", debt.InitialAmount, category.Id, DebtFormDTO.BeneficiaryAccount.Id, DateTime.Now);

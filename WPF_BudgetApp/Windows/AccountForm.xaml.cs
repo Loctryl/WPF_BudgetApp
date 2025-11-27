@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using WPF_BudgetApp.Data.DTOs;
 using WPF_BudgetApp.Resources;
-using WPF_BudgetApp.ViewModel;
 
 namespace WPF_BudgetApp.Windows;
 

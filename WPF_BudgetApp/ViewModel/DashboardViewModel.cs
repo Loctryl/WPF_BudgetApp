@@ -127,9 +127,11 @@ public class DashboardViewModel : BaseMenuViewModel
 				CatFormDTO.CreationDate = SelectedCategory.CreationDate;
 				break;
 			case FormType.DELETE:
-				if ((await mainVM.debtService.GetAllDebtAsync(mainVM.CurrentUser.Id)).Any(d => d.CategoryId == SelectedCategory.CategoryId))
+				if ((await mainVM.debtService.GetAllDebtAsync(mainVM.CurrentUser.Id)).Any(d =>
+					    d.CategoryId == SelectedCategory.CategoryId))
 				{
-					//todo : Message box
+					MessageBox = new MessageBox("You can't delete a category linked to a debt.");
+					MessageBox.Show();
 					return;
 				}
 				

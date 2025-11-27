@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Windows;
+using MessageBox = WPF_BudgetApp.Windows.MessageBox;
 
 namespace WPF_BudgetApp.ViewModel;
 
@@ -14,6 +15,7 @@ public abstract class BaseMenuViewModel : BaseViewModel
 	public string Name { get; set; } = string.Empty;
 	
 	private ConfirmWindow ConfirmWindow { get; set; }
+	protected MessageBox MessageBox { get; set; }
 
 	protected BaseMenuViewModel(MainViewModel mainVM)
 	{
