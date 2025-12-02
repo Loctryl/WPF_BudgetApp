@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using WPF_BudgetApp.Commands;
+using WPF_BudgetApp.Data.DTOs;
+using WPF_BudgetApp.Data.Models;
 using WPF_BudgetApp.Windows;
 using MessageBox = WPF_BudgetApp.Windows.MessageBox;
 
@@ -11,17 +13,21 @@ public abstract class BaseMenuViewModel : BaseViewModel
 	protected readonly MainViewModel mainVM;
 	public ICommand MenuCommand { get; }
 	public ICommand LogoutCommand { get; }
+	public ICommand UserCommand { get; }
 	
 	public string Name { get; set; } = string.Empty;
-	
-	private ConfirmWindow ConfirmWindow { get; set; }
 	protected MessageBox MessageBox { get; set; }
+	
+	
+	private UserForm UserForm { get; set; }
+	private UserFormDTO UserFormDTO { get; set; } = new UserFormDTO();
 
 	protected BaseMenuViewModel(MainViewModel mainVM)
 	{
 		this.mainVM = mainVM;
 		MenuCommand = new RelayCommand(RadioSwitch);
 		LogoutCommand = new RelayCommand(Logout);
+		UserCommand = new RelayCommand(_ => UserFormCall(ReceiveUserForm));
 	}
 
 	public virtual void UpdateData() => Name = mainVM.CurrentUser.SourceName;
@@ -48,11 +54,32 @@ public abstract class BaseMenuViewModel : BaseViewModel
 	}
 
 	private void Logout(object parameter) => mainVM.Logout();
-	
-	protected void ConfirmationWindowCall(EventHandler<bool> func)
+
+	private void UserFormCall(EventHandler<bool> func)
 	{
-		ConfirmWindow = new ConfirmWindow();
-		ConfirmWindow.ConfirmEvent += func;
-		ConfirmWindow.Show();
+		UserFormDTO.Reset();
+		
+		UserFormDTO.Username = mainVM.CurrentUser.SourceName;
+		UserFormDTO.Password = mainVM.CurrentUser.Password;
+		UserFormDTO.PrimaryColor = mainVM.CurrentUser.PrimaryColor;
+		UserFormDTO.SecondaryColor = mainVM.CurrentUser.SecondaryColor;
+		UserFormDTO.TertiaryColor = mainVM.CurrentUser.TertiaryColor;
+		
+		UserForm = new UserForm(UserFormDTO);
+		UserForm.ConfirmEvent += func;
+		UserForm.Show();
+	}
+
+	private async void ReceiveUserForm(object? sender, bool isConfirmed)
+	{
+		if (!isConfirmed) return;
+		
+		mainVM.CurrentUser.SourceName = UserFormDTO.Username;
+		mainVM.CurrentUser.Password = UserFormDTO.Password;
+		mainVM.CurrentUser.PrimaryColor = UserFormDTO.PrimaryColor;
+		mainVM.CurrentUser.SecondaryColor = UserFormDTO.SecondaryColor;
+		mainVM.CurrentUser.TertiaryColor = UserFormDTO.TertiaryColor;
+		
+		await mainVM.appUserService.UpdateAppUserAsync();
 	}
 }

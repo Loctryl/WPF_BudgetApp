@@ -15,6 +15,7 @@ public class TransferFormDTO
 
 	public void Reset()
 	{
+		TransferId = uint.MaxValue;
 		TransferName = string.Empty;
 		TransferAmount = 0;
 		FirstTransferAmount = 0;

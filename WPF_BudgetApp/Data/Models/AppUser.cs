@@ -6,5 +6,4 @@ public class AppUser : DBTable
 	public string PrimaryColor { get; set; } = string.Empty;
 	public string SecondaryColor { get; set; } = string.Empty;
 	public string TertiaryColor { get; set; } = string.Empty;
-	
 }

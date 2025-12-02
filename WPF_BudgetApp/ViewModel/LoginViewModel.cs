@@ -54,6 +54,9 @@ public class LoginViewModel : BaseViewModel
 		appuser.SourceName = Username;
 		appuser.Password = Password;
 		appuser.CreationDate = DateTime.Now;
+		appuser.PrimaryColor = "#FF19386B";
+		appuser.SecondaryColor = "#FF994636";
+		appuser.TertiaryColor = "#FFF7F3E3FF";
 		
 		Account account = new Account();
 		account.SourceName = "Cash";

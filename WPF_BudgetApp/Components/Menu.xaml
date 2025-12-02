@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
                 
             <StackPanel Grid.Row="0" VerticalAlignment="Center">
-                <Button Style="{StaticResource iconsButtons}" Height="50" Width="50" Foreground="Aquamarine" >
+                <Button Style="{StaticResource iconsButtons}" Height="50" Width="50" Foreground="Aquamarine" Command="{Binding UserCommand}" >
                     <iconPacks:PackIconMaterial Kind="Account" Width="50" Height="50" />
                 </Button>
                 <TextBlock Text="{Binding Name}" Style="{StaticResource baseTextBlockStyle}" HorizontalAlignment="Center" FontSize="25"/>
