@@ -1,8 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using WPF_BudgetApp.Commands;
 using WPF_BudgetApp.Data.DTOs;
-using WPF_BudgetApp.Data.Models;
 using WPF_BudgetApp.Windows;
 using MessageBox = WPF_BudgetApp.Windows.MessageBox;
 
@@ -10,7 +8,7 @@ namespace WPF_BudgetApp.ViewModel;
 
 public abstract class BaseMenuViewModel : BaseViewModel
 {
-	protected readonly MainViewModel mainVM;
+	public readonly MainViewModel mainVM;
 	public ICommand MenuCommand { get; }
 	public ICommand LogoutCommand { get; }
 	public ICommand UserCommand { get; }

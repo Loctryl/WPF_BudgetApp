@@ -1,4 +1,5 @@
-﻿using WPF_BudgetApp.Data.Models;
+﻿using System.Windows;
+using WPF_BudgetApp.Data.Models;
 using WPF_BudgetApp.Services.Interfaces;
 
 namespace WPF_BudgetApp.ViewModel;
@@ -83,7 +84,12 @@ public class MainViewModel : BaseViewModel
 
 	public void Logout()
 	{
-		CurrentUser = null;
+		CurrentUser = new AppUser();
+		CurrentUser.PrimaryColor = "#FFF7F3E3";
+		CurrentUser.SecondaryColor = "#FF57504C";
+		CurrentUser.TertiaryColor = "#FF57504C";
+		CurrentUser.WritingColor = "#FF000000";
+		
 		CurrentVM = LoginVM;
 	}
 

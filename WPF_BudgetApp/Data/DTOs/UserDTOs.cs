@@ -7,6 +7,7 @@ public class UserFormDTO
 	public string PrimaryColor { get; set; } = string.Empty;
 	public string SecondaryColor { get; set; } = string.Empty;
 	public string TertiaryColor { get; set; } = string.Empty;
+	public string WritingColor { get; set; } = string.Empty;
 
 	public void Reset()
 	{
@@ -15,5 +16,6 @@ public class UserFormDTO
 		PrimaryColor = string.Empty;
 		SecondaryColor = string.Empty;
 		TertiaryColor = string.Empty;
+		WritingColor = string.Empty;
 	}
 }

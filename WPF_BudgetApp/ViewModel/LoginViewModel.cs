@@ -8,7 +8,7 @@ namespace WPF_BudgetApp.ViewModel;
 
 public class LoginViewModel : BaseViewModel
 {
-	private readonly MainViewModel mainVM;
+	public readonly MainViewModel mainVM;
 	public ICommand LoginCommand { get; }
 	public ICommand RegisterCommand { get; }
 	public string Username {get; set;}
@@ -54,9 +54,10 @@ public class LoginViewModel : BaseViewModel
 		appuser.SourceName = Username;
 		appuser.Password = Password;
 		appuser.CreationDate = DateTime.Now;
-		appuser.PrimaryColor = "#FF19386B";
+		appuser.PrimaryColor = "#FFF7F3E3";
 		appuser.SecondaryColor = "#FF994636";
-		appuser.TertiaryColor = "#FFF7F3E3FF";
+		appuser.TertiaryColor = "#FF19386B";
+		appuser.WritingColor = "#FFFFFFFF";
 		
 		Account account = new Account();
 		account.SourceName = "Cash";
@@ -169,14 +170,8 @@ public class LoginViewModel : BaseViewModel
 		var year = DateTime.Now.Year;
 		var month = rnd.Next(6, 12);
 		var noOfDaysInMonth = DateTime.DaysInMonth(year, month);
-		var day = rnd.Next(1, noOfDaysInMonth == 11 ? 21 : noOfDaysInMonth);
+		var day = rnd.Next(1, noOfDaysInMonth == 12 ? 22 : noOfDaysInMonth);
 
 		return new DateTime(year, month, day);
-	}
-
-	private static string GetRandomColor()
-	{
-		Random rnd = new Random();
-		return Helpers.ToHex(Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256)));
 	}
 }

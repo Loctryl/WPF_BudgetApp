@@ -5,54 +5,85 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              xmlns:vm="clr-namespace:WPF_BudgetApp.ViewModel"
-             d:DesignHeight="400" d:DesignWidth="800">
+             Height="395" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*"/>
             <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="30*"/>
         </Grid.ColumnDefinitions>
         
         <Grid Grid.Column="1" Name="LoginGrid">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
             
-            <Label Grid.Row="0" Style="{StaticResource labelTextBox}">Username</Label>
-            <TextBox Grid.Row="0" Text="{Binding Username}" Name="logInUsername" Style="{StaticResource textBox}" TextChanged="TextBox_OnChange"/>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
             
-            <Label Grid.Row="1" Style="{StaticResource labelTextBox}">Password</Label>
-            <PasswordBox Grid.Row="1" Name="logInPassword" Style="{StaticResource textBox}" PasswordChanged="PasswordBox_OnChange"/>
+                <Label Grid.Row="0" Style="{StaticResource labelTextBox}" Content="Username" />
+                <TextBox Grid.Row="0" Name="logInUsername" 
+                         Style="{StaticResource textBox}" 
+                         Text="{Binding Username}"
+                         TextChanged="TextBox_OnChange"
+                         />
+                
+                <Label Grid.Row="1" Style="{StaticResource labelTextBox}" Content="Password" />
+                <PasswordBox Grid.Row="1" Name="logInPassword" 
+                             Style="{StaticResource textBox}" 
+                             PasswordChanged="PasswordBox_OnChange"
+                             />
+            </Grid>
             
-            <Button Grid.Row="2" Name="logInButton" Command="{Binding LoginCommand}" Style="{StaticResource connectionButton}" IsEnabled="False">Log In</Button>
-            <Button Grid.Row="3" Name="toRegisterButton" Click="SwitchButton_OnClick" Style="{StaticResource switchingButton}"><Underline>Register</Underline></Button>
+            <StackPanel Grid.Row="1">
+                <Button Name="logInButton" 
+                        Command="{Binding LoginCommand}" 
+                        Style="{StaticResource connectionButton}" 
+                        IsEnabled="False"
+                        Content="Log In"
+                        />
+                <Button Click="SwitchButton_OnClick" Style="{StaticResource switchingButton}"><Underline>Register</Underline></Button>
+            </StackPanel>
         </Grid>
         
         <Grid Grid.Column="1" Name="RegisterGrid" Visibility="Collapsed">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
             
-            <Label Grid.Row="0" Style="{StaticResource labelTextBox}">Username</Label>
-            <TextBox Grid.Row="0" Text="{Binding Username}" Name="registerUsername" Style="{StaticResource textBox}" TextChanged="TextBox_OnChange"/>
-            
-            <Label Grid.Row="1" Style="{StaticResource labelTextBox}">Password</Label>
-            <PasswordBox Grid.Row="1" Name="registerPassword" Style="{StaticResource textBox}" PasswordChanged="PasswordBox_OnChange"/>
-            
-            <StackPanel Grid.Row="2">
-                <CheckBox Name="consentCheckBox" Unchecked="CheckButtonAvailability" Checked="CheckButtonAvailability">
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                
+                <Label Grid.Row="0" Style="{StaticResource labelTextBox}">Username</Label>
+                <TextBox Grid.Row="0" Text="{Binding Username}" Name="registerUsername" Style="{StaticResource textBox}" TextChanged="TextBox_OnChange"/>
+                
+                <Label Grid.Row="1" Style="{StaticResource labelTextBox}">Password</Label>
+                <PasswordBox Grid.Row="1" Name="registerPassword" Style="{StaticResource textBox}" PasswordChanged="PasswordBox_OnChange"/>
+               
+                <CheckBox Grid.Row="2" Name="consentCheckBox" Unchecked="CheckButtonAvailability" Checked="CheckButtonAvailability" VerticalAlignment="Center">
                     <TextBlock TextWrapping="Wrap">I understand that this software is homemade by someone who was learning a new technology stack.</TextBlock>
                 </CheckBox>
+            </Grid>
+            
+            <StackPanel Grid.Row="1">
+                <Button Name="registerButton" 
+                        Command="{Binding RegisterCommand}" 
+                        Style="{StaticResource connectionButton}" 
+                        IsEnabled="False"
+                        Content="Register"
+                />
+                <Button Click="SwitchButton_OnClick" Style="{StaticResource switchingButton}"><Underline>Log In</Underline></Button>
             </StackPanel>
-            <Button Grid.Row="3" Name="registerButton" Command="{Binding RegisterCommand}" Style="{StaticResource connectionButton}" IsEnabled="False">Register</Button>
-            <Button Grid.Row="4" Name="toLogInButton" Click="SwitchButton_OnClick" Style="{StaticResource switchingButton}"><Underline>Log In</Underline></Button>
+            
         </Grid>
     </Grid>
 </UserControl>

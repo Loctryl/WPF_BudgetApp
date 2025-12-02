@@ -11,6 +11,7 @@ namespace WPF_BudgetApp;
 public partial class MainWindow : Window
 {
 	private bool IsMaximized = false;
+	
 	public MainWindow(IAccountService accountService, 
 	IAppUserService appUserService, 
 	ICategoryService categoryService, 
@@ -34,10 +35,10 @@ public partial class MainWindow : Window
 	private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 	{
 		if(e.ClickCount == 2)
-			MaximizeWindow();
+			ChangeMaximizeWindow();
 	}
 	
-	public void MaximizeWindow()
+	public void ChangeMaximizeWindow()
 	{
 		if (IsMaximized)
 		{

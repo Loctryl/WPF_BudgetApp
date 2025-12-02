@@ -8,6 +8,7 @@ public partial class LoginView : UserControl
 {
 	private bool IsUsernameValid;
 	private bool IsPasswordValid;
+	
 	public LoginView()
 	{
 		InitializeComponent();

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:WPF_BudgetApp"
         xmlns:views="clr-namespace:WPF_BudgetApp.Views"
+        xmlns:comps="clr-namespace:WPF_BudgetApp.Components"
         xmlns:viewModels="clr-namespace:WPF_BudgetApp.ViewModel"
         Height="900" Width="1600" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent"
@@ -29,15 +30,17 @@
         </DataTemplate>
     </Window.Resources>
     
-    <Border Background="#eff2f7" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+    <Border Background="{Binding CurrentUser.PrimaryColor}" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition />
+                <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             
-            <views:WindowBar x:Name="WindowBar" Grid.Row="0" />
+            <comps:WindowBar Grid.Row="0" x:Name="WindowBar" />
             <ContentControl Grid.Row="1" Content="{Binding CurrentVM}" />
+            <comps:TaskBar Grid.Row="2" />
         </Grid>
     </Border>
 </Window>
