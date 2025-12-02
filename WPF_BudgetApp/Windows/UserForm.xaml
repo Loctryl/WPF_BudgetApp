@@ -10,7 +10,7 @@
         Title="UserForm" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent"
         Style="{StaticResource window}">
-    <Border Background="{Binding CurrentUser.TertiaryColor}" BorderThickness="2" BorderBrush="Blue" MouseDown="Border_MouseDown">
+    <Border Background="#efefef" BorderThickness="2" BorderBrush="Blue" MouseDown="Border_MouseDown">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
@@ -29,6 +29,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     
                     <Grid Grid.Row="0">
@@ -36,7 +37,6 @@
                             <ColumnDefinition />
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
-                            <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                     
                         <Label Grid.Column="0" Style="{StaticResource labelTextBox}" Content="Username" />
@@ -54,15 +54,19 @@
                                  Visibility="Collapsed"
                         />
                         
-                        <Button Grid.Column="3" MouseLeftButtonDown="EyeButt_Activate" MouseLeftButtonUp="EyeButt_Deactivate" Style="{StaticResource taskBarButtons}" Height="20" Width="20" >
+                        <Button Grid.Column="2" 
+                                MouseLeftButtonDown="EyeButt_Activate" MouseLeftButtonUp="EyeButt_Deactivate" 
+                                Style="{StaticResource taskBarButtons}" 
+                                Height="20" 
+                                Width="20"
+                                Margin="0 0 5 0"
+                                >
                             <iconPacks:PackIconMaterial Name="EyeButt" Kind="EyeOff" Width="15" Height="15" />
                         </Button>
                     </Grid>
                     
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
                             <ColumnDefinition Width="20"/>
                             <ColumnDefinition />
@@ -83,15 +87,30 @@
                                           ColorMode="ColorCanvas" 
                                           SelectedColor="{Binding SecondaryColor}"
                         />
-                        
-                        <Label Grid.Column="4" Style="{StaticResource labelTextBox}" Content="Tertiary Color" />
-                        <xctk:ColorPicker Grid.Column="4" 
+                    </Grid>
+                    
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    
+                        <Label Grid.Column="0" Style="{StaticResource labelTextBox}" Content="Tertiary Color" />
+                        <xctk:ColorPicker Grid.Column="0" 
                                           Style="{StaticResource textBox}" 
                                           Height="25" 
                                           ColorMode="ColorCanvas" 
                                           SelectedColor="{Binding TertiaryColor}"
                         />
-                    
+                        
+                        <Label Grid.Column="2" Style="{StaticResource labelTextBox}" Content="Writing Color" />
+                        <xctk:ColorPicker Grid.Column="2" 
+                                          Style="{StaticResource textBox}" 
+                                          Height="25" 
+                                          ColorMode="ColorCanvas" 
+                                          SelectedColor="{Binding WritingColor}"
+                        />
                     </Grid>
                 </Grid>
                 
@@ -101,13 +120,21 @@
                 </Grid>
             </Grid>
             
-            <Grid Grid.Column="2" Margin="20">
-                <Border Background="{Binding SecondaryColor}" BorderThickness="1" BorderBrush="Black"/>
-                <Grid Background="{Binding PrimaryColor}">
-                    <TextBlock Text="This is an example." Style="{StaticResource baseTextBlockStyle}" FontSize="20" Foreground="{Binding WritingColor}"/>
+            <Border Grid.Column="2" Margin="20" BorderBrush="Red" BorderThickness="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="25" />
+                    </Grid.RowDefinitions>
+                    
+                    <Border Grid.Row="0" Background="{Binding SecondaryColor}" BorderThickness="0 0 0 2" BorderBrush="Black" />
+                    <Grid Grid.Row="1" Background="{Binding PrimaryColor}">
+                        <TextBlock Text="This is an example." Style="{StaticResource baseTextBlockStyle}" FontSize="20" Foreground="{Binding WritingColor}"/>
+                    </Grid>
+                    <Border Grid.Row="2" Background="{Binding TertiaryColor}" BorderThickness="0 2 0 0" BorderBrush="Black" />
                 </Grid>
-                <Border Background="{Binding TertiaryColor}" BorderThickness="1" BorderBrush="Black"/>
-            </Grid>
+            </Border>
         </Grid>
     </Border>
 </Window>
