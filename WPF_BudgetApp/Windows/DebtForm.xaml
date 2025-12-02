@@ -22,7 +22,7 @@
                     <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 
-                <Grid Grid.Row="0" Name="addFields" Visibility="Visible">
+                <Grid Grid.Row="0" Name="addFields" Visibility="Collapsed">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />

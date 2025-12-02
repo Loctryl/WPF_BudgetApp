@@ -40,6 +40,8 @@ public partial class DebtForm : Window
 	
 	private void AddConfirmAvailability(object sender, RoutedEventArgs e)
 	{
+		if(FormType is FormType.DELETE or FormType.EDIT) return;
+		
 		if (!string.IsNullOrEmpty(addDebtName.Text) 
 		    && (addDebtInitAmount.Text != "0" && !string.IsNullOrEmpty(addDebtInitAmount.Text))
 		    && (addDebtCurrAmount.Text != "0" && !string.IsNullOrEmpty(addDebtCurrAmount.Text)) 
@@ -54,6 +56,8 @@ public partial class DebtForm : Window
 	
 	private void EditConfirmAvailability(object sender, RoutedEventArgs e)
 	{
+		if(FormType is FormType.DELETE or FormType.ADD) return;
+		
 		if (!string.IsNullOrEmpty(editDebtName.Text) 
 		    && (editDebtCurrAmount.Text != "0" && !string.IsNullOrEmpty(editDebtCurrAmount.Text)))
 		{

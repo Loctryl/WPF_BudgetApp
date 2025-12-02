@@ -82,6 +82,7 @@ public class DebtViewModel : BaseMenuViewModel
 				break;
 			
 			case FormType.DELETE:
+				DebtFormDTO.DebtId = SelectedDebt.DebtId;
 				break;
 		}
 		
