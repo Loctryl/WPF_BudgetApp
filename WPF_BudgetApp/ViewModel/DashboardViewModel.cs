@@ -80,9 +80,8 @@ public class DashboardViewModel : BaseMenuViewModel
 			AccountsDTOs.Add(new AccountDisplayDTO(acc));
 			balance += acc.Balance;
 		}
-		if (balance >= 0)
-			GlobalBalance = "+";
 		
+		GlobalBalance = balance >= 0 ? "+" : "-";
 		GlobalBalance += balance.ToString("c2");
 	}
 

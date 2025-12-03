@@ -13,7 +13,7 @@ public class TransferFormDTO
 	public DateTime CreationDate { get; set; }
 	public DateTime LastUpdateDate { get; set; }
 
-	public void Reset()
+	public virtual void Reset()
 	{
 		TransferId = uint.MaxValue;
 		TransferName = string.Empty;

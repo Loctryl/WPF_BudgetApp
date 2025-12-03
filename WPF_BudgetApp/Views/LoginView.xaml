@@ -69,7 +69,7 @@
                 <Label Grid.Row="1" Style="{StaticResource labelTextBox}">Password</Label>
                 <PasswordBox Grid.Row="1" Name="registerPassword" Style="{StaticResource textBox}" PasswordChanged="PasswordBox_OnChange"/>
                
-                <CheckBox Grid.Row="2" Name="consentCheckBox" Unchecked="CheckButtonAvailability" Checked="CheckButtonAvailability" VerticalAlignment="Center">
+                <CheckBox Grid.Row="2" Name="consentCheckBox" Unchecked="CheckButtonAvailability" Checked="CheckButtonAvailability" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock TextWrapping="Wrap">I understand that this software is homemade by someone who was learning a new technology stack.</TextBlock>
                 </CheckBox>
             </Grid>

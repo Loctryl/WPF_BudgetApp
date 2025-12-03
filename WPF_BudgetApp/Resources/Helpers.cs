@@ -91,6 +91,22 @@ public static class Helpers
 		return transfer;
 	}
 	
+	public static ProjectionTransfer SetNewProjectionTransfer(string sourceName, decimal amount, uint category, uint account, bool isMonthly, DateTime scheduledDate,
+	DateTime? creationDate = null, DateTime? lastUpdateDate = null)
+	{
+		ProjectionTransfer transfer = new ProjectionTransfer();
+		transfer.SourceName = sourceName;
+		transfer.Amount = amount;
+		transfer.CategoryId = category;
+		transfer.AccountId = account;
+		transfer.IsMonthly = isMonthly;
+		transfer.ScheduledDate = scheduledDate;
+		transfer.CreationDate = creationDate ?? DateTime.Now;
+		transfer.LastUpdateDate = lastUpdateDate ?? DateTime.Now;
+		
+		return transfer;
+	}
+	
 	public static Debt SetNewDebt(string sourceName, decimal initialAmount, decimal currentDebt, decimal interestRate, uint category, DateTime limitDate,
 	DateTime? creationDate = null, DateTime? lastUpdateDate = null)
 	{

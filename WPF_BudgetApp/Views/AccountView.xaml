@@ -86,6 +86,12 @@
                             <DataGridTextColumn Binding="{Binding CategoryLastMonth}" Header="Last Month" />
                         </DataGrid.Columns>
                     </DataGrid>
+                    
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                        <TextBlock Text="Provisional Balance" Style="{StaticResource baseTextBlockStyle}" FontSize="30" />
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding SelectedBalance}" Style="{StaticResource baseTextBlockStyle}" FontSize="50" Foreground="Green"/>
+                    </StackPanel>
+                    
                 </Grid>
             </Border>
             
