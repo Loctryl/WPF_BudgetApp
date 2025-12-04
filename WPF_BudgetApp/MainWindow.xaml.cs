@@ -17,12 +17,11 @@ public partial class MainWindow : Window
 	ICategoryService categoryService, 
 	IDebtService debtService, 
 	ITransferService transferService,  
-	IProjectionTransferService projectionTransferService, 
 	IArchivedTransferService archiveService)
 	{
 		InitializeComponent();
 		
-		MainViewModel vm = new MainViewModel(accountService, appUserService,  categoryService, debtService, transferService, projectionTransferService, archiveService);
+		MainViewModel vm = new MainViewModel(accountService, appUserService,  categoryService, debtService, transferService, archiveService);
 		DataContext = vm;
 	}
 	

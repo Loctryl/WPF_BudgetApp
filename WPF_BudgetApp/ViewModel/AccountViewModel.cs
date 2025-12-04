@@ -41,16 +41,6 @@ public class AccountViewModel : BaseMenuViewModel
 	
 	#endregion
 	
-	#region Transfer management
-	
-	private ProjectionTransferForm ProjectionTransferForm { get; set; }
-	public ProjectionTransferFormDTO ProjTransFormDTO { get; } = new ProjectionTransferFormDTO();
-	public ProjectionTransferDisplayDTO SelectedProjTransfer { get; set; }
-	public List<ProjectionTransfer> ProjectionTransfers { get; set; } = new List<ProjectionTransfer>();
-	public ObservableCollection<ProjectionTransferDisplayDTO> ProjectionTransfersDTOs { get; set; } = new ObservableCollection<ProjectionTransferDisplayDTO>();
-	
-	#endregion
-	
 	public ObservableCollection<CategoryDisplayDTO> CategoriesDTOs { get; set; } = new ObservableCollection<CategoryDisplayDTO>();
 	
 	
@@ -60,15 +50,12 @@ public class AccountViewModel : BaseMenuViewModel
 		UpdateTransferCommand = new RelayCommand(_ => TransferFormCall(FormType.EDIT, ReceiveTransferForm));
 		DeleteTransferCommand = new RelayCommand(_ => TransferFormCall(FormType.DELETE, ReceiveTransferForm));
 		
-		AddProjectionTransferCommand = new RelayCommand(_ => ProjectionTransferFormCall(FormType.ADD, ReceiveProjectionTransferForm));
-		UpdateProjectionTransferCommand = new RelayCommand(_ => ProjectionTransferFormCall(FormType.EDIT, ReceiveProjectionTransferForm));
-		DeleteProjectionTransferCommand = new RelayCommand(_ => ProjectionTransferFormCall(FormType.DELETE, ReceiveProjectionTransferForm));
-		
 		TransferMonthCommand = new RelayCommand(TransferMonthSwitch);
 	}
 
 	private void TransferMonthSwitch(object parameter)
 	{
+		if(CurrentSelectedAccount == null) return;
 		SelectedMonth = Convert.ToInt32(parameter);
 		UpdateTransfers();
 	}
@@ -94,7 +81,6 @@ public class AccountViewModel : BaseMenuViewModel
 		SelectedBalance = AccountsDTO.AccountBalance >= 0 ? "+" : "-";
 		SelectedBalance += AccountsDTO.AccountBalance.ToString("c2");
 		UpdateTransfers();
-		UpdateProjectionTransfers();
 	}
 	
 	private void UpdateTransfers()
@@ -102,18 +88,32 @@ public class AccountViewModel : BaseMenuViewModel
 		Transfers.Clear();
 		TransfersDTOs.Clear();
 		CategoriesDTOs.Clear();
+
+		var month = DateTime.Now.Month + SelectedMonth;
+		int month2;
+		if (month == 13) month = 1;
 		
 		if (SelectedMonth == 1)
-			return;
+		{
+			Transfers.AddRange(
+				(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result)
+				.Where(t => t.OperationDate >= DateTime.Now)
+			);
+		}
+		else
+		{
+			Transfers.AddRange(
+				(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result)
+				.Where(t => t.OperationDate.Month == month || t.OperationDate.Month == month-1)
+			);
+		}
 		
-		Transfers.AddRange(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result);
+		
 
 		foreach (var transfer in Transfers)
 		{
-			if(transfer.OperationDate.Month == DateTime.Now.Month + SelectedMonth)
+			if(transfer.OperationDate.Month == month)
 				TransfersDTOs.Add(new TransferDisplayDTO(transfer));
-
-			if (!(transfer.OperationDate.Month == DateTime.Now.Month || transfer.OperationDate.Month == DateTime.Now.Month-1)) continue;
 
 			var cat = CategoriesDTOs.Where(c => c.CategoryId == transfer.CategoryId).FirstOrDefault();
 
@@ -129,21 +129,6 @@ public class AccountViewModel : BaseMenuViewModel
 				cat.CategoryLastMonth += transfer.Amount;
 		}
 	}
-
-	private void UpdateProjectionTransfers()
-	{
-		ProjectionTransfers.Clear();
-		ProjectionTransfersDTOs.Clear();
-		
-		if (SelectedMonth != 1) return;
-
-		ProjectionTransfers.AddRange(mainVM.projectionTransferService
-			.GetProjectionTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result);
-
-		foreach (var transfer in ProjectionTransfers)
-			ProjectionTransfersDTOs.Add(new ProjectionTransferDisplayDTO(transfer));
-	}
-
 
 	#endregion
 	
@@ -207,7 +192,8 @@ public class AccountViewModel : BaseMenuViewModel
 			TransFormDTO.TransferAmount,
 			TransFormDTO.TransferCategory.Id,
 			CurrentSelectedAccount.Id,
-			TransFormDTO.TransferDate
+			TransFormDTO.TransferDate,
+			TransFormDTO.TransferIsMonthly
 		);
 		
 		CurrentSelectedAccount.Balance += trans.Amount;
@@ -236,95 +222,4 @@ public class AccountViewModel : BaseMenuViewModel
 	
 	#endregion
 	
-	#region ProjectionTransferForm
-	
-	private void ProjectionTransferFormCall(FormType formType, EventHandler<bool> func)
-	{
-		ProjTransFormDTO.Reset();
-		
-		switch (formType)
-		{
-			case FormType.ADD:
-				ProjTransFormDTO.CategoriesOptions = mainVM.categoryService.GetAllCategoryAsync(mainVM.CurrentUser.Id).Result;
-				break;
-			case FormType.EDIT:
-				ProjTransFormDTO.TransferId = SelectedProjTransfer.ProjTransferId;
-				ProjTransFormDTO.TransferName = SelectedProjTransfer.ProjTransferName;
-				ProjTransFormDTO.TransferAmount = SelectedProjTransfer.ProjTransferAmount;
-				ProjTransFormDTO.FirstTransferAmount = SelectedProjTransfer.ProjTransferAmount;
-				ProjTransFormDTO.ProjTransferIsMonthly = SelectedProjTransfer.ProjTransferIsMonthly;
-				ProjTransFormDTO.TransferCategory = mainVM.categoryService.GetCategoryByIdAsync(mainVM.CurrentUser.Id, SelectedProjTransfer.ProjTransferCategory).Result;
-				ProjTransFormDTO.TransferDate = SelectedProjTransfer.ProjTransferDate;
-				ProjTransFormDTO.CreationDate = SelectedProjTransfer.CreationDate;
-				
-				ProjTransFormDTO.CategoriesOptions = mainVM.categoryService.GetAllCategoryAsync(mainVM.CurrentUser.Id).Result;
-				break;
-			case FormType.DELETE:
-				ProjTransFormDTO.TransferId = SelectedProjTransfer.ProjTransferId;
-				ProjTransFormDTO.TransferAmount = SelectedProjTransfer.ProjTransferAmount;
-				break;
-		}
-		
-		ProjectionTransferForm = new ProjectionTransferForm(ProjTransFormDTO, formType);
-		ProjectionTransferForm.ConfirmEvent += func;
-		ProjectionTransferForm.Show();
-	}
-
-	private async void ReceiveProjectionTransferForm(object? sender, bool isConfirmed)
-	{
-		if (!isConfirmed) return;
-		
-		switch (ProjectionTransferForm.FormType)
-		{
-			case FormType.ADD:
-				await AddProjectionTransfer();
-				break;
-			case FormType.EDIT:
-				await EditProjectionTransfer();
-				break;
-			case FormType.DELETE:
-				await DeleteProjectionTransfer();
-				break;
-		}
-		
-		
-	}
-	
-	private async Task AddProjectionTransfer()
-	{
-		ProjectionTransfer trans = Helpers.SetNewProjectionTransfer(
-			ProjTransFormDTO.TransferName, 
-			ProjTransFormDTO.TransferAmount,
-			ProjTransFormDTO.TransferCategory.Id,
-			CurrentSelectedAccount.Id,
-			ProjTransFormDTO.ProjTransferIsMonthly,
-			ProjTransFormDTO.TransferDate
-		);
-		
-		//CurrentSelectedAccount.Balance += trans.Amount;
-		await mainVM.projectionTransferService.CreateProjectionTransferAsync(trans);
-	}
-	
-	private async Task EditProjectionTransfer()
-	{
-		ProjectionTransfer trans = ProjectionTransfers.First(c => c.Id == ProjTransFormDTO.TransferId);
-		trans.SourceName = ProjTransFormDTO.TransferName;
-		trans.Amount = ProjTransFormDTO.TransferAmount;
-		trans.CategoryId = ProjTransFormDTO.TransferCategory.Id;
-		trans.IsMonthly = ProjTransFormDTO.ProjTransferIsMonthly;
-		trans.ScheduledDate = ProjTransFormDTO.TransferDate;
-		trans.LastUpdateDate = DateTime.Now;
-		
-		//CurrentSelectedAccount.Balance -= TransFormDTO.FirstTransferAmount;
-		//CurrentSelectedAccount.Balance += trans.Amount;
-		await mainVM.projectionTransferService.UpdateProjectionTransferAsync();
-	}
-
-	private async Task DeleteProjectionTransfer()
-	{
-		//CurrentSelectedAccount.Balance -= TransFormDTO.TransferAmount;
-		await mainVM.projectionTransferService.DeleteProjectionTransferAsync(mainVM.CurrentUser.Id, ProjTransFormDTO.TransferId);
-	}
-	
-	#endregion
 }

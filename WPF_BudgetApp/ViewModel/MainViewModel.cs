@@ -11,7 +11,6 @@ public class MainViewModel : BaseViewModel
 	public readonly ICategoryService categoryService;
 	public readonly IDebtService debtService;
 	public readonly ITransferService transferService;
-	public readonly IProjectionTransferService projectionTransferService;
 	public readonly IArchivedTransferService archiveService;
 	
 	public AppUser CurrentUser { get; set; }
@@ -28,7 +27,7 @@ public class MainViewModel : BaseViewModel
 	public MainViewModel(
 	IAccountService accountService, IAppUserService appUserService, 
 	ICategoryService categoryService, IDebtService debtService, 
-	ITransferService transferService,  IProjectionTransferService projectionTransferService, 
+	ITransferService transferService, 
 	IArchivedTransferService archiveService)
 	{
 		this.accountService = accountService;
@@ -36,7 +35,6 @@ public class MainViewModel : BaseViewModel
 		this.categoryService = categoryService;
 		this.debtService = debtService;
 		this.transferService = transferService;
-		this.projectionTransferService = projectionTransferService;
 		this.archiveService = archiveService;
 		
 		LoginVM = new LoginViewModel(this);

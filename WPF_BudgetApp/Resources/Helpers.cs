@@ -76,31 +76,16 @@ public static class Helpers
 		return category;
 	}
 
-	public static Transfer SetNewTransfer(string sourceName, decimal amount, uint category, uint account, DateTime operationDate,
+	public static Transfer SetNewTransfer(string sourceName, decimal amount, uint category, uint account, DateTime operationDate, bool isMonthly = false,
 	DateTime? creationDate = null, DateTime? lastUpdateDate = null)
 	{
 		Transfer transfer = new Transfer();
 		transfer.SourceName = sourceName;
 		transfer.Amount = amount;
+		transfer.IsMonthly = isMonthly;
 		transfer.CategoryId = category;
 		transfer.AccountId = account;
 		transfer.OperationDate = operationDate;
-		transfer.CreationDate = creationDate ?? DateTime.Now;
-		transfer.LastUpdateDate = lastUpdateDate ?? DateTime.Now;
-		
-		return transfer;
-	}
-	
-	public static ProjectionTransfer SetNewProjectionTransfer(string sourceName, decimal amount, uint category, uint account, bool isMonthly, DateTime scheduledDate,
-	DateTime? creationDate = null, DateTime? lastUpdateDate = null)
-	{
-		ProjectionTransfer transfer = new ProjectionTransfer();
-		transfer.SourceName = sourceName;
-		transfer.Amount = amount;
-		transfer.CategoryId = category;
-		transfer.AccountId = account;
-		transfer.IsMonthly = isMonthly;
-		transfer.ScheduledDate = scheduledDate;
 		transfer.CreationDate = creationDate ?? DateTime.Now;
 		transfer.LastUpdateDate = lastUpdateDate ?? DateTime.Now;
 		

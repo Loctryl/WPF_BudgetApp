@@ -148,6 +148,7 @@ public class LoginViewModel : BaseViewModel
 		transfer.CategoryId = category;
 		transfer.AccountId = account;
 		transfer.OperationDate = date;
+		transfer.IsMonthly = false;
 		transfer.CreationDate = DateTime.Now;
 		transfer.LastUpdateDate = DateTime.Now;
 		
@@ -168,9 +169,10 @@ public class LoginViewModel : BaseViewModel
 		Random rnd = new Random();
 		
 		var year = DateTime.Now.Year;
-		var month = rnd.Next(6, 12);
+		var month = rnd.Next(1, 13);
+		if (month == 1) year += 1;
 		var noOfDaysInMonth = DateTime.DaysInMonth(year, month);
-		var day = rnd.Next(1, noOfDaysInMonth == 12 ? 22 : noOfDaysInMonth);
+		var day = rnd.Next(1, noOfDaysInMonth);
 
 		return new DateTime(year, month, day);
 	}

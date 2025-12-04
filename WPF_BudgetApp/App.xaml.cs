@@ -33,7 +33,6 @@ public partial class App : Application
 				services.AddTransient<ICategoryService, CategoryService>();
 				services.AddTransient<IDebtService, DebtService>();
 				services.AddTransient<ITransferService, TransferService>();
-				services.AddTransient<IProjectionTransferService, ProjectionTransferService>();
 				services.AddTransient<IArchivedTransferService, ArchivedTransferService>();
 
 				// ViewModels

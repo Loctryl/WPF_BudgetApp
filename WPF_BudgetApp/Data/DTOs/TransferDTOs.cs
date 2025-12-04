@@ -8,6 +8,7 @@ public class TransferFormDTO
 	public string TransferName { get; set; }
 	public decimal TransferAmount { get; set; }
 	public decimal FirstTransferAmount { get; set; }
+	public bool TransferIsMonthly { get; set; }
 	public Category TransferCategory { get; set; }
 	public DateTime TransferDate { get; set; }
 	public DateTime CreationDate { get; set; }
@@ -19,6 +20,7 @@ public class TransferFormDTO
 		TransferName = string.Empty;
 		TransferAmount = 0;
 		FirstTransferAmount = 0;
+		TransferIsMonthly = false;
 		TransferCategory = null;
 		TransferDate = DateTime.Now;
 		CreationDate = DateTime.Now;
@@ -34,6 +36,7 @@ public class TransferDisplayDTO(Transfer transfer)
 	public uint TransferId { get; set; } = transfer.Id;
 	public string TransferName { get; set; } = transfer.SourceName;
 	public decimal TransferAmount { get; set; } = transfer.Amount;
+	public bool TransferIsMonthly { get; set; } = transfer.IsMonthly;
 	public uint TransferCategory { get; set; } = transfer.CategoryId;
 	public string TransferCategoryName { get; set; } = transfer.Category.SourceName;
 	public string TransferCategoryColor { get; set; } = transfer.Category.Color;

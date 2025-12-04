@@ -13,7 +13,6 @@ public class AppDbContext : DbContext
 	
 	public DbSet<AppUser> AppUsers { get; set; }
 	public DbSet<Transfer> Transfers { get; set; }
-	public DbSet<ProjectionTransfer> ProjectionTransfers { get; set; }
 	public DbSet<Account> Accounts { get; set; }
 	public DbSet<Category> Categories { get; set; }
 	public DbSet<Debt> Debts { get; set; }
