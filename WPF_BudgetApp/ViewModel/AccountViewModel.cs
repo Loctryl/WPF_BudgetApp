@@ -88,9 +88,10 @@ public class AccountViewModel : BaseMenuViewModel
 		Transfers.Clear();
 		TransfersDTOs.Clear();
 		CategoriesDTOs.Clear();
-
+		
 		var month = DateTime.Now.Month + SelectedMonth;
-		int month2;
+		if (month <= 0) month = 12 - Math.Abs(month);
+		int month2 = month == 1 ? 12 : month-1;
 		if (month == 13) month = 1;
 		
 		if (SelectedMonth == 1)
@@ -99,22 +100,23 @@ public class AccountViewModel : BaseMenuViewModel
 				(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result)
 				.Where(t => t.OperationDate >= DateTime.Now)
 			);
+
+			foreach (var transfer in Transfers)
+				TransfersDTOs.Add(new TransferDisplayDTO(transfer));
 		}
 		else
 		{
 			Transfers.AddRange(
 				(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result)
-				.Where(t => t.OperationDate.Month == month || t.OperationDate.Month == month-1)
+				.Where(t => t.OperationDate.Month == month || t.OperationDate.Month == month2)
 			);
+
+			foreach (var transfer in Transfers.Where(transfer => transfer.OperationDate.Month == month)) 
+				TransfersDTOs.Add(new TransferDisplayDTO(transfer));
 		}
-		
-		
 
 		foreach (var transfer in Transfers)
 		{
-			if(transfer.OperationDate.Month == month)
-				TransfersDTOs.Add(new TransferDisplayDTO(transfer));
-
 			var cat = CategoriesDTOs.Where(c => c.CategoryId == transfer.CategoryId).FirstOrDefault();
 
 			if (cat == null)
@@ -123,7 +125,7 @@ public class AccountViewModel : BaseMenuViewModel
 				CategoriesDTOs.Add(cat);
 			}
 			
-			if(transfer.OperationDate.Month == DateTime.Now.Month)
+			if(transfer.OperationDate.Month == month)
 				cat.CategoryCurrentMonth += transfer.Amount;
 			else
 				cat.CategoryLastMonth += transfer.Amount;
