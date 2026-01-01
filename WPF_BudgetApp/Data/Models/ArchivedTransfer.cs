@@ -2,7 +2,7 @@
 
 public class ArchivedTransfer : DBTable
 {
-	public decimal Amount {get; set;}
+	public double Amount {get; set;}
 	public string CategoryName { get; set; } = string.Empty;
 	public string AccountName {get; set;} = string.Empty;
 	public DateTime OperationDate {get; set;}
