@@ -96,6 +96,7 @@ public class AccountViewModel : BaseMenuViewModel
 		
 		if (SelectedMonth == 1)
 		{
+			month -= 1;
 			Transfers.AddRange(
 				(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result)
 				.Where(t => t.OperationDate >= DateTime.Now)
@@ -108,7 +109,7 @@ public class AccountViewModel : BaseMenuViewModel
 		{
 			Transfers.AddRange(
 				(mainVM.transferService.GetTransfersByAccountAsync(mainVM.CurrentUser.Id, CurrentSelectedAccount.Id).Result)
-				.Where(t => t.OperationDate.Month == month || t.OperationDate.Month == month2)
+				.Where(t => (t.OperationDate.Month == month && t.OperationDate.Date < DateTime.Now) || t.OperationDate.Month == month2)
 			);
 
 			foreach (var transfer in Transfers.Where(transfer => transfer.OperationDate.Month == month)) 
