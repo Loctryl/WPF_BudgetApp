@@ -24,6 +24,8 @@ public class ArchiveViewModel : BaseMenuViewModel
 	public override void UpdateData()
 	{
 		base.UpdateData();
+		
+		UpdateArchives();
 	}
 
 	private void UpdateArchives()

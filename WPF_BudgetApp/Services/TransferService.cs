@@ -24,24 +24,9 @@ public class TransferService : ServiceBase<Transfer>, ITransferService
 			.ThenInclude(x => x.AppUser)
 			.AsQueryable().ToListAsync();
 
-	public async Task<List<Transfer>> GetAllTransfersAsync(uint userId, TransferQueryObject query)
-	{
-		var queryable = CheckedListWithUser(userId);
-		
-		if(!string.IsNullOrWhiteSpace(query.SourceName))
-			queryable = queryable.Where(s => s.SourceName.Contains(query.SourceName));
-		
-		if(query.CategoryId != uint.MaxValue)
-			queryable = queryable.Where(s => s.CategoryId == query.CategoryId);
-		
-		queryable = queryable.Where(s => s.Amount >=  query.MinAmount);
-		queryable = queryable.Where(s => s.Amount <=  query.MaxAmount);
-		
-		queryable = queryable.OrderByProperty(query.OrderBy);
-		
-		var skipNumber = (query.PageNumber - 1) * query.PageSize;
-		return await queryable.Skip(skipNumber).Take(query.PageSize).ToListAsync();
-	}
+	public async Task<List<Transfer>> GetAllTransfersAsync(uint userId)
+		=> await CheckedListWithUser(userId).ToListAsync();
+	
 
 	public async Task<Transfer?> GetTransferByIdAsync(uint userId, uint transferId) 
 		=> await CheckedListWithUser(userId).FirstOrDefaultAsync(x => x.Id == transferId);

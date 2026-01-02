@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using WPF_BudgetApp.Data.Models;
+using WPF_BudgetApp.Resources;
 using WPF_BudgetApp.Services.Interfaces;
 
 namespace WPF_BudgetApp.ViewModel;
@@ -63,7 +64,46 @@ public class MainViewModel : BaseViewModel
 		}
 		
 		SetCurrentUser(user);
+		await LogInCheck();
 		SwitchToDashBoard();
+	}
+	
+	public async Task LogInCheck()
+	{
+		List<Transfer> transfers = (await transferService.GetAllTransfersAsync(CurrentUser.Id));
+
+		var Limit = DateTime.Now.AddMonths(-6);
+		
+		foreach (var transfer in transfers.Where(t => t.OperationDate.Month <= Limit.Month && t.OperationDate.Year <= Limit.Year).ToList())
+		{
+			ArchivedTransfer newArchive = new ArchivedTransfer();
+			newArchive.Id = transfer.Id;
+			newArchive.SourceName = transfer.SourceName;
+			newArchive.UserId = CurrentUser.Id;
+			newArchive.UserName = CurrentUser.SourceName;
+			newArchive.AccountName = transfer.Account.SourceName;
+			newArchive.CategoryName = transfer.Category.SourceName;
+			newArchive.Amount = transfer.Amount;
+			newArchive.OperationDate = transfer.OperationDate;
+			newArchive.CreationDate = transfer.CreationDate;
+			newArchive.LastUpdateDate = DateTime.Now;
+				
+			await archiveService.CreateArchivedTransferAsync(newArchive);
+			await transferService.DeleteTransferAsync(CurrentUser.Id, transfer.Id);
+		}
+
+		foreach (var transfer in transfers.Where(t => t.OperationDate > CurrentUser.LastUpdateDate && t.OperationDate <= DateTime.Now && t.IsMonthly).ToList())
+		{
+			Transfer trans = Helpers.SetNewTransfer(
+				transfer.SourceName, 
+				transfer.Amount,
+				transfer.CategoryId,
+				transfer.AccountId,
+				transfer.OperationDate.AddMonths(1),
+				transfer.IsMonthly
+			);
+			await transferService.CreateTransferAsync(trans);
+		}
 	}
 	
 	public void SetCurrentUser(AppUser user) => CurrentUser = user;

@@ -36,7 +36,7 @@ public class ArchivedTransferService : ServiceBase<ArchivedTransfer>, IArchivedT
 
 		if (query.QueryAmount != 0)
 		{
-			double marginError = Math.Abs(query.QueryAmount) * 0.2;
+			decimal marginError = Math.Abs(query.QueryAmount) * (decimal)0.2;
 			queryable = queryable.Where(s => (s.Amount <= query.QueryAmount + marginError && s.Amount >= query.QueryAmount - marginError));
 		}
 		

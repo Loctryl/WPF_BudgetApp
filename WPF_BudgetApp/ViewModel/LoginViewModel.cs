@@ -43,6 +43,9 @@ public class LoginViewModel : BaseViewModel
 		
 		// login successful
 		mainVM.SetCurrentUser(user);
+		
+		await mainVM.LogInCheck();
+		
 		mainVM.SwitchToDashBoard();
 	}
 	
